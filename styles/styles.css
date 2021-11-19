@@ -1,0 +1,131 @@
+@font-face {
+    font-family: startFont;
+    src: url("fonts/pressStart.ttf");
+  }
+
+  #bgvid {
+    object-fit: cover;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+  }
+
+  #riverClick {
+    object-fit: cover;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 101;
+  }
+
+  #bgvidHover {
+    object-fit: cover;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1101;
+  }
+
+  .infinity-4 {
+    width:calc(90px / 0.707);
+    height:14px;
+    color: #091c45;
+    background: 
+      repeating-linear-gradient(135deg, currentColor 0 10px,#300e15 0 25px) left top,
+      repeating-linear-gradient( 45deg, currentColor 0 10px,#730c11 0 25px) left bottom;
+    background-size:  110% 50%;
+    background-repeat: no-repeat;
+    animation:i4 2s infinite linear;
+
+    position: fixed;
+    display: block;
+    width: 100%;
+    height: 30%;
+    top: 0;
+    left: 0;
+    text-align: center;
+    opacity: 0.7;
+    z-index: 1000;
+  }
+  @keyframes i4 {
+      100% {background-position:top right,bottom right}
+  }
+
+  #loading{
+
+    text-align: center;
+    color: #82070d;
+    padding-top: 1rem;
+    font-family: startFont;
+    font-size: 2rem;
+    position: relative; 
+    z-index: 1000
+   }
+
+  .glow {
+   
+    -webkit-animation: glow 2s ease-in-out infinite alternate;
+    -moz-animation: glow 2s ease-in-out infinite alternate;
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  #loading-screen {
+    position: absolute;
+    z-index: 1100;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    //background-color: #000000;
+    opacity: 1;
+    //transition: 1.3s opacity;
+  }
+  
+  #loading-screen.fade-out {
+    opacity: 0;
+  }
+  
+  #loader {
+    z-index: 1100;
+    position: relative;
+    left: 50%;
+    top: 30%;
+    width: 150px;
+    height: 150px;
+    margin: -75px 0 0 -75px;
+  }
+
+  #start {
+    z-index: 1100;
+    position: relative;
+    left: 50%;
+    top: 30%;
+    width: 150px;
+    height: 150px;
+    margin: -75px 0 0 -75px;
+  }
+  
+  
+  @-webkit-keyframes glow {
+    from {
+      text-shadow: 0 0 6px rgba(204,217,242, 0.5), 0 0 15px rgba(204,217,242, 0.5), 0 0 16px rgba(84,100,127, 0.5), 0 0 18px rgba(84,100,127, 0.5), 0 0 22px rgba(84,100,127, 0.5), 0 0 25px rgba(84,100,127, 0.5), 0 0 29px rgba(84,100,127, 0.5);
+    }
+    
+    to {
+      text-shadow: 0 0 5px rgba(204,217,242, 0.5), 0 0 11px rgba(130,154,196, 0.5), 0 0 17px rgba(130,154,196, 0.5), 0 0 28px rgba(130,154,196, 0.5), 0 0 22px rgba(130,154,196, 0.5), 0 0 25px rgba(130,154,196, 0.5), 0 0 28px rgba(130,154,196, 0.5);
+    }
+
+}
+
+body{
+
+  background-image: linear-gradient(to right, rgba(6,26,65), rgba(8,28,72));
+
+}

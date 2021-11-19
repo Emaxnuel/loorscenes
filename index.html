@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Loor Erosions</title>
+    <meta name="description" content="LOOR">
+    <script>
+
+    const is_chrome = (typeof window.chrome === "object" && navigator.appVersion.indexOf('Edge') === -1)
+    
+    if(is_chrome){
+    navigator.xr.requestDevice = navigator.xr.requestDevice || function () {
+      return new Promise((resolve, reject) => {
+        resolve({
+          supportsSession: new Promise((resolve, reject) => {
+            resolve({
+              immersive: true,
+              exclusive: true
+            });
+          })
+        });
+      });
+    };
+
+  }
+
+  </script>
+    
+    <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
+    <script src="scripts/aframe-extras.min.js"></script>
+    <script src="scripts/physics.js" type="module"></script>
+    <script src="dist/aframe-particle-system-component.js"></script>
+    <script src="dist/aframe-audioanalyser-component.min.js"></script>
+    <script type="text/javascript" src="dist/loading-bar.js"></script>
+    <script src="scripts/effects.js"></script>
+
+    
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="styles/loading-bar.css"/>
+    <script src="https://unpkg.com/hydra-synth"></script>
+    
+    <!-- Bootstrap CSS -->
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="styles/styles.css">
+  </head>
+
+  <script type="script-effect" id="customFilter" data-defaults="tDiffuse 0.3 0.3 1." data-diffuse>
+    void $main(inout vec4 c, vec4 o, vec2 uv, float d){
+        float t = time * mix(1., 1000., abs(sin(time * 10. + uv.x)));
+        uv = vec2(uv.x + resolution.z * sin(t * c.r + c.b), uv.y - resolution.w * cos(t * c.b + c.r));
+        c.rgb += smoothstep(0.3, 0.9, texture2D($0,uv).rgb  ) * mix( $1, $2, abs(sin(time * $3))) ;
+    }
+</script>
+
+<script type="script-effect" id="blendOutline" data-diffuse>
+    void $main(inout vec4 c, vec4 o, vec2 uv, float d){
+        c.rgb = mix(c.rgb, o.rgb, smoothstep(0.1,0.3,o.a));
+    }
+</script>
+
+<script type="script-effect" id="add" data-defaults="bloom_texture bloom_intensity" data-diffuse>
+    void $main(inout vec4 c, vec4 o, vec2 uv, float d){
+        c.rgb += pow(texture2D($0, uv).rgb,vec3(2.)) * $1;
+    }
+</script>
+
+
+
+  <body onload="document.body.style.opacity='1'">
+  
+
+   
+
+  <!--Teleport-->
+  <script>
+  document.addEventListener('keydown', function(event) {
+      
+      if(event.keyCode == 88){
+      document.querySelectorAll('.listenonkey').forEach(function(cam){
+      cam.setAttribute('position', '-2 0 -4');
+      cam.setAttribute('rotation', '0 0 0');
+    });}
+  }); </script>
+
+<script>
+  /* Emmanuel Martínez
+
+  window.addEventListener('load', () =>{
+  
+  let hydraCanvas = document.getElementById("hydraCanvas");
+  
+  hydra = new Hydra({
+    canvas: hydraCanvas,
+    enableStreamCapture: false,
+    detectAudio: false,
+    width: 512,
+    height: 512,
+  });
+  
+  osc(40,0.1,2).modulate(noise(3),0.1).out()
+
+});
+
+*/
+  
+  
+  
+  </script>
+
+
+
+ 
+
+<video playsinline preload muted style="display: none" id="riverClick">
+  <source src="videos/loorRiverclick.webm" type="video/webm">
+</video>
+
+<video playsinline preload autoplay muted loop id="bgvid">
+  <source src="videos/loorHome.webm" type="video/webm">
+</video>
+
+<div id="containerLoading" class="container">
+  <div class="row">
+    <div class="col" style="height:320px">
+      <div class="infinity-4"></div>
+    </div>
+  </div>
+
+  <div class="row" style="align-content: center;">
+      <div class="col" style="height:300px">
+        <div id="loading-screen">
+        
+        
+        <div id="loader" style="display: block">
+
+          <div id="barra"
+          data-value="0" 
+          stroke = "#0d0d0d"
+          stroke-width = "70"
+          preset = "stripe"
+          font-size = "48px"
+          class="label-center">
+          </div>
+          
+
+        </div>
+
+        <div id="start" style="display: block">
+
+        <p id="loading" style="display: none"> START </p>
+          
+
+        </div>
+        </div>
+      
+    </div>
+    </div>
+    </div>
+
+  <img id="bgvidHover" style="display: none" src="img/piedraHover.png">
+
+
+
+   <!--Viñetas-->
+  <div id="viñeta"><span></span></div>
+  <div id="viñeta2"><span></span></div>
+  <div id="intro"><span></span></div>
+  <div id="clickPiedra1"><span></span></div>
+  <div id="clickPiedra2"><span></span></div>
+
+  <!--Loader-->
+ 
+
+
+  <div id="#poema1"  style="position:absolute; width:100%; height:100%; z-index: 102; visibility: hidden; pointer-events: none;"><img style="display: block; margin-left: auto; margin-right: auto; padding-top:60px; pointer-events: none;" src="img/poesia/CAP01_01_v3.png"></div>
+  <div id="#poema2" style="position:relative; width:100%; height:100%; z-index: 102; visibility: hidden;pointer-events: none;"><img style="position: absolute; left:0; right: 0; bottom: 60px; margin-left: auto; margin-right: auto;pointer-events: none;" src="img/poesia/CAP01_02_v3.png"></div>
+  <div id="#poema3" style="position:absolute; width:100%; height:100%; z-index: 102; visibility: hidden; pointer-events: none;"><img style="display: block; margin-left: 120px; margin-right: auto; padding-top:60px; pointer-events: none;" src="img/poesia/CAP01_06_v3.png"></div>
+  <div id="#poema4" style="position:relative; width:100%; height:100%; z-index: 102; visibility: hidden;pointer-events: none;"><img style="position: absolute; left:0; right: 0; bottom: 60px; margin-left: auto; margin-right: 120px;pointer-events: none;" src="img/poesia/CAP01_03_v3.png"></div>
+  <div id="#poema5"  style="position:absolute; width:100%; height:100%; z-index: 102; visibility: hidden; pointer-events: none;"><img style="display: block; margin-left: auto; margin-right: auto; padding-top:60px; pointer-events: none;" src="img/poesia/CAP01_04_v3.png"></div>
+  <div id="#poema6" style="position:relative; width:100%; height:100%; z-index: 102; visibility: hidden;pointer-events: none;"><img style="position: absolute; left:0; right: 0; bottom: 60px; margin-left: auto; margin-right: auto;pointer-events: none;" src="img/poesia/CAP01_05_v3.png"></div>
+  <div id="#poema7" style="position:absolute; width:100%; height:100%; z-index: 103; visibility: hidden; pointer-events: none;"><img style="display: block; margin-left: auto; margin-right: auto; padding-top:60px; pointer-events: none;" src="img/poesia/CAP01_07_v3.png"></div>
+  <div id="#poema8" style="position:relative; width:100%; height:100%; z-index: 102; visibility: hidden;pointer-events: none;"><img style="position: absolute; left:0; right: 0; top:50%; margin-left: auto; margin-right: auto;pointer-events: none;" src="img/poesia/CAP01_08_v3.png"></div>
+  <div id="#poema9"  style="position:relative; width:100%; height:100%; z-index: 102; visibility: hidden;pointer-events: none;"><img style="position: absolute; left:0; right: 0; bottom: 60px; margin-left: auto; margin-right: auto;pointer-events: none;" src="img/poesia/CAP01_09_v3_3.png"></div>
+  
+  
+  <div id="#poema12" style="position:absolute; width:100%; height:100%; z-index: 102; visibility: hidden; pointer-events: none;"><img style="display: block; margin-left: auto; margin-right: auto; pointer-events: none; padding-top: 50px; " src="img/poesia/CAP01_12_v3.png"></div>
+  <div id="#poema13" style="position:absolute; width:100%; height:100%; z-index: 102; visibility: hidden; pointer-events: none;"><img style="display: block; margin-left: auto; margin-right: auto; pointer-events: none; padding-top: 160px;" src="img/poesia/CAP01_13_v3.png"></div>
+  <div id="#poema14" style="position:absolute; width:100%; height:100%; z-index: 102; visibility: hidden; pointer-events: none;"><img style="display: block; margin-left: auto; margin-right: auto; pointer-events: none; padding-top: 270px;" src="img/poesia/CAP01_14_v3.png"></div>
+  
+  <div id="#poema15" style="position:relative; width:100%; height:100%; z-index: 102; visibility: hidden;pointer-events: none;"><img style="position: absolute; left:0; right: 0; bottom: 60px; margin-left: auto; margin-right: auto;pointer-events: none;" src="img/poesia/CAP01_15_v3.png"></div>
+
+  
+  
+
+    <!-- #0d1014 -->
+
+
+
+    
+    <a-scene id="ascene" physics="debug:false; gravity: 0;" fog="type: linear; color: #006bad; near: 0; far: 300;" vr-mode-ui="enabled: false"  loading-screen="dotsColor: #78a495; backgroundColor: black" effects="bloom, godrays, fxaa" background="color: #0c1214"
+    fxaa="true"  godrays="src: #sun; threshold: 0.1 ; intensity: 3; tint: #95cff4" godrays="src: #sun2; threshold: 0.1 ; intensity: 1; tint: #bfd9f3" bloom="filter: bloom!, bloom.filter, #customFilter(bloom_texture 0.3 0.6 0.5); strength: 0.35; radius:0.5" renderer="colorManagement: true">
+<!-- strength: 0.5; radius:0.5"
+-->
+
+      <!--Carga de assets-->
+      <a-assets id="aAssets">
+        
+        <!--Módulo de audio-->
+        <audio id="currentAudio" src="audio/1Erosions.mp3"></audio>
+        <audio id="influenceAudio" src="audio/2Erosions.mp3"></audio>
+        <audio id="collisionAudio" src="audio/3Erosions.mp3"></audio>
+        <audio id="atomAudio" src="audio/4Erosions.mp3"></audio>
+        <audio id="zoomAudio" src="audio/5Erosions.mp3"></audio>
+
+        <audio id="currentAudioBateria" src="audio\stems\1Baterías.mp3"></audio>
+        <audio id="influenceAudioBateria" src="audio\stems\2Baterías.mp3"></audio>
+        <audio id="collisionAudioBateria" src="audio\stems\3Baterías.mp3"></audio>
+        <audio id="atomAudioBateria" src="audio\stems\4Baterías.mp3"></audio>
+        <audio id="zoomAudioBateria" src="audio\stems\5Baterías.mp3"></audio>
+
+        <audio id="currentAudioFXGroup" src="audio\stems\1FXGroup.mp3"></audio>
+        <audio id="influenceAudioFXGroup" src="audio\stems\2FXGroup.mp3"></audio>
+        <audio id="collisionAudioFXGroup" src="audio\stems\3FXGroup.mp3"></audio>
+        <audio id="atomAudioFXGroup" src="audio\stems\4FXGroup.mp3"></audio>
+        <audio id="zoomAudioFXGroup" src="audio\stems\5FXGroup.mp3"></audio>
+
+        <audio id="currentAudioVocalGroup" src="audio\stems\1VocalGroup.mp3"></audio>
+        <audio id="influenceAudioVocalGroup" src="audio\stems\2VocalGroup.mp3"></audio>
+        <audio id="collisionAudioVocalGroup" src="audio\stems\3VocalGroup.mp3"></audio>
+        <audio id="atomAudioVocalGroup" src="audio\stems\4VocalGroup.mp3"></audio>
+        <audio id="zoomAudioVocalGroup" src="audio\stems\5VocalGroup.mp3"></audio>
+
+        <!--Módulo de modelos-->
+        <a-asset-item material="metalness: 10;" id="piedra" src="modelos/bates/sin/piedraFinal.glb"></a-asset-item>
+        <a-asset-item material="metalness: 10;" id="piedraMesh" src="modelos/Emmanuel/piedraMesh.glb"></a-asset-item>
+        <a-asset-item material="metalness: 10;" id="cumuloPiedrasInicio" src="modelos/Emmanuel/cumuloPiedrasInicio.glb"></a-asset-item>
+
+
+        <a-asset-item material="metalness: 10;" id="ps1" src="modelos/bates/sin/rock_01_Alta.glb"></a-asset-item>
+        <a-asset-item material="metalness: 10;" id="ps2" src="modelos/bates/sin/rock_02_Alta.glb"></a-asset-item>
+        <a-asset-item material="metalness: 10;" id="ps3" src="modelos/bates/sin/rock_03_Alta.glb"></a-asset-item>
+        <a-asset-item material="metalness: 10;" id="ps4" src="modelos/bates/sin/rock_04_Alta.glb"></a-asset-item>
+        <a-asset-item material="metalness: 10;" id="ps5" src="modelos/bates/sin/rock_05_Alta.glb"></a-asset-item>
+
+        <a-asset-item  material="metalness: 10;" id="punta" src="modelos/bates/sin/lanza.glb"></a-asset-item>
+        <a-asset-item  material="metalness: 10;" id="columna" src="modelos/bates/sin/columna.glb"></a-asset-item>
+        <a-asset-item  material="metalness: 10;" id="mano" src="modelos/bates/sin/mano.glb"></a-asset-item>
+        <a-asset-item  material="metalness: 10;" id="monolito" src="modelos/bates/sin/monolito.glb"></a-asset-item>
+        <a-asset-item  material="metalness: 10;" id="neandertal" src="modelos/bates/sin/neandertal.glb"></a-asset-item>
+
+        <a-asset-item material="metalness: 10;" id="constRocks" src="modelos/bates/final/constRocksFinal.glb"></a-asset-item>
+        <a-asset-item material="metalness: 10;" id="atomo" src="modelos/bates/final/atom.glb"></a-asset-item>
+
+        <a-asset-item id="corriente" src="modelos/Joek/corriente2.glb"></a-asset-item>
+
+         <!--Piedras Colisionador-->
+
+         <a-asset-item id="piedra1" src="modelos/bates/separadas/ptr1.glb"></a-asset-item>
+         <a-asset-item id="piedra2" src="modelos/bates/separadas/ptr2.glb"></a-asset-item>
+         <a-asset-item id="piedra3" src="modelos/bates/separadas/ptr3.glb"></a-asset-item>
+         <a-asset-item id="piedra4" src="modelos/bates/separadas/ptr4.glb"></a-asset-item>
+         <a-asset-item id="piedra5" src="modelos/bates/separadas/ptr5.glb"></a-asset-item>
+         <a-asset-item id="piedra6" src="modelos/bates/separadas/ptr6.glb"></a-asset-item>
+         <a-asset-item id="piedra7" src="modelos/bates/separadas/ptr7.glb"></a-asset-item>
+         <a-asset-item id="piedra8" src="modelos/bates/separadas/ptr8.glb"></a-asset-item>
+         <a-asset-item id="piedra9" src="modelos/bates/separadas/ptr9.glb"></a-asset-item>
+         <a-asset-item id="piedra10" src="modelos/bates/separadas/ptr10.glb"></a-asset-item>
+         <a-asset-item id="piedra11" src="modelos/bates/separadas/ptr11.glb"></a-asset-item>
+         <a-asset-item id="piedra12" src="modelos/bates/separadas/ptr12.glb"></a-asset-item>
+         <a-asset-item id="piedra13" src="modelos/bates/separadas/ptr13.glb"></a-asset-item>
+         <a-asset-item id="piedra14" src="modelos/bates/separadas/ptr14.glb"></a-asset-item>
+         <a-asset-item id="piedra15" src="modelos/bates/separadas/ptr15.glb"></a-asset-item>
+         <a-asset-item id="piedra16" src="modelos/bates/separadas/ptr16.glb"></a-asset-item>
+         <a-asset-item id="piedra17" src="modelos/bates/separadas/ptr17.glb"></a-asset-item>
+
+
+         <!--Polígonos con video texturas-->
+
+         <video id="videoP1" src="videos/uvp1_v1.webm"></video>
+         <a-asset-item id="p1SRC" src="modelos/Emmanuel/p1.glb"></a-asset-item>
+         <a-asset-item id="p1ElectronesSRC" src="modelos/Emmanuel/electrones_p1.glb"></a-asset-item>
+
+         <video id="videoP2" src="videos/uvp2_v2.webm"></video>
+         <a-asset-item id="p2SRC" src="modelos/Emmanuel/p2.glb"></a-asset-item>
+         <a-asset-item id="p2ElectronesSRC" src="modelos/Emmanuel/electrones_p2.glb"></a-asset-item>
+
+         <video id="videoPiramide" src="videos/uvPiramide.webm"></video>
+         <a-asset-item id="piramideSRC" src="modelos/Emmanuel/piramide2.glb"></a-asset-item>
+         <a-asset-item id="piramideElectronesSRC" src="modelos/Emmanuel/electronesPiramide.glb"></a-asset-item>
+
+         <!--Piedras Avatar-->
+
+         <a-asset-item id="piedraAvatarSRC" src="modelos/bates/avatar/trozoPiedra.glb"></a-asset-item>
+
+        
+
+        <img
+          id="water-normal"
+          src="img/waternormals.jpg"
+          >
+          
+
+        <img
+          id="skysphere"
+          src="img/skyFinal.jpg"
+          
+        >
+
+        <img
+        id="constRocksTexture"
+        src="img/constPiedras.png"
+        
+        
+        >
+
+        <img id="skyStars" src="img/skydome3.png">
+
+
+
+     
+        <canvas id="hydraCanvas" width="1024" height="1024"></canvas>
+
+      </a-assets>
+
+ 
+      <!--
+
+-->
+
+<a-sky id="skydome" material="fog:false" color="#00417d"></a-sky>
+
+
+    
+
+
+<!--Rig Camera-->
+<a-entity  id="rigCamera" rotation="0 0 0" position="0 0 -5"
+>
+  
+
+
+
+
+  <!--Camera-->
+  <a-entity camera fov="80" class="listenonkey" teleport look-controls="enabled:true;" wasd-controls="acceleration:50; fly:true; enabled:true;" id="camera"  position="-2.3 0 -3" rotation="0 0 0"
+  >
+
+
+  
+<!--Piedra Avatar
+  animation="property: rotation; from: 0 0 0;to: 0 360 0; loop: true; dur: 40000; easing: linear"
+
+
+-->
+  <a-gltf-model id="piedraAvatar" body="type:static" visible="true" src="#piedraAvatarSRC" scale="11 11 11" position="-0.1 0.1 -3.8" rotation="0 180 0" animation-mixer="timeScale: 5"
+  
+  ></a-gltf-model>
+
+
+
+    <!--Cajas Hydra Universo-->
+
+
+
+
+
+    
+
+  <!--
+  <a-entity 
+  id="hover"
+  position="0 0 -1"
+  geometry="primitive: ring; radiusInner: 0.025; radiusOuter: 0.03"
+  material="color: red; shader: flat; visible: false;"></a-entity>
+  -->
+
+
+  <!--Raycaster-->
+    <a-entity id="raycasterMouse"
+    cursor="fuse: false; fuseTimeout: 2000"
+    
+    position="0 0 -1"
+    raycaster="objects: .clickeable">
+
+    <a-entity id="circuloCursor" geometry="primitive: ring; radiusInner: 0.025; radiusOuter: 0.03"
+    material="color: white; shader: flat; opacity: 0.5" visible="true"></a-entity>
+
+    <a-entity id= "trianguloCursor" geometry="primitive: triangle" material="side: double; color: blue; shader: flat;" 
+    scale ="0.03 0.03 0.03" visible="false"></a-entity>
+
+    <a-entity id= "trianguloCursor2" geometry="primitive: triangle" material="side: double; color: red; shader: flat;" 
+    scale ="0.03 0.03 0.03" visible="false"></a-entity>
+
+    </a-entity>
+
+      <!--Partículas Cámara
+            <a-entity  id="particleEmitter" position="0 2.25 -15"  particle-system="color: #c2f1f2, size:  1; preset: rain; particleCount: 20400;  blending:1; opacity: 1; texture: img/burbujaS3.png" rotation="90 0 0" animation="property: rotation; to: 90 -360 0; dur: 8000; easing: linear; loop: true;"></a-entity>
+      <a-entity  id="particleEmitter2" position="0 2.25 -15"  particle-system="color: #c2f1f2, size: 1; preset: rain; particleCount: 20300; blending:1; opacity: 1; texture: img/burbujaSS3.png" rotation="90 0 0" animation="property: rotation; to: 90 360 0; dur: 8000; easing: linear; loop: true;"></a-entity>
+        <a-entity  id="particleEmitter3" position="0 2.25 -15"  particle-system=" size: 0.3; preset: rain; particleCount: 24000; blending:1; opacity: 1; texture: img/burbujaS1.png; type: 1;" rotation="-90 0 0"></a-entity>
+    
+    -->
+      
+    <!--Isolate Mode-->
+
+    <!--Mano-->
+    <a-entity id="manoIsolate"  visible="false" gltf-model="#mano" scale="0.6 0.6 0.6" position="0 -0.1 -2"  
+    animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"></a-entity>
+
+    <!--Columna-->
+    <a-entity id="columnaIsolate"  visible="false" gltf-model="#columna" scale="0.5 0.5 0.5" position="0 -0.2 -2"  
+    animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"></a-entity>
+
+    <!--Punta-->
+    <a-entity id="puntaIsolate"  visible="false" gltf-model="#punta" scale="1 1 1" position="0 0.1 -2"  
+    animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"></a-entity>
+
+    <!--Monolito-->
+    <a-entity id="monolitoIsolate"  visible="false" gltf-model="#monolito" scale="0.6 0.6 0.6" position="0 -0.1 -2"  
+    animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"></a-entity>
+
+    <!--Neandertal-->
+    <a-entity id="neandertalIsolate"  visible="false" gltf-model="#neandertal" scale="0.8 0.8 0.8" position="0 -0.1 -2"  
+    animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"></a-entity>
+    
+
+      
+      
+      
+
+
+      
+
+    
+      
+      
+ 
+          <!--Luces Cámara-->
+          <a-entity id="rigLuces"  rotation="0 0 0" far="300" >
+            <!--
+            <a-entity light="type: spot; intensity: 1.5; angle: 35; color: #0b393c; penumbra: 0.1;" position="0 0 10" rotation="0 30 0"></a-entity>
+            <a-entity light="type: spot; intensity: 1.5; angle: 35; color: #76cedd; penumbra: 0.1;" position="-20 0 10" rotation="0 -30 0"></a-entity>
+            <a-entity light="type: spot; intensity: 1; angle: 70; color: #f7fcfb; penumbra: 0.4" position="0 1.5 -4" rotation="180 0 0"></a-entity>
+            <a-entity light="type: spot; intensity: 1; angle: 65; color: #ffffff; penumbra: 0.4; decay: 2;" position="0 0 15" rotation="0 0 0"></a-entity>
+              -->
+
+          </a-entity>
+
+  
+    </a-entity>
+
+</a-entity>
+
+
+
+      <!--Programa-->
+      <a-entity eventos></a-entity>
+      <a-entity timer></a-entity>
+
+    
+    <!-- Audio Analyser -->
+
+     <a-entity id="currentA"
+     audioanalyser="src: #currentAudio; cache: true;"
+     > </a-entity>
+    <a-entity id="currentABateria"
+     audioanalyser="src: #currentAudioBateria; cache: true;"
+     > </a-entity>
+     <a-entity id="currentAFXGroup"
+     audioanalyser="src: #currentAudioFXGroup; cache: true;"
+     > </a-entity>
+     <a-entity id="currentAVocalGroup"
+     audioanalyser="src: #currentAudioVocalGroup; cache: true;"
+     > </a-entity>
+
+
+
+     <a-entity id="influenceA"
+     audioanalyser="src: #influenceAudio; cache: true;"
+     > </a-entity>
+     <a-entity id="influenceABateria"
+     audioanalyser="src: #influenceAudioBateria; cache: true;"
+     > </a-entity>
+     <a-entity id="influenceAFXGroup"
+     audioanalyser="src: #influenceAudioFXGroup; cache: true;"
+     > </a-entity>
+     <a-entity id="influenceAVocalGroup"
+     audioanalyser="src: #influenceAudioVocalGroup; cache: true;"
+     > </a-entity>
+
+    
+     <a-entity id="collisionA"
+     audioanalyser="src: #collisionAudio; cache: true;"
+     > </a-entity>
+     <a-entity id="collisionABateria"
+     audioanalyser="src: #collisionAudioBateria; cache: true;"
+     > </a-entity>
+     <a-entity id="collisionAFXGroup"
+     audioanalyser="src: #collisionAudioFXGroup; cache: true;"
+     > </a-entity>
+     <a-entity id="collisionAVocalGroup"
+     audioanalyser="src: #collisionAudioVocalGroup; cache: true;"
+     > </a-entity>
+
+
+
+     <a-entity id="atomA"
+     audioanalyser="src: #atomAudio; cache: true;"
+     > </a-entity>
+     <a-entity id="atomABateria"
+     audioanalyser="src: #atomAudioBateria; cache: true;"
+     > </a-entity>
+     <a-entity id="atomAFXGroup"
+     audioanalyser="src: #atomAudioFXGroup; cache: true;"
+     > </a-entity>
+     <a-entity id="atomAVocalGroup"
+     audioanalyser="src: #atomAudioVocalGroup; cache: true;"
+     > </a-entity>
+
+
+
+     <a-entity id="zoomA"
+     audioanalyser="src: #zoomAudio; cache: true;"
+     > </a-entity>
+     <a-entity id="zoomABateria"
+     audioanalyser="src: #zoomAudioBateria; cache: true;"
+     > </a-entity>
+     <a-entity id="zoomAFXGroup"
+     audioanalyser="src: #zoomAudioFXGroup; cache: true;"
+     > </a-entity>
+     <a-entity id="zoomAVocalGroup"
+     audioanalyser="src: #zoomAudioVocalGroup; cache: true;"
+     > </a-entity>
+
+ 
+  <!--Erosión-->
+  <!--Partículas Ambiente
+     <a-entity  position="0 2 -4.1"  particle-system="color: #185a73; size: 2; preset: dust; particleCount: 200; blending: 2; type: 2; opacity: 0.3; texture: img/burbujaS2.png" rotation="0 0 0"></a-entity>
+    <a-entity  position="0 2 -4.1"  particle-system="color: #921717; size: 3; preset: dust; particleCount: 100; blending: 2; type: 2; opacity: 0.3; texture: img/burbujaS1.png" rotation="0 0 0"></a-entity>
+    <a-entity  position="0 2 -4.1"  particle-system="color: #b47152; size: 2; preset: dust; particleCount: 200; blending: 2; type: 2; opacity: 0.3; texture: img/burbujaS2.png" rotation="0 0 0"></a-entity> -->
+
+    <!--Partículas audioreactivas-->
+    
+    <a-entity audioreactive-particles="analyserEl: #currentA"></a-entity>
+  
+    <!--Partículas orbitando alrededor de la piedra
+ 
+  
+  -->
+
+  <a-entity  position="-2.3 0 -12"  particle-system="rotationAngleSpread: 360;color: white; size: 0.3; preset: rain; particleCount: 9000; blending: 1; type: 2; opacity: 1; texture: img/polvMote.png" rotation="0 0 0"  animation="property: rotation; to: 0 360 0; dur: 3000; easing: linear; loop: true;" ></a-entity>
+
+ 
+  
+  <!--Fondo
+  <a-entity  position="-2.3 0 -32" particle-system="color: #0acbff; size: 20; preset: rain; particleCount: 1300; blending: 2; type: 3; opacity: 0.1; texture: img/burbuja2.png; velocityValue: 0 8 0" rotation="-90 0 0"></a-entity>
+  -->
+
+  <!--Partículas grandes azules
+    <a-entity  position="-2.3 0 -28" particle-system="color: #0acbff; size: 13; preset: default; particleCount: 40; blending: 2; type: 2; opacity: 0.3; texture: img/burbuja2.png;"  rotation="-90 0 0"></a-entity>
+  <a-entity  position="-2.3 0 -11"   particle-system="color: #124a5b;size: 3; preset: dust; particleCount: 500; blending: 2; type: 3; opacity: 1; texture: img/burbujaS1.png" rotation="0 0 0"></a-entity>
+  -->
+
+  <a-entity  animation="property: rotation; from: 90 0 -10; to: 90 360 -10; dur: 11000; easing: linear; loop: true;" >
+    <a-entity  id="pAzules" position="-1 -70 -15"  visible="true" particle-system="maxAge: 40; color: #2ec1e8; size: 9; preset: default; particleCount: 0; blending: 2; type: 1; opacity: 1; texture:img/burbujaS1.png" rotation="130 0 10"></a-entity>
+  </a-entity>
+  
+
+  <!--Partículas rojas
+    <a-entity  position="-2.3 0 -15"  particle-system="accelerationValue: 0 35 0; size: 0.2; preset: rain; particleCount: 3000; blending: 2; type: 2; opacity: 0.9; texture: img/burbujaS2.png" rotation="90 0 0"></a-entity>
+  -->
+
+  <a-entity  animation="property: rotation; from: 90 0 -10; to: 90 360 -10; dur: 6000; easing: linear; loop: true;" >
+    <a-entity  id="pRojas" position="-1 -50 -15" visible="true" particle-system="maxAge: 40; color: #f90d18; size: 1.2; preset: default; particleCount: 0; blending: 2; type: 1; opacity: 1; texture: img/burbujaS2.png" rotation="130 0 10"></a-entity>
+  </a-entity>
+
+
+
+
+ <!--Partículas blancas-->
+
+ <a-entity  animation="property: rotation; from: 90 0 -10; to: 90 -360 -10; dur: 2000; easing: linear; loop: true;" >
+  <a-entity  id="pBlancas" position="15 -45 -15" visible="true" particle-system="maxAge: 40; color: #c2f1f2; size: 0.9; preset: default; particleCount: 9000; blending: 2; type: 1; opacity: 1; texture: img/burbuja2.png" rotation="130 0 10"></a-entity>
+</a-entity>
+
+
+  <!--Partículas amarillas
+  <a-entity  position="-2.3 0 -20"  particle-system="color: #b29671;size: 0.4; preset: default; particleCount: 3000; blending: 1; type: 2; opacity: 1; texture: img/burbujaS3.png" rotation="-90 0 0" animation="property: rotation; from: 0 0 0; to: 0 0 360; dur: 2000; easing: linear; loop: true;"></a-entity>
+  -->
+
+  <a-entity  animation="property: rotation; from: 90 0 -10; to: 90 360 -10; dur: 8000; easing: linear; loop: true;" >
+    <a-entity  id="pAmarillas" position="-1 -54 -15" visible="true" particle-system="maxAge: 70; color: #ffedb3; size: 2; preset: default; particleCount: 0; blending: 1; type: 1; opacity: 1; texture: img/burbujaS3.png" rotation="130 0 10"></a-entity>
+  </a-entity>
+  
+<!--Humo-->
+  <a-entity position="0 2.25 -15" particle-system="preset: dust; texture: img/star2.png; color: #0000FF,#00FF00,#FF0000"></a-entity>
+  
+
+
+
+
+  <!--General-->
+  
+  <!--Luces Stage-->
+
+  <!--Back #aee0ff | intensity: 35.5-->
+  <a-entity id="backLight" light="type: spot; angle: 35; intensity: 0.8; penumbra: 0.5; color: #aee0ff; distance: 20" position="-2.2 10 -15" rotation="-40 180 0"></a-entity>
+  
+  <!--Frontal #b0bab9-->
+  <a-entity id="frontLight" light="type: spot; angle: 60; intensity: 0-7; penumbra: 0.8; color: #a4d5f4; distance: 30" position="-2.2 0 -8.5" rotation="0 0 0"></a-entity>
+  
+  <!--Izquierda #6abcea-->
+  <a-entity id="leftLight" light="type: spot; angle: 60; intensity: 0.5; penumbra: 0.5; color: #6abcea; distance: 15" position="-5 0 -12" rotation="0 -90 0"></a-entity>
+  
+  <!--Derecha #b8ced1-->
+  <a-entity id="rightLight" light="type: spot; angle: 60; intensity: 0.5; penumbra: 0.5; color: #b8ced1; distance: 20" position="2 0 -12" rotation="0 90 0"></a-entity>
+
+
+<!--Cambia mucho el ambiente 1b8ed5-->
+<a-entity id="ambientLight" light="type: ambient; color: #1b8ed5; intensity: 2"></a-entity>
+
+
+
+  <!--Rig Piedra -->
+  <a-entity position="-2.2 0 -12" rotation="0 0 0"
+  animation="property: rotation; from: 0 0 0; to: 360 360 360; dur: 3000; easing: linear;"
+  animation__2="property: rotation; from: 360 360 360; to: 720 720 360; dur: 3000; easing: linear; delay: 4500"
+  animation__3="property: rotation; from: 720 720 360; to: 720 1080 720; dur: 3000; easing: linear; delay: 7500"
+  animation__4="property: rotation; from: 720 1080 720; to: 1080 1080 1080; dur: 3000; easing: linear; delay: 10500; loop:true;"
+    
+
+
+  >
+
+    <!--
+
+    -->
+    
+
+          
+
+
+       <!--Ps1-->
+
+         <a-entity  id="pS1"  visible="false" material="fog:true" gltf-model="#ps1"  scale="1 1 1" 
+         animation="property: rotation; to: 360 360 360; dur: 3000; easing: linear; loop: true;"
+         animation__mousedown="property: position; to: -1 0.2 0.5; startEvents: mouseenter; dur: 3000;"
+         audioreactive-on-beat-int="analyserEl: #currentA"
+         sustitucion="idModel: #manoModel"
+        
+         
+         
+         > </a-entity>
+
+        <!--manoModel-->
+
+        <a-entity id="manoModel"   visible="false" material="fog:true" gltf-model="#mano"  scale="0.5 0.5 0.5" 
+        animation="property: rotation; to: 360 360 360; dur: 3000; easing: linear; loop: true;"
+        audioreactive-on-beat-int="analyserEl: #currentA"
+        ></a-entity>
+
+        
+         <!--Ps2-->
+
+         <a-entity  id="pS2"  visible="false" material="fog:true" gltf-model="#ps2"  scale="1 1 1" 
+         animation="property: rotation; to: -360 -360 -360; dur: 3000; easing: linear; loop: true;"
+         animation__mousedown="property: position; to: -0.4 0.1 -1; startEvents: mouseenter; dur: 3000;"
+         
+         sustitucion="idModel: #columnaModel"
+         audioreactive-on-beat-int="analyserEl: #currentA"
+         >
+        
+        </a-entity>
+
+        <!--columnaModel-->
+
+        <a-entity id="columnaModel"   visible="false" material="fog:true" gltf-model="#columna"  scale="0.5 0.5 0.5" position="0.2 0 -1.7"
+        animation="property: rotation; to: -360 -360 -360; dur: 3000; easing: linear; loop: true;"
+        audioreactive-on-beat-int="analyserEl: #currentA"
+        ></a-entity>
+
+        <!--Ps3-->
+        <a-entity  id="pS3"  visible="false" material="fog:true" gltf-model="#ps3"  scale="1 1 1" 
+        animation="property: rotation; to: 360 360 360; dur: 3000; easing: linear; loop: true;"
+        animation__mousedown="property: position; to: -0.4 -1 2; startEvents: mouseenter; dur: 3000;" 
+         
+         sustitucion="idModel: #puntaModel"
+         audioreactive-on-beat-int="analyserEl: #currentA"
+    
+         >
+         
+        </a-entity>
+
+        <!--puntaModel-->
+        <a-entity id="puntaModel"   visible="false" material="fog:true" gltf-model="#punta"  scale="1 1 1" position="0 -1.5 2"
+        animation="property: rotation; to: 360 360 360; dur: 3000; easing: linear; loop: true;"
+        audioreactive-on-beat-int="analyserEl: #currentA"
+        
+        ></a-entity>
+
+        
+        <!--Ps4-->
+
+         <a-entity  id="pS4"  visible="false" material="fog:true" gltf-model="#ps4"  scale="1 1 1" 
+         animation="property: rotation; to: -360 -360 -360; dur: 3000; easing: linear; loop: true;"
+         animation__mousedown="property: position; to: -0.4 1 2; startEvents: mouseenter; dur: 3000;"
+         audioreactive-on-beat-int="analyserEl: #currentA"
+         sustitucion="idModel: #monolitoModel"
+         >
+         
+        </a-entity>
+
+        <!--monolitoModel-->
+        <a-entity id="monolitoModel"  visible="false" material="fog:true" gltf-model="#monolito"  scale="0.5 0.5 0.5" position="0.2 0.6 1.9"
+        animation="property: rotation; to: -360 -360 -360; dur: 3000; easing: linear; loop: true;"
+        audioreactive-on-beat-int="analyserEl: #currentA"
+        
+        ></a-entity>
+
+        <!--Ps5-->
+        <a-entity  id="pS5"  visible="false" material="fog:true" gltf-model="#ps5"  scale="1 1 1" 
+        animation="property: rotation; to: 360 360 360; dur: 3000; easing: linear; loop: true;"
+        animation__mousedown="property: position; to: 0.5 1 2; startEvents: mouseenter; dur: 3000;"
+        audioreactive-on-beat-int="analyserEl: #currentA"
+        sustitucion="idModel: #neandertalModel"
+        
+        >
+        
+      </a-entity>
+
+      <!--neandertalModel-->
+
+      <a-entity id="neandertalModel"   visible="false" material="fog:true" gltf-model="#neandertal"  scale="1 1 1" position="1.5 1 0.5"
+      animation="property: rotation; to: 360 360 360; dur: 3000; easing: linear; loop: true;"
+      audioreactive-on-beat-int="analyserEl: #currentA"
+      ></a-entity>
+
+    </a-entity>
+
+    <!--Piedras Mesh Audioreactivas-->
+
+    <a-entity position="-2.2 0 -12" rotation="0 0 0"  
+    animation="property: rotation; from: 0 0 0; to: 0 360 0; dur: 3000; easing: linear; loop:true;"
+    >
+
+ <a-entity  id="piedraMeshVertex" material="shader: flat" audioreactive-on-mesh-waveform="analyserEl: #influenceA" gltf-model="#piedraMesh" scale="5 5 5" position="7 15 -18" visible="false"
+    ></a-entity>
+
+   </a-entity>
+
+   <a-entity position="-2.2 0 -12" rotation="0 0 0"  
+    
+    >
+  <a-entity id="piedraMeshVertex2" audioreactive-on-mesh-levels="analyserEl: #influenceA" gltf-model="#piedraMesh" scale="5 5 5" position="7 15 -18" visible="false"
+   ></a-entity>
+   </a-entity>
+
+   <!--animation="property: rotation; from: 0 0 0; to: 0 -360 0; dur: 3000; easing: linear; loop:true;"-->
+
+    <!--
+    Plano de agua-->
+
+
+  
+
+    
+    <!--Corriente Reactive
+    <a-entity  id="corrienteModel" 
+    gltf-model="#corriente" scale="100 100 100" position="50 0.5 0" 
+    animation="property: rotation; from: 0 0 0; to: 0 0 -360; dur: 1500; easing: linear; loop: true;"
+    audioreactive-on-mesh="analyserEl: #currentA"
+    ></a-entity>-->  
+
+
+    
+  
+    
+
+    <!--Constelación Rocas-->  
+    
+    
+
+
+    <a-entity  id="constRocksModel" 
+    gltf-model="#cumuloPiedrasInicio" scale="39 39 39" position="-0.4 0 0"isible="true"
+    animation="property: rotation; from: 0 0 0; to: 0 360 0; dur: 5000; easing: linear; loop: true;"
+    ></a-entity>
+
+    <a-entity  id="constRocksModel2" 
+    gltf-model="#constRocks" material="side: double" scale="60 60 60" position="-0.4 0.5 0.2" visible="true"
+    animation="property: rotation; from: 0 0 0; to: 0 -360 0; dur: 50000; easing: linear; loop: true;"
+    ></a-entity>
+
+
+
+
+      <a-entity  id="piedraChoque1" body="type: dynamic;" visible="true" gltf-model="#piedra1" scale="10 10 10" position="-5.17 2.5 -10"></a-entity>
+      <a-entity  id="piedraChoque2" body="type: dynamic;" visible="true" gltf-model="#piedra2" scale="10 10 10" position="-5 3 -15"></a-entity>
+      <a-entity  id="piedraChoque3" body="type: dynamic;" visible="true" gltf-model="#piedra3" scale="10 10 10" position="2 3 -6"></a-entity>     
+      <a-entity  id="piedraChoque4" body="type: dynamic;" visible="true" gltf-model="#piedra4" scale="10 10 10" position="6 5 -10"></a-entity>
+      <a-entity  id="piedraChoque5" body="type: dynamic;" visible="true" gltf-model="#piedra5" scale="10 10 10" position="2 -2 -10"></a-entity>
+      
+      <a-entity  id="piedraChoque6" body="type: dynamic;" visible="true" gltf-model="#piedra6" scale="10 10 10" position="1 -2 -4"></a-entity>
+      <a-entity  id="piedraChoque7" body="type: dynamic;" visible="true" gltf-model="#piedra7" scale="10 10 10" position="-5.17 2.5 -20"></a-entity>
+      <a-entity  id="piedraChoque8" body="type: dynamic;" visible="true" gltf-model="#piedra8" scale="10 10 10" position="0 3 -18"></a-entity>
+      <a-entity  id="piedraChoque9" body="type: dynamic;" visible="true" gltf-model="#piedra9" scale="10 10 10" position="-3 -3 -18"></a-entity>
+      <a-entity  id="piedraChoque10" body="type: dynamic;" visible="true" gltf-model="#piedra10" scale="10 10 10" position="8 -2 -17"></a-entity>
+
+      <a-entity  id="piedraChoque11" body="type: dynamic;" visible="true" gltf-model="#piedra11" scale="10 10 10" position="2 -2 -15"></a-entity>
+      <a-entity  id="piedraChoque12" body="type: dynamic;" visible="true" gltf-model="#piedra12" scale="10 10 10" position="2 1 -5"></a-entity>
+      <a-entity  id="piedraChoque13" body="type: dynamic;" visible="true" gltf-model="#piedra13" scale="10 10 10" position="5.17 2 -12"></a-entity>
+      <a-entity  id="piedraChoque14" body="type: dynamic;" visible="true" gltf-model="#piedra14" scale="10 10 10" position="5 -3 -19"></a-entity>
+      <a-entity  id="piedraChoque15" body="type: dynamic;" visible="true" gltf-model="#piedra15" scale="10 10 10" position="0 8 -13"></a-entity>
+
+      <a-entity  id="piedraChoque16" body="type: dynamic;" visible="true" gltf-model="#piedra16" scale="10 10 10" position="-5 6 -13"></a-entity>
+      <a-entity  id="piedraChoque17" body="type: dynamic;" visible="true" gltf-model="#piedra17" scale="10 10 10" position="5 5 -14"></a-entity>
+      <a-entity  id="piedraChoque18" body="type: dynamic;" visible="true" gltf-model="#piedra1" scale="10 10 10" position="-3 7 -17"></a-entity>
+      <a-entity  id="piedraChoque19" body="type: dynamic;" visible="true" gltf-model="#piedra2" scale="10 10 10" position="3 7 -16"></a-entity>
+      <a-entity  id="piedraChoque20" body="type: dynamic;" visible="true" gltf-model="#piedra3" scale="10 10 10" position="3 4 -18"></a-entity>
+
+      <a-entity  id="piedraChoque21" body="type: dynamic;" visible="true" gltf-model="#piedra4" scale="10 10 10" position="-4 4 -3"></a-entity>
+      <a-entity  id="piedraChoque22" body="type: dynamic;" visible="true" gltf-model="#piedra5" scale="10 10 10" position="-5 0 -5"></a-entity>
+      <a-entity  id="piedraChoque23" body="type: dynamic;" visible="true" gltf-model="#piedra6" scale="10 10 10" position="4 8 -13"></a-entity>
+      <a-entity  id="piedraChoque24" body="type: dynamic;" visible="true" gltf-model="#piedra7" scale="10 10 10" position="-4 8 -8"></a-entity>
+      <a-entity  id="piedraChoque25" body="type: dynamic;" visible="true" gltf-model="#piedra8" scale="10 10 10" position="2 8 -8"></a-entity>
+
+      <a-entity  id="piedraChoque26" body="type: dynamic;" visible="true" gltf-model="#piedra9" scale="10 10 10" position="-3 -2 -12"></a-entity>
+      <a-entity  id="piedraChoque27" body="type: dynamic;" visible="true" gltf-model="#piedra10" scale="10 10 10" position="-3 -1 -8"></a-entity>
+      <a-entity  id="piedraChoque28" body="type: dynamic;" visible="true" gltf-model="#piedra11" scale="10 10 10" position="4 2 -8"></a-entity>
+      <a-entity  id="piedraChoque29" body="type: dynamic;" visible="true" gltf-model="#piedra12" scale="10 10 10" position="4 2 -16"></a-entity>
+      <a-entity  id="piedraChoque30" body="type: dynamic;" visible="true" gltf-model="#piedra13" scale="10 10 10" position="0 0 -16"></a-entity>
+
+      <a-entity  id="piedraChoque31" body="type: dynamic;" visible="true" gltf-model="#piedra14" scale="10 10 10" position="-4 1 -12"></a-entity>
+      <a-entity  id="piedraChoque32" body="type: dynamic;" visible="true" gltf-model="#piedra15" scale="10 10 10" position="3 0 -12"></a-entity>
+      <a-entity  id="piedraChoque33" body="type: dynamic;" visible="true" gltf-model="#piedra16" scale="10 10 10" position="3 -3 -5"></a-entity>
+      <a-entity  id="piedraChoque34" body="type: dynamic;" visible="true" gltf-model="#piedra17" scale="10 10 10" position="0 6 -17"></a-entity>
+      <a-entity  id="piedraChoque35" body="type: dynamic;" visible="true" gltf-model="#piedra1" scale="10 10 10" position="0 6 -3"></a-entity>
+
+      <a-entity  id="piedraChoque36" body="type: dynamic;" visible="true" gltf-model="#piedra2" scale="10 10 10" position="-2 -3 -8"></a-entity>
+      <a-entity  id="piedraChoque37" body="type: dynamic;" visible="true" gltf-model="#piedra3" scale="10 10 10" position="-1 3 -2"></a-entity>
+
+      <!--
+    
+
+      <a-entity  id="piedraChoque37" body="type: dynamic;" visible="true" gltf-model="#piedra" scale="1 1 1" position="6.17 -5 1"></a-entity>
+      <a-entity  id="piedraChoque38" body="type: dynamic;" visible="true" gltf-model="#piedra" scale="1 1 1" position="7 3 2"></a-entity>
+      <a-entity  id="piedraChoque39" body="type: dynamic;" visible="true" gltf-model="#piedra" scale="1 1 1" position="-9 9 3"></a-entity>
+      <a-entity  id="piedraChoque40" body="type: dynamic;" visible="true" gltf-model="#piedra" scale="1 1 1" position="10 8 5"></a-entity>
+      <a-entity  id="piedraChoque41" body="type: dynamic;" visible="true" gltf-model="#piedra" scale="1 1 1" position="4 6 3"></a-entity>
+      <a-entity  id="piedraChoque42" body="type: dynamic;" visible="true" gltf-model="#piedra" scale="1 1 1" position="5 0 5"></a-entity>
+
+      <a-entity  id="piedraChoque43" body="type: dynamic;" visible="true" gltf-model="#piedra" scale="1 1 1" position="12 0 1"></a-entity>
+      <a-entity  id="piedraChoque44" body="type: dynamic;" visible="true" gltf-model="#piedra" scale="1 1 1" position="17 1 2"></a-entity>
+      <a-entity  id="piedraChoque45" body="type: dynamic;" visible="true" gltf-model="#piedra" scale="1 1 1" position="19 -2 3"></a-entity>
+      <a-entity  id="piedraChoque46" body="type: dynamic;" visible="true" gltf-model="#piedra" scale="1 1 1" position="11 -1 5"></a-entity>
+      <a-entity  id="piedraChoque47" body="type: dynamic;" visible="true" gltf-model="#piedra" scale="1 1 1" position="14 1 3"></a-entity>
+      <a-entity  id="piedraChoque48" body="type: dynamic;" visible="true" gltf-model="#piedra" scale="1 1 1" position="15 0 5"></a-entity>
+      -->
+
+
+      
+      
+
+    <!--Atomo-->  
+    <a-entity  id="atomoModelo" 
+    gltf-model="#atomo" scale="40 40 40" position="-0.4 0.5 0.2" visible="false"
+    color-change-atom
+    
+    ></a-entity>
+
+
+    <!--Luz Godrays-->  
+    <a-entity id="sun"
+   
+    light="type: directional; color: #95cff4; intensity: 0.4" position="-2.2 0 -30"
+    animation="property: rotation; from: 0 0 0; to: 0 0 3600; dur: 1500; easing: linear; loop: true;"
+    ></a-entity>
+
+    <!--Cubo Hydra  
+    <a-box draw-canvas="hydraCanvas" canvas-updater-primitives material="src:#hydraCanvas" geometry="primitive: box; width: 2; height: 2; depth: 1" position="0 1.5 -12" rotation="0 45 0"></a-box>
+    -->
+
+    <a-sphere
+    id="skyConstellation"
+    scale="80 80 80"
+    position="0 0 0"
+    animation="property: rotation; from: 0 0 0; to: 0 360 0; loop: true; dur: 60000; easing: linear"
+    material="side: double"
+    src="#skyStars"
+    visible="false"
+    ></a-sphere>
+
+    <a-box 
+    id="hydraCube1"
+    visible="true" scale="80 80 80" draw-canvas="hydraCanvas" animation="property: rotation; from: 0 0 0; to: 0 360 0; dur: 40000; easing: easeInQuad; loop: true;" canvas-updater-primitives material="src:#hydraCanvas; side: double; transparent: true;opacity: 0.4; color: #cde4f8; shader:flat;" position="0 0 -10"></a-box>
+
+    <a-box
+    id="hydraCube2"
+    visible="true" scale="80 80 80" animation="property: rotation; from: 0 0 0; to: 360 360 360; dur: 40000; easing: easeInQuad; loop: true;" canvas-updater-primitives material="src:#hydraCanvas; side: double; transparent: true;opacity: 0.4; color:#8c92b5; shader:flat;" position="0 0 -10"></a-box>
+
+    <a-box
+    id="hydraCube3"
+    visible="true" scale="80 80 80" animation="property: rotation; from: 0 0 0; to: -360 -360 -360; dur: 40000; easing: easeInQuad; loop: true;" canvas-updater-primitives material="src:#hydraCanvas; side: double; transparent: true;opacity: 0.4; color: #d9bad9; shader:flat;" position="0 0 -10"></a-box>
+<!--
+    <a-entity id="sun2" geometry="primitive: sphere; radius: 70;" material="shader: flat; transparent: true; color: #bfd9f3; fog: false; side: back;opacity: 0.8"
+    light="type: directional; color: #bfd9f3; intensity: 1" position="0 0 0"
+    ></a-entity>
+
+
+
+ 
+    <a-torus segments-tubular="260" color="#716597"  scale="13 12 15" material="transparency: true; opacity: 0.5;" position="-3 0 -10" arc="360" radius="3" radius-tubular="0.01" animation="property: rotation; from: 0 0 0; to: 360 360 360; dur: 40000; easing: easeInOutSine; loop: true;"></a-torus>
+ 
+    <a-torus segments-tubular="260" color="#f2c9c5"  scale="13 12 15" material="transparency: true; opacity: 0.5;" position="-3 0 -10" arc="360" radius="3" radius-tubular="0.01" animation="property: rotation; from: 0 0 0; to: -360 -360 -360; dur: 40000; easing: easeInOutSine; loop: true;"></a-torus>
+ 
+    <a-torus segments-tubular="260" color="#716597"  scale="13 12 15" material="transparency: true; opacity: 0.5;" position="-3 0 -10" arc="360" radius="3" radius-tubular="0.01" animation="property: rotation; from: 0 0 0; to: -360 -360 360; dur: 50000; easing: easeInOutSine; loop: true;"></a-torus>
+
+    <a-torus segments-tubular="260" color="#f2c9c5"  scale="13 12 15" material="transparency: true; opacity: 0.5;" position="-3 0 -10" arc="360" radius="3" radius-tubular="0.01" animation="property: rotation; from: 0 0 0; to: 3600 360 -360; dur: 50000; easing: easeInOutSine; loop: true;"></a-torus>
+-->
+
+  <a-entity id="rigP1Poly" scale="40 40 40" position="0 0 0" visible="true">
+    <!--Polígono 1-->  
+    <a-entity  id="p1Poly" 
+    gltf-model="#p1SRC" scale="40 40 40" position="0 0 0" visible="true"
+    video-texture="video: #videoP1"
+    ></a-entity>
+
+    <!--Electrones-->  
+    <a-entity  id="p1Electrones" 
+    color-change
+    gltf-model="#p1ElectronesSRC" scale="40 40 40" position="0 0 0" visible="true"
+    ></a-entity>
+
+  </a-entity>
+
+
+  <a-entity id="rigP2Poly" scale="40 40 40" position="0 0 0" visible="true">
+    <!--Polígono 2-->  
+    <a-entity  id="p2Poly" 
+    gltf-model="#p2SRC" scale="40 40 40" position="0 0 0" visible="true"
+    video-texture="video: #videoP2"
+    ></a-entity>
+
+    <!--Electrones-->  
+    <a-entity  id="p2Electrones" 
+    color-change
+    gltf-model="#p2ElectronesSRC" scale="40 40 40" position="0 0 0" visible="true"
+    ></a-entity>
+
+  </a-entity>
+
+  <a-entity id="animacionPiramide" visible="true">
+
+    <a-entity id="rigPiramide" scale="100 100 100" position="0 0 10" visible="true" rotation="110 0 180">
+      <!--Piramide-->  
+      <a-entity  id="piramidePoly"
+      gltf-model="#piramideSRC" scale="40 40 40" position="0 0 0" visible="true"
+      rotation="0 0 0"
+      video-texture="video: #videoPiramide"
+      ></a-entity>
+    
+      <!--Electrones-->  
+      <a-entity  id="piramideElectrones" 
+      color-change
+      rotation="0 0 0"
+      gltf-model="#piramideElectronesSRC" scale="40 40 40" position="0 0 0" visible="true"
+      ></a-entity>
+    
+    </a-entity>
+  <!--
+    <a-entity id="rigPiramide2" scale="100 100 100" position="0 0 10" visible="true" rotation="110 0 0">
+  
+ 
+      <a-entity  id="piramidePoly2"
+      gltf-model="#piramideSRC" scale="40 40 40" position="0 0 0" visible="true"
+      rotation="-180 0 0"
+      video-texture="video: #videoPiramide"
+      ></a-entity>
+    
+      <!--Electrones-->  
+      <a-entity  id="piramideElectrones2" 
+      color-change
+      rotation="0 0 0"
+      gltf-model="#piramideElectronesSRC" scale="40 40 40" position="0 0 0" visible="true"
+      ></a-entity>
+    
+    </a-entity>
+
+  -->
+  
+  </a-entity>
+
+
+
+
+  
+
+<!--
+
+<a-sky position="0 0 5" scale="2 2 2" animation="property: rotation; from: 0 0 0; to: 0 360 0; loop: true; dur: 60000; easing: linear" src="#sky"></a-sky>
+-->
+
+
+</a-scene>
+
+    <!--Timer-->
+   <div style="width: 100%; height: 100%;"> <div id="timer"></div>
+
+  <!--Respaldo Animaciones-->
+
+  <!--Rig Cámara
+  animation="property: rotation; from: 0 -30 0; to: 0 -80 -45; dur: 8000; easing: easeOutSine;" -->
+  
+  <!--Cámara
+    animation="property: position; from: 8.99 1 -0.57; to: -2.3 2 -1.17; dur: 8000; easing: easeOutElastic;"
+    animation__2="property: position; from: -2.3 2 -1.17; to: -2.3 0.2 -3; dur: 3000; easing: easeOutSine; delay: 5500;" -->
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+  </body>
+
+<script src="scripts/scripts.js"></script>
+
+
+
+</html>
