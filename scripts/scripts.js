@@ -8,7 +8,7 @@ const rigPiramide = document.getElementById("rigPiramide");
 const skydome = document.getElementById("skydome");
 const ambientLight = document.getElementById("ambientLight");
 
-const animacionPiramide = document.getElementById("animacionPiramide");
+
 
 const riverClick = document.getElementById("riverClick");
 
@@ -387,24 +387,15 @@ AFRAME.registerComponent('eventos', {
 
       vidLoading.remove(); containerLoading.remove(); vidHover.remove();
 
-      riverClick.setAttribute("style","display: block");
-      riverClick.play();
 
-      riverClick.onended = () => {
-
-        riverClick.remove();
-        collisionScene.volume = 0.8;
-
-        atomScene.play();
   
-  
-        circuloCursor.setAttribute('visible', "false");
-  
-
-      }
 
     
+      collisionScene.volume = 0.8;
 
+      atomScene.play();
+
+      circuloCursor.setAttribute('visible', "false");
 
 
     })
@@ -497,30 +488,32 @@ AFRAME.registerComponent('eventos', {
 
     var skyConstellation = document.getElementById('skyConstellation');
 
+  /*
     
     ascene.setAttribute("fog","color: #0d1014")
     ascene.setAttribute("background","color: #0d1014")
     ascene.setAttribute("godrays","tint: #0d1014")
 
     skydome.setAttribute("color","#0f1216");
+*/
     ambientLight.setAttribute("light","color: #0d100f; intensity: 6");
 
-    ascene.setAttribute('godrays', "intensity: 1");
+    ascene.setAttribute('godrays', "intensity: 0.05");
 
     ascene.setAttribute('bloom', 'strength: 0.8');
-    ascene.setAttribute('bloom', 'radius: 0.6');
+    ascene.setAttribute('bloom', 'radius: 0.5');
 
 
     
-    pAzules.setAttribute('particle-system', "size: 1.1");
-    pRojas.setAttribute('particle-system', "size: 1.3");
-    pAmarillas.setAttribute('particle-system', "size: 1.2");
-    pBlancas.setAttribute('particle-system', "size: 0.5");
+    pAzules.setAttribute('particle-system', "size: 0.9");
+    pRojas.setAttribute('particle-system', "size: 0.7");
+    pAmarillas.setAttribute('particle-system', "size: 0.8");
+    pBlancas.setAttribute('particle-system', "size: 0.7");
 
 
-    pAzules.setAttribute('particle-system', "particleCount: 10000");
-    pRojas.setAttribute('particle-system', "particleCount: 11000");
-    pAmarillas.setAttribute('particle-system', "particleCount: 9000");
+    pAzules.setAttribute('particle-system', "particleCount: 5000");
+    pRojas.setAttribute('particle-system', "particleCount: 5000");
+    pAmarillas.setAttribute('particle-system', "particleCount: 5000");
     pBlancas.setAttribute('particle-system', "particleCount: 6000")
     
 
@@ -2897,9 +2890,10 @@ AFRAME.registerComponent('color-change', {
       let meshMaterial = mesh.children[0].material;
       let matColor = mesh.children[0].material.color;
 
-      const color = new THREE.Color(0xb2a97a);
-      const color2 = new THREE.Color(0xa46e5e);
-      const color3 = new THREE.Color(0xb39575);
+      const color = new THREE.Color(0xd9d2f4);
+      const color2 = new THREE.Color(0xffffff);
+      const color3 = new THREE.Color(0x273366);
+      const color4 = new THREE.Color(0x17161b);
 
 
       const mat = new THREE.MeshPhongMaterial({
@@ -2926,6 +2920,10 @@ AFRAME.registerComponent('color-change', {
       const g3 = 0.8941176470588236;
       const b3 = 0;
 
+      const mat4 = new THREE.MeshPhongMaterial({
+        color: color4,   
+      });
+
 
       console.log("Color change activated", el.id);
       
@@ -2949,6 +2947,11 @@ AFRAME.registerComponent('color-change', {
             colorM.material = mat2;
             //console.log("Si es verde", el.id, colorM.material.color);
           },400 * (i + 1))
+
+          setTimeout(()=>{           
+            colorM.material = mat4;
+            //console.log("Si es verde", el.id, colorM.material.color);
+          },500 * (i + 1))
 
                   
 
@@ -3001,9 +3004,10 @@ AFRAME.registerComponent('color-change-atom', {
       let meshMaterial = mesh.children[0].material;
       let matColor = mesh.children[0].material.color;
 
-      const color = new THREE.Color(0xb2a97a);
-      const color2 = new THREE.Color(0xa46e5e);
-      const color3 = new THREE.Color(0xb39575);
+      const color = new THREE.Color(0xd9d2f4);
+      const color2 = new THREE.Color(0xffffff);
+      const color3 = new THREE.Color(0x273366);
+      const color4 = new THREE.Color(0x17161b);
 
 
       const mat = new THREE.MeshPhongMaterial({
@@ -3030,6 +3034,11 @@ AFRAME.registerComponent('color-change-atom', {
       const g3 = 0.8941176470588236;
       const b3 = 0;
 
+      const mat4 = new THREE.MeshPhongMaterial({
+        color: color4,   
+      });
+
+
 
       console.log("Color change activated", el.id);
       
@@ -3047,12 +3056,9 @@ AFRAME.registerComponent('color-change-atom', {
               colorM.material= mat;
               //console.log("Si es Rojo", el.id, colorM.material.color);
 
-            },300 * (i + 1))
+            },400 * (i + 1))
 
-            setTimeout(()=>{           
-            colorM.material = mat2;
-            //console.log("Si es verde", el.id, colorM.material.color);
-          },400 * (i + 1))
+
 
                   
 
@@ -3073,7 +3079,7 @@ AFRAME.registerComponent('color-change-atom', {
     
         colorLoop(i);
           
-        }, 500 * (i + 1))
+        }, 400 * (i + 1))
     
     };
 

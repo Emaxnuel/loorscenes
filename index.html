@@ -200,7 +200,7 @@
 
 
     
-    <a-scene id="ascene" physics="debug:false; gravity: 0;" fog="type: linear; color: #006bad; near: 0; far: 300;" vr-mode-ui="enabled: false"  loading-screen="dotsColor: #78a495; backgroundColor: black" effects="bloom, godrays, fxaa" background="color: #0c1214"
+    <a-scene id="ascene" physics="debug:false; gravity: 0;" fog="type: linear; color: #000000; near: 0; far: 300;" vr-mode-ui="enabled: false"  loading-screen="dotsColor: #78a495; backgroundColor: black" effects="bloom, godrays, fxaa" background="color: #000000"
     fxaa="true"  godrays="src: #sun; threshold: 0.1 ; intensity: 3; tint: #95cff4" godrays="src: #sun2; threshold: 0.1 ; intensity: 1; tint: #bfd9f3" bloom="filter: bloom!, bloom.filter, #customFilter(bloom_texture 0.3 0.6 0.5); strength: 0.35; radius:0.5" renderer="colorManagement: true">
 <!-- strength: 0.5; radius:0.5"
 -->
@@ -330,7 +330,7 @@
 
 -->
 
-<a-sky id="skydome" material="fog:false" color="#00417d"></a-sky>
+<a-sky id="skydome" material="fog:false" color="#000000"></a-sky>
 
 
     
@@ -397,7 +397,7 @@
     </a-entity>
 
       <!--Partículas Cámara
-            <a-entity  id="particleEmitter" position="0 2.25 -15"  particle-system="color: #c2f1f2, size:  1; preset: rain; particleCount: 20400;  blending:1; opacity: 1; texture: img/burbujaS3.png" rotation="90 0 0" animation="property: rotation; to: 90 -360 0; dur: 8000; easing: linear; loop: true;"></a-entity>
+            <a-entity  id="particleEmitter" position="0 2.25 -15"  particle-system="color: #c2f1f2, size:  1; preset: rain; particleCount: 20400;  blending:1; opacity: 1; texture: img/burbujaS3.png" rotation="91 0 0" animation="property: rotation; to: 90 -360 0; dur: 8000; easing: linear; loop: true;"></a-entity>
       <a-entity  id="particleEmitter2" position="0 2.25 -15"  particle-system="color: #c2f1f2, size: 1; preset: rain; particleCount: 20300; blending:1; opacity: 1; texture: img/burbujaSS3.png" rotation="90 0 0" animation="property: rotation; to: 90 360 0; dur: 8000; easing: linear; loop: true;"></a-entity>
         <a-entity  id="particleEmitter3" position="0 2.25 -15"  particle-system=" size: 0.3; preset: rain; particleCount: 24000; blending:1; opacity: 1; texture: img/burbujaS1.png; type: 1;" rotation="-90 0 0"></a-entity>
     
@@ -865,8 +865,9 @@
 
     <!--Atomo-->  
     <a-entity  id="atomoModelo" 
-    gltf-model="#atomo" scale="40 40 40" position="-0.4 0.5 0.2" visible="false"
+    gltf-model="#atomo" scale="20 20 20" position="-0.4 0.5 0.2" visible="false"
     color-change-atom
+    animation="property: rotation; from: 0 0 0; to: 0 360 0; dur: 300000; easing: linear; loop: true;"
     
     ></a-entity>
 
@@ -921,34 +922,86 @@
 -->
   <!--Polígonos icosaedros-->
 
-  <a-entity id="rigP1Poly" scale="40 40 40" position="0 0 0" visible="true">
+  <a-entity id="rigP1Poly" scale="91 91 91" position="0 -5.4 -40" visible="true">
     <!--Polígono 1-->  
     <a-entity  id="p1Poly" 
-    gltf-model="#p1SRC" scale="40 40 40" position="0 0 0" visible="true"
+    gltf-model="#p1SRC" scale="22 22 22" position="0 0 0" visible="true"
     video-texture="video: #videoP1"
     ></a-entity>
 
     <!--Electrones-->  
     <a-entity  id="p1Electrones" 
     color-change
-    gltf-model="#p1ElectronesSRC" scale="40 40 40" position="0 0 0" visible="true"
+    gltf-model="#p1ElectronesSRC" scale="22 22 22" position="0 0 0" visible="true"
     ></a-entity>
 
   </a-entity>
 
+  <!--2-->
+
+  <a-entity id="rigP1Poly2" scale="91 91 91" position="0 -22 -5" rotation="-22 0 0" visible="true">
+    <!--Polígono 1-->  
+    <a-entity  id="p1Poly2" 
+    gltf-model="#p1SRC" scale="22 22 22" position="0 0 0" visible="true"
+    video-texture="video: #videoP1"
+    ></a-entity>
+
+    <!--Electrones-->  
+    <a-entity  id="p1Electrones2" 
+    color-change
+    gltf-model="#p1ElectronesSRC" scale="22 22 22" position="0 0 0" visible="true"
+    ></a-entity>
+
+  </a-entity>
+
+  <!--3-->
+
+  <a-entity id="rigP1Poly2" scale="91 91 91" position="20 -10 -" rotation="-60 0 0" visible="true">
+    <!--Polígono 1-->  
+    <a-entity  id="p1Poly3" 
+    gltf-model="#p1SRC" scale="22 22 22" position="0 0 0" visible="true"
+    video-texture="video: #videoP1"
+    ></a-entity>
+
+    <!--Electrones-->  
+    <a-entity  id="p1Electrones3" 
+    color-change
+    gltf-model="#p1ElectronesSRC" scale="22 22 22" position="0 0 0" visible="true"
+    ></a-entity>
+
+  </a-entity>
+
+
+
+
   <!--Polígonos icosaedros-->
 
-  <a-entity id="rigP2Poly" scale="40 40 40" position="0 0 0" visible="true">
+  <a-entity id="rigP2Poly2" scale="91 91 91" position="17 0 0" rotation="15 150 10" visible="true">
     <!--Polígono 2-->  
     <a-entity  id="p2Poly" 
-    gltf-model="#p2SRC" scale="40 40 40" position="0 0 0" visible="true"
+    gltf-model="#p2SRC" scale="22 22 22" position="0 0 0" visible="true"
     video-texture="video: #videoP2"
     ></a-entity>
 
     <!--Electrones-->  
-    <a-entity  id="p2Electrones" 
+    <a-entity  id="p2Electrones2" 
     color-change
-    gltf-model="#p2ElectronesSRC" scale="40 40 40" position="0 0 0" visible="true"
+    gltf-model="#p2ElectronesSRC" scale="22 22 22" position="0 0 0" visible="true"
+    ></a-entity>
+
+  </a-entity>
+
+  <a-entity id="rigP2Poly2" scale="91 91 91" position="17 -5 -25" rotation="15 150 -19" visible="true">
+    <!--Polígono 2-->  
+    <a-entity  id="p2Poly" 
+    gltf-model="#p2SRC" scale="22 22 22" position="0 0 0" visible="true"
+    video-texture="video: #videoP2"
+    ></a-entity>
+
+    <!--Electrones-->  
+    <a-entity  id="p2Electrones2" 
+    color-change
+    gltf-model="#p2ElectronesSRC" scale="22 22 22" position="0 0 0" visible="true"
     ></a-entity>
 
   </a-entity>
@@ -956,12 +1009,12 @@
 
   <!--Polígonos piramidales-->
 
-  <a-entity id="animacionPiramide" visible="true">
 
-    <a-entity id="rigPiramide" scale="40 40 40" position="0 0 10" visible="true" rotation="0 0 0">
+
+    <a-entity id="rigPiramide" scale="91 91 91" position="-10 -3.9 -35" visible="true" rotation="0 0 0">
       <!--Piramide-->  
       <a-entity  id="piramidePoly"
-      gltf-model="#piramideSRC" scale="40 40 40" position="0 0 0" visible="true"
+      gltf-model="#piramideSRC" scale="22 22 22" position="0 0 0" visible="true"
       rotation="0 0 0"
       video-texture="video: #videoPiramide"
       ></a-entity>
@@ -970,10 +1023,11 @@
       <a-entity  id="piramideElectrones" 
       color-change
       rotation="0 0 0"
-      gltf-model="#piramideElectronesSRC" scale="40 40 40" position="0 0 0" visible="true"
+      gltf-model="#piramideElectronesSRC" scale="22 22 22" position="0 0 0" visible="true"
       ></a-entity>
-    
-    </a-entity>
+
+
+
   <!--
     <a-entity id="rigPiramide2" scale="100 100 100" position="0 0 10" visible="true" rotation="110 0 0">
   
@@ -984,7 +1038,7 @@
       video-texture="video: #videoPiramide"
       ></a-entity>
     
-      <!--Electrones-->  
+
       <a-entity  id="piramideElectrones2" 
       color-change
       rotation="0 0 0"
