@@ -1,3 +1,83 @@
+
+const bgvidLoader = document.getElementById('bgvid');
+const lineasLoading = document.getElementById('lineasLoading');
+
+
+
+
+/* Hydra Zoom out*/
+
+const hydraSphere = () => {
+const scaleSphere = window.devicePixelRatio;
+const sizeSphere= 1000;
+const cSphere = document.getElementById("hydraCanvas2");
+cSphere.width = Math.floor(sizeSphere * scaleSphere);
+cSphere.height = Math.floor(sizeSphere * scaleSphere);
+
+// create a new hydra-synth instance
+const hydrasphere = new Hydra({
+  canvas: document.getElementById("hydraCanvas2")
+});
+//UNFOLDED CRYSTAL SHADER (DARK) - @sammtza___
+gradient(2)
+	.diff(gradient(1).r([0, 10].smooth()))
+	.diff(gradient(-1).g([0, 10].smooth().fast(1 / 2)))
+	.diff(gradient(1).b([0, 10].smooth().fast(1 / 4)))
+	.diff(gradient(-1).a([0, 10].smooth().fast(1 / 8)))
+	.diff(
+		gradient(1).luma(
+			[0, 1 / 2]
+				.reverse()
+				.smooth()
+				.fast(1 / 3)
+		)
+	)
+	.diff(
+		gradient(1).thresh(
+			[0, 1 / 2]
+				.reverse()
+				.smooth()
+				.fast(1 / 5)
+		)
+	)
+	.diff(
+		gradient(1).hue(
+			() => Math.sin(time),
+			() => Math.cos(time),
+			() => Math.tan(time)
+		)
+	)
+	.scale(1 / 10)
+	.blend(src(o0).rotate(-0.1, -0.1)
+           , [1 / 2, 9 / 10].smooth())
+	.add(
+		src(o0).rotate(0.1, 0.1).scale(-0.996)
+  ,
+		[1 / 2, 9 / 10].reverse().smooth()
+	,-1)
+	.invert()
+	.out()
+
+//MATRIZ IRIDISCENCIA
+src(o1)
+	.scale(1.005)
+	.scrollX(
+		[0.002, 0.002, 0.002, 0.002, -0.002, -0.002, -0.002, -0.002].ease("linear")
+	)
+	.saturate(1.2)
+.hue(()=>Math.sin(time))
+	.luma([0, 0, 0.1, 0.1].ease("linear"))
+	.layer(src(o0).contrast(1.4).luma(0.2, 0.1))
+	.out(o1)
+
+render(o0)
+
+
+}
+
+hydraSphere();
+  
+
 const vidLoading = document.getElementById("bgvid");
 const rigCamera = document.getElementById("rigCamera");
 
@@ -6,8 +86,8 @@ const rigP1Poly2 = document.getElementById("rigP1Poly2");
 const rigP1Poly3 = document.getElementById("rigP1Poly3");
 
 
-const rigP2Poly = document.getElementById("rigP2Poly2");
-const rigP2Poly2 = document.getElementById("rigP2Poly");
+const rigP2Poly = document.getElementById("rigP2Poly");
+const rigP2Poly2 = document.getElementById("rigP2Poly2");
 
 
 const rigPiramide = document.getElementById("rigPiramide");
@@ -17,36 +97,24 @@ const ambientLight = document.getElementById("ambientLight");
 
 const animacionPiramide = document.getElementById("animacionPiramide");
 
-const riverClick = document.getElementById("riverClick");
-
-vidLoading.addEventListener("progress", (e)=>{
-
-  //console.log("Esto lleva caergando", e.type)
 
 
+const corrienteModelZoom = document.getElementById("corrienteModelZoom");
+const corrienteModelZoom2 = document.getElementById("corrienteModelZoom2");
+const corrienteModelZoom3 = document.getElementById("corrienteModelZoom3");
+const corrienteModelZoom4 = document.getElementById("corrienteModelZoom4");
 
-});
+const constRocksModelA = document.getElementById("constRocksModelA");
+const constRocksModelB = document.getElementById("constRocksModelB");
+const constRocksModelC = document.getElementById("constRocksModelC");
+const constRocksModelD = document.getElementById("constRocksModelD");
 
-vidLoading.addEventListener("canplay", ()=>{ });
-
-const vidHover = document.getElementById("bgvidHover");
-const containerLoading = document.getElementById("containerLoading");
-const loader = document.getElementById("loader");
-const start = document.getElementById("loading");
-
-
-  
+const hydraSphereModel = document.getElementById("hydraSphereModel"); 
 
 
 
-//sceneBackground.addEventListener('loaded', ()=>{ vidLoading.remove(); containerLoading.remove()})
 
 
-/*
-Number.prototype.map = function (in_min, in_max, out_min, out_max) {
-  return (this - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-}
-*/
 
 const numberMap = (in_min, in_max, out_min, out_max )=>{
 
@@ -54,47 +122,6 @@ const numberMap = (in_min, in_max, out_min, out_max )=>{
 
 }
 
-const assetSystem = document.getElementById('aAssets');
-let arrayAssets = [];
-let arrayLoader = [];
-const barra = new ldBar(document.getElementById("barra"));
-
-
-  
-assetSystem.addEventListener('progress', (evt) =>{
-
-  //console.log('Asset', evt.target);  
-  arrayAssets.push(evt.target);
- // console.log('Este es el lenght del array', arrayAssets.length);
-
-  let num = arrayAssets.length;
-
-  barra.set(num);
-
- 
-
-
-});
-
-assetSystem.addEventListener('loaded', () =>{
-
-  vidHover.setAttribute("style","display: block");
-  loader.remove();
-  start.setAttribute("style","display: none");
-
-    
-
-
-});
-
-
-assetSystem.addEventListener('error', (err) =>{
-
-  console.log("Hay un error en ", err);
-    
-
-
-});
 
 
 
@@ -119,6 +146,8 @@ const pRojas= document.getElementById('pRojas');
 const pBlancas= document.getElementById('pBlancas');
 const pAmarillas= document.getElementById('pAmarillas');
 
+/*
+
 const poem1 = document.getElementById("#poema1");
 const poem2 = document.getElementById("#poema2");
 const poem3 = document.getElementById("#poema3");
@@ -135,9 +164,15 @@ const poem13 = document.getElementById("#poema13");
 const poem14 = document.getElementById("#poema14");
 const poem15 = document.getElementById("#poema15");
 
-const camera = document.getElementById("camera");
+*/
 
-const circuloCursor = document.getElementById("circuloCursor");
+const camera = document.getElementById("camera");
+let cameraTeleport; 
+let cameraPosition; 
+let cameraRotation;
+let look = new THREE.Vector3(0,0,0);
+
+////const circuloCursor = document.getElementById("//circuloCursor");
 const trianguloCursor = document.getElementById("trianguloCursor");
 const trianguloCursor2 = document.getElementById("trianguloCursor2");
 
@@ -336,6 +371,7 @@ AFRAME.registerComponent("hydra-texture", {
 
 
 
+
 var perlin = new ImprovedNoise();
 
 var RINGCOUNT = 160;
@@ -380,27 +416,18 @@ AFRAME.registerComponent('eventos', {
     const zoomSceneVocalGroup = document.getElementById('zoomAudioVocalGroup');
     console.log(zoomScene.id + " its ready");
 
+
     document.querySelector('a-scene').addEventListener('loaded', function () {
-      
+  
+      currentsScene.volume = 0.001;
+      currentsScene.play();
+      erosionsMaster.play();
 
 
-      vidHover.addEventListener('click', () =>{ 
 
 
-      vidLoading.remove(); containerLoading.remove(); vidHover.remove();
 
-      riverClick.setAttribute("style","display: block");
-      riverClick.play();
-
-
-      riverClick.onended = () => {
-
-        riverClick.remove();
-
-        currentsScene.volume = 0.001;
-        currentsScene.play();
-        erosionsMaster.play();
-
+        /*
 
         
       setTimeout(function(){poem1.style.visibility='visible'; setTimeout(function(){ poem1.remove(); }, 4000);}, 1000);
@@ -428,23 +455,12 @@ AFRAME.registerComponent('eventos', {
       setTimeout(function(){ poem15.style.visibility='visible'; setTimeout(function(){ poem15.remove(); }, 5000);}, 90000);
       
 
+*/
 
 
 
 
 
-      }
-
-
-
-      //currentsSceneBateria.volume = 0.7;
-      //currentsSceneBateria.play();
-
-      //currentsSceneFXGroup.play();
-      //currentsSceneVocalGroup.play();
-
-
-    })
 
 
     });
@@ -504,7 +520,7 @@ AFRAME.registerComponent('eventos', {
 
     var pAvatar = document.getElementById('piedraAvatar');
 
-    var circuloCursor = document.getElementById("circuloCursor");
+    //var circuloCursor = document.getElementById("//circuloCursor");
 
     var pChoque1 = document.getElementById('piedraChoque1');
     var pChoque2 = document.getElementById('piedraChoque2');
@@ -940,99 +956,10 @@ AFRAME.registerComponent('eventos', {
       setTimeout(function(){ pChoque36.setAttribute('body', 'type: dynamic'); pChoque36.setAttribute('visible', 'true'); }, 71200);
       setTimeout(function(){ pChoque37.setAttribute('body', 'type: dynamic'); pChoque37.setAttribute('visible', 'true'); }, 71400);
      
-/*
-      
-      pChoque2.setAttribute('body', 'type: dynamic');
-      pChoque3.setAttribute('body', 'type: dynamic');
-      pChoque4.setAttribute('body', 'type: dynamic');
-      pChoque5.setAttribute('body', 'type: dynamic');
 
-      pChoque6.setAttribute('body', 'type: dynamic');
-      pChoque7.setAttribute('body', 'type: dynamic');
-      pChoque8.setAttribute('body', 'type: dynamic');
-      pChoque9.setAttribute('body', 'type: dynamic');
-      pChoque10.setAttribute('body', 'type: dynamic');
-
-      pChoque11.setAttribute('body', 'type: dynamic');
-      pChoque12.setAttribute('body', 'type: dynamic');
-      pChoque13.setAttribute('body', 'type: dynamic');
-      pChoque14.setAttribute('body', 'type: dynamic');
-      pChoque15.setAttribute('body', 'type: dynamic');
-
-      pChoque16.setAttribute('body', 'type: dynamic');
-      pChoque17.setAttribute('body', 'type: dynamic');
-      pChoque18.setAttribute('body', 'type: dynamic');
-      pChoque18.setAttribute('body', 'type: dynamic');
-      pChoque19.setAttribute('body', 'type: dynamic');
-
-      pChoque20.setAttribute('body', 'type: dynamic');
-      pChoque21.setAttribute('body', 'type: dynamic');
-      pChoque22.setAttribute('body', 'type: dynamic');
-      pChoque23.setAttribute('body', 'type: dynamic');
-      pChoque24.setAttribute('body', 'type: dynamic');
-
-      pChoque25.setAttribute('body', 'type: dynamic');
-      pChoque26.setAttribute('body', 'type: dynamic');
-      pChoque27.setAttribute('body', 'type: dynamic');
-      pChoque28.setAttribute('body', 'type: dynamic');
-      pChoque29.setAttribute('body', 'type: dynamic');
-      pChoque30.setAttribute('body', 'type: dynamic');
-      pChoque31.setAttribute('body', 'type: dynamic');
-      pChoque32.setAttribute('body', 'type: dynamic');
-      pChoque33.setAttribute('body', 'type: dynamic');
-      pChoque34.setAttribute('body', 'type: dynamic');
-      pChoque35.setAttribute('body', 'type: dynamic');
-      pChoque36.setAttribute('body', 'type: dynamic');
-      pChoque37.setAttribute('body', 'type: dynamic');
-
-
-      
-      pChoque2.setAttribute('visible', 'true');
-      pChoque3.setAttribute('visible', 'true');
-      pChoque4.setAttribute('visible', 'true');
-      pChoque5.setAttribute('visible', 'true');
-
-      pChoque6.setAttribute('visible', 'true');
-      pChoque7.setAttribute('visible', 'true');
-      pChoque8.setAttribute('visible', 'true');
-      pChoque9.setAttribute('visible', 'true');
-      pChoque10.setAttribute('visible', 'true');
-
-      pChoque11.setAttribute('visible', 'true');
-      pChoque12.setAttribute('visible', 'true');
-      pChoque13.setAttribute('visible', 'true');
-      pChoque14.setAttribute('visible', 'true');
-      pChoque15.setAttribute('visible', 'true');
-
-      pChoque16.setAttribute('visible', 'true');
-      pChoque17.setAttribute('visible', 'true');
-      pChoque18.setAttribute('visible', 'true');
-      pChoque18.setAttribute('visible', 'true');
-      pChoque19.setAttribute('visible', 'true');
-
-      pChoque20.setAttribute('visible', 'true');
-      pChoque21.setAttribute('visible', 'true');
-      pChoque22.setAttribute('visible', 'true');
-      pChoque23.setAttribute('visible', 'true');
-      pChoque24.setAttribute('visible', 'true');
-
-      pChoque25.setAttribute('visible', 'true');
-      pChoque26.setAttribute('visible', 'true');
-      pChoque27.setAttribute('visible', 'true');
-      pChoque28.setAttribute('visible', 'true');
-      pChoque29.setAttribute('visible', 'true');
-      pChoque30.setAttribute('visible', 'true');
-      pChoque31.setAttribute('visible', 'true');
-      pChoque32.setAttribute('visible', 'true');
-      pChoque33.setAttribute('visible', 'true');
-      pChoque34.setAttribute('visible', 'true');
-      pChoque35.setAttribute('visible', 'true');
-      pChoque36.setAttribute('visible', 'true');
-      pChoque37.setAttribute('visible', 'true');
-
-      */
      
-    //3 Acto
+    //3 Acto 129000 ms
+
       influenceScene.onended = function() {
 
         console.log("Collision scene started");
@@ -1081,7 +1008,7 @@ AFRAME.registerComponent('eventos', {
         constRocks.parentNode.removeChild(constRocks);
         constRocks2.setAttribute('visible', 'true');
 
-        circuloCursor.setAttribute('visible', "false");
+        //circuloCursor.setAttribute('visible', "false");
 
         
 
@@ -1146,40 +1073,303 @@ AFRAME.registerComponent('eventos', {
            collisionScene.volume = 0.001;
            collisionScene.play();
 
+           
+           
+           
+           
 
+
+           setTimeout(function(){ 
+           pChoque1.setAttribute('body', 'type: static'); pChoque1.parentNode.removeChild(pChoque1);
+           pChoque35.setAttribute('body', 'type: static'); pChoque35.parentNode.removeChild(pChoque35)
+           pChoque36.setAttribute('body', 'type: static'); pChoque36.parentNode.removeChild(pChoque36);
+           pChoque37.setAttribute('body', 'type: static'); pChoque37.parentNode.removeChild(pChoque37);        
+          }, 67000);
+
+           setTimeout(function(){ 
+           pChoque2.setAttribute('body', 'type: static'); pChoque2.parentNode.removeChild(pChoque2);
+           pChoque3.setAttribute('body', 'type: static'); pChoque3.parentNode.removeChild(pChoque3);
+           pChoque4.setAttribute('body', 'type: static'); pChoque4.parentNode.removeChild(pChoque4);
+           pChoque5.setAttribute('body', 'type: static'); pChoque5.parentNode.removeChild(pChoque5); }, 67200);
+           
+     
+           setTimeout(function(){ 
+           pChoque6.setAttribute('body', 'type: static');  pChoque6.parentNode.removeChild(pChoque6);
+           pChoque30.setAttribute('body', 'type: static'); pChoque30.parentNode.removeChild(pChoque30);;
+           pChoque31.setAttribute('body', 'type: static'); pChoque31.parentNode.removeChild(pChoque31);;
+           pChoque32.setAttribute('body', 'type: static'); pChoque32.parentNode.removeChild(pChoque32);;
+           pChoque33.setAttribute('body', 'type: static'); pChoque33.parentNode.removeChild(pChoque33);;
+           pChoque34.setAttribute('body', 'type: static'); pChoque34.parentNode.removeChild(pChoque34);;
+          
+          }, 67500);
+
+
+           setTimeout(function(){
+           pChoque7.setAttribute('body', 'type: static');  pChoque7.parentNode.removeChild(pChoque7);
+           pChoque8.setAttribute('body', 'type: static');  pChoque8.parentNode.removeChild(pChoque8);
+           pChoque9.setAttribute('body', 'type: static');  pChoque9.parentNode.removeChild(pChoque9);
+           pChoque10.setAttribute('body', 'type: static'); pChoque10.parentNode.removeChild(pChoque10);}, 67700);
+
+                               
+
+     
+           setTimeout(function(){
+           pChoque11.setAttribute('body', 'type: static'); pChoque11.parentNode.removeChild(pChoque11);
+           pChoque25.setAttribute('body', 'type: static'); pChoque25.parentNode.removeChild(pChoque25);
+           pChoque26.setAttribute('body', 'type: static'); pChoque26.parentNode.removeChild(pChoque26);
+           pChoque27.setAttribute('body', 'type: static'); pChoque27.parentNode.removeChild(pChoque27);
+           pChoque28.setAttribute('body', 'type: static'); pChoque28.parentNode.removeChild(pChoque28);
+           pChoque29.setAttribute('body', 'type: static'); pChoque29.parentNode.removeChild(pChoque29);
+          
+          }, 68000);
+
+           setTimeout(function(){ 
+           pChoque12.setAttribute('body', 'type: static'); pChoque12.parentNode.removeChild(pChoque12);;
+           pChoque13.setAttribute('body', 'type: static'); pChoque13.parentNode.removeChild(pChoque13);;
+           pChoque14.setAttribute('body', 'type: static'); pChoque14.parentNode.removeChild(pChoque14);;
+           pChoque15.setAttribute('body', 'type: static'); pChoque15.parentNode.removeChild(pChoque15);; }, 68200);
+
+     
+
+
+                     /*
+
+           setTimeout(function(){  }, 119400);
+           setTimeout(function(){  }, 119600);
+           setTimeout(function(){  }, 119800);
+           
+           setTimeout(function(){  }, 121400);
+           setTimeout(function(){  }, 121600);
+           setTimeout(function(){  }, 121800);
+     
+           setTimeout(function(){  }, 123000);
+           setTimeout(function(){  }, 123200);
+           setTimeout(function(){  }, 123400);
+           setTimeout(function(){  }, 123600);
+           setTimeout(function(){  }, 123800);
+     
+           setTimeout(function(){  }, 124000);
+           setTimeout(function(){  }, 124200);
+           setTimeout(function(){  }, 124400);
+           setTimeout(function(){  }, 124600);
+           setTimeout(function(){  }, 124800);
+
+           setTimeout(function(){ }, 120400);
+           setTimeout(function(){ }, 120600);
+           setTimeout(function(){ ; }, 120800);
+
+           setTimeout(function(){  }, 122200);
+           setTimeout(function(){  }, 122400);
+           setTimeout(function(){  }, 122600);
+     
+           setTimeout(function(){  }, 125000);
+           setTimeout(function(){  }, 125200);
+           setTimeout(function(){  }, 125400);
+           setTimeout(function(){  } , 125600);
+           setTimeout(function(){   }, 125800);
+     
+           setTimeout(function(){  }, 126000);
+           setTimeout(function(){  }, 126200);
+           setTimeout(function(){  }, 126400);
+
+           setTimeout(function(){  }, 127000);
+
+           */
+
+
+
+
+
+
+
+           /*
+
+           setTimeout(function(){  }, 89000);
+           setTimeout(function(){  }, 90000);
+           setTimeout(function(){  }, 91000);
+           setTimeout(function(){  }, 92000);
+           setTimeout(function(){  }, 93000);
+     
+           setTimeout(function(){ }, 94000);
+           setTimeout(function(){ }, 95000);
+           setTimeout(function(){  96000);
+           setTimeout(function(){  97000);
+           setTimeout(function(){ }, 98000);
+
+
+                                                                           setTimeout(function(){ }, 99000);
+           setTimeout(function(){ }, 100000);
+           setTimeout(function(){ }, 101000);
+           setTimeout(function(){ }, 102000);
+           setTimeout(function(){ }, 103000);
+     
+           setTimeout(function(){ }, 104000);
+           setTimeout(function(){ }, 105000);
+           setTimeout(function(){ }, 106000);
+           setTimeout(function(){ }, 107000);
+           setTimeout(function(){ }, 108000);
+                                 
+           setTimeout(function(){}, 109000);
+           setTimeout(function(){}, 110000);
+           setTimeout(function(){}, 111000);
+           setTimeout(function(){}, 112000);
+           setTimeout(function(){}, 113000);
+                                 ; 
+           setTimeout(function(){;}, 114000);
+           setTimeout(function(){;
+                                 ;
+                                 ;
+                                
+                                }, 115000);
+
+           setTimeout(function(){
+                               }, 116000);
+
+           setTimeout(function(){
+                                 rigP1Poly3.setAttribute('visible', 'true');}, 117000);
+
+           setTimeout(function(){}, 118000);
+                                 
+           setTimeout(function(){
+                                 
+                                 
+                                 
+
+                                  }, 119000);
+           setTimeout(function(){
+
+                                 ascene.setAttribute("godrays","tint: #bfd9f3") }, 120000);
+
+           setTimeout(function(){
             
+                                  ascene.setAttribute("fog","color: #000000")
+                                  ascene.setAttribute("background","color: #000000");}, 121000);
+           setTimeout(function(){
+                                
+                                 sceneBackground.setAttribute('fog', "far: 52");
+                                                                             }, 122000);
+
+           setTimeout(function(){;
+                                 skydome.setAttribute("color","#000000");
+                                 ambientLight.setAttribute("light","color: #0d100f; intensity: 6");
+                                                                            }, 123000);
+                                            setTimeout(function(){ }, 124000);
+           setTimeout(function(){
+                                 rigP2Poly.setAttribute('visible', 'true');
+          }, 125000);
+
+           setTimeout(()=>{
+            sceneBackground.setAttribute('fog', "far: 40");
+
+            rigP1Poly.setAttribute('visible', 'true'); 
+          
+            rigPiramide.setAttribute('visible', 'true');
+            },126000)
+
+            setTimeout(()=>{
+                          
+            pAzules.setAttribute('particle-system', "size: 0.9");
+            pRojas.setAttribute('particle-system', "size: 0.7");
+            pAmarillas.setAttribute('particle-system', "size: 0.8");
+            pBlancas.setAttribute('particle-system', "size: 0.7");
+                    
+                    
+            pAzules.setAttribute('particle-system', "particleCount: 5000");
+            pRojas.setAttribute('particle-system', "particleCount: 5000");
+            pAmarillas.setAttribute('particle-system', "particleCount: 5000");
+            pBlancas.setAttribute('particle-system', "particleCount: 6000")
+ 
+              },126500)
+
+              */
+          
             
-            
-    //4 Acto
+    //4 Acto 129000 ms
             collisionScene.onended = function() {
             
             console.log("Atom scene started");
 
-            atomScene.volume = 0.001;
-            atomScene.play();
-
-            rigP1Poly.setAttribute('visible', 'true');
-            rigP1Poly2.setAttribute('visible', 'true');
-            rigP1Poly3.setAttribute('visible', 'true');
+            pAvatar.removeAttribute("animation-mixer")
 
 
-            rigP2Poly.setAttribute('visible', 'true');
-            rigP2Poly2.setAttribute('visible', 'true');
-
-            rigPiramide.setAttribute('visible', 'true');
-
-            ascene.setAttribute("fog","color: #000000")
-            ascene.setAttribute("background","color: #000000")
-            ascene.setAttribute("godrays","tint: #bfd9f3")
-
+            ascene.setAttribute("fog","color: #000000");
+            ascene.setAttribute("background","color: #000000");
             skydome.setAttribute("color","#000000");
             ambientLight.setAttribute("light","color: #0d100f; intensity: 6");
-
             ascene.setAttribute('godrays', "intensity: 0.05");
+
+
+            hydraCube1.setAttribute('visible', 'false');
+            hydraCube2.setAttribute('visible', 'false');
+            hydraCube3.setAttribute('visible', 'false');
 
             ascene.setAttribute('bloom', 'strength: 0.8');
             ascene.setAttribute('bloom', 'radius: 0.5');
 
+
+            setTimeout(function(){
+            pChoque16.setAttribute('body', 'type: static'); pChoque16.parentNode.removeChild(pChoque16);
+            pChoque17.setAttribute('body', 'type: static'); pChoque17.parentNode.removeChild(pChoque17);
+            pChoque18.setAttribute('body', 'type: static'); pChoque18.parentNode.removeChild(pChoque18);
+            pChoque19.setAttribute('body', 'type: static'); pChoque19.parentNode.removeChild(pChoque19);
+            }, 200);
+ 
+ 
+ 
+            setTimeout(function(){ 
+                                   pChoque20.setAttribute('body', 'type: static'); pChoque20.parentNode.removeChild(pChoque20);
+                                   pChoque21.setAttribute('body', 'type: static'); pChoque21.parentNode.removeChild(pChoque21);
+                                   pChoque22.setAttribute('body', 'type: static'); pChoque22.parentNode.removeChild(pChoque22);
+                                   pChoque23.setAttribute('body', 'type: static'); pChoque23.parentNode.removeChild(pChoque23);
+                                   pChoque24.setAttribute('body', 'type: static'); pChoque24.parentNode.removeChild(pChoque24);
+           
+           
+           }, 600);
+
+
+            cameraTeleport = camera.sceneEl.camera;
+            cameraPosition = cameraTeleport.position;
+            cameraRotation = cameraTeleport.rotation;
+
+
+            console.log("Teleport origin")
+            console.log("cameraTeleport", cameraTeleport)
+            console.log("cameraPosition", cameraPosition)
+            console.log("cameraRotation", cameraRotation)
+
+            const originP = new THREE.Vector3(-2.3,1,-3);
+            const originR = new THREE.Vector3(0,0,0);
+            
+            const jumpP1 = new THREE.Vector3(27.40919256330151,23.568556576929797,20.31871407639155);
+            const jumpP2 = new THREE.Vector3(22.456679369313,15.577884009660837,8.847246364359284);
+            const jumpP3 = new THREE.Vector3(-3.83813303484466, 13.685611085202602,-31.083502370407555);
+        
+            const jumpR1 = new THREE.Vector3(-10.65701498943331,27.387382607253386,0);
+            const jumpR2 = new THREE.Vector3(47.55549699585835,-14.78231111437524,0);
+            const jumpR3 = new THREE.Vector3(36.32552421129419,281.78064364533884,0);
+            const jumpR4 = new THREE.Vector3(45.378257374361205, 5.614986392282063,0);
+
+            atomScene.volume = 0.001;
+            atomScene.play();
+
+            setTimeout(()=>{
+              
+
+            sceneBackground.setAttribute('fog', "far: 36");
+            }, 500)
+
+            setTimeout(()=>{
+
+            sceneBackground.setAttribute('fog', "far: 40");
+            
+            }, 1000)
+
+            setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 44");
+
+            }, 1500);
+
+
+            setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 48");
             pAzules.setAttribute('particle-system', "size: 0.9");
             pRojas.setAttribute('particle-system', "size: 0.7");
             pAmarillas.setAttribute('particle-system', "size: 0.8");
@@ -1191,7 +1381,25 @@ AFRAME.registerComponent('eventos', {
             pAmarillas.setAttribute('particle-system', "particleCount: 5000");
             pBlancas.setAttribute('particle-system', "particleCount: 6000")
             
+
+            }, 2000);
+
+
+            //circuloCursor.setAttribute('visible', 'true');
+
+
+            camera.setAttribute('look-controls','enabled:false');
+
+            atom.setAttribute('visible', "true");
+            atom.setAttribute('animation', "property: rotation; from: 0 0 0; to: 0 360 0; dur: 300000; easing: linear; loop: true;");
+           
+            pAvatar.setAttribute("animation","property: rotation; easing: easeInOutSine; to: 180 360 30; dur: 3500");
     
+            camera.setAttribute("animation","property: position; dir: alternate; easing: easeInOutSine; from: 0 0 0; to: 0 0 -100; dur:4000");
+
+            pAvatar.setAttribute('animation__2', "property: scale; dir: alternate; easing: easeInOutSine; from: 11 11 11; to: 60 60 60; dur:4000");
+
+            /*
     
             const scaleRock = (i)=>{
     
@@ -1213,136 +1421,130 @@ AFRAME.registerComponent('eventos', {
             
             }
       
-            pAvatar.setAttribute("animation","property: rotation; easing: easeInOutSine; to: 180 360 30; dur: 3500");
-    
-      
-    
-            //camera.setAttribute('look-controls', "enabled:false");
-            camera.setAttribute('wasd-controls', "enabled:false");
-    
-            camera.setAttribute("animation","property: position; dir: alternate; easing: easeInOutSine; from: 0 0 0; to: 0 0 -100; dur:4000");
+            */
+
     
             camera.addEventListener("animationcomplete", (animation)=>{
               
-              animacionPiramide.setAttribute("visible","true")
-              animacionPiramide.setAttribute("animation","property: position; from: 0 -20 40;to: 0 -20 0; loop: true; dur: 40000; easing: linear");
-              //animacionPiramide.setAttribute("animation__","property: rotation; from: 0 0 0;to: 0 0 360; loop: true; dur: 80000; easing: linear");
+              cameraPosition.x = -2.3;
+              cameraPosition.y = 1;
+              cameraPosition.z = -3;
+  
+              cameraRotation.x = 0;
+              cameraRotation.y = 0;
+              cameraRotation.z = 0;
+
+
+              pAvatar.parentNode.removeChild(pAvatar);
+              constRocks2.parentNode.removeChild(constRocks2);
+
+
+
     
-    
-            })
-      
-            pAvatar.removeAttribute("animation-mixer")
-    
-            setTimeout(()=>{
-    
+              skyConstellation.parentNode.removeChild(skyConstellation);
+
+              rigP1Poly.setAttribute('visible', 'true')
+              rigP1Poly2.setAttribute('visible', 'true');
+              rigP1Poly3.setAttribute('visible', 'true');
+  
+              
+              rigP2Poly.setAttribute('visible', 'true')
+              rigP2Poly2.setAttribute('visible', 'true')
+  
+              rigPiramide.setAttribute('visible', 'true');
+
+              
+
+
+                console.log("Boom Teleport Jump 1")
+                look = jumpR1;
+                cameraTeleport.lookAt(look);
+        
+                cameraPosition = jumpP1;
+        
+                console.log("cameraTeleport", cameraTeleport)
+                console.log("cameraPosition", cameraPosition)
+                console.log("cameraRotation", cameraRotation)
                 
-              camera.setAttribute('look-controls', "enabled:false");
-              camera.setAttribute('wasd-controls', "enabled:false");
-    
-              }, 4500)
-    
 
-            setTimeout(()=>{
-            atom.setAttribute('visible', "true");
-            circuloCursor.setAttribute('visible', 'true');
-            
-            constRocks2.parentNode.removeChild(constRocks2);
-
-            pAvatar.parentNode.removeChild(pAvatar);
-
-            pChoque1.parentNode.removeChild(pChoque1);
-            pChoque2.parentNode.removeChild(pChoque2);
-            pChoque3.parentNode.removeChild(pChoque3);
-            pChoque4.parentNode.removeChild(pChoque4);
-            pChoque5.parentNode.removeChild(pChoque5);
-
-            pChoque6.parentNode.removeChild(pChoque6);
-            pChoque7.parentNode.removeChild(pChoque7);
-            pChoque8.parentNode.removeChild(pChoque8);
-            pChoque9.parentNode.removeChild(pChoque9);
-            pChoque10.parentNode.removeChild(pChoque10);
-
-            pChoque11.parentNode.removeChild(pChoque11);
-            pChoque12.parentNode.removeChild(pChoque12);
-            pChoque13.parentNode.removeChild(pChoque13);
-            pChoque14.parentNode.removeChild(pChoque14);
-            pChoque15.parentNode.removeChild(pChoque15);
-
-            pChoque16.parentNode.removeChild(pChoque16);
-            pChoque17.parentNode.removeChild(pChoque17);
-            pChoque18.parentNode.removeChild(pChoque18);
-            pChoque19.parentNode.removeChild(pChoque19);
-            pChoque20.parentNode.removeChild(pChoque20);
-            
-            pChoque21.parentNode.removeChild(pChoque21);
-            pChoque22.parentNode.removeChild(pChoque22);
-            pChoque23.parentNode.removeChild(pChoque23);
-            pChoque24.parentNode.removeChild(pChoque24);
-            pChoque25.parentNode.removeChild(pChoque25);
-
-            pChoque26.parentNode.removeChild(pChoque26);
-            pChoque27.parentNode.removeChild(pChoque27);
-            pChoque28.parentNode.removeChild(pChoque28);
-            pChoque29.parentNode.removeChild(pChoque29);
-            pChoque30.parentNode.removeChild(pChoque30);
-
-            pChoque31.parentNode.removeChild(pChoque31);
-            pChoque32.parentNode.removeChild(pChoque32);
-            pChoque33.parentNode.removeChild(pChoque33);
-            pChoque34.parentNode.removeChild(pChoque34);
-            pChoque35.parentNode.removeChild(pChoque35);
-
-            pChoque36.parentNode.removeChild(pChoque36);
-            pChoque37.parentNode.removeChild(pChoque37);
-            
-            hydraCube1.parentNode.removeChild(hydraCube1);
-            hydraCube2.parentNode.removeChild(hydraCube2);
-            hydraCube3.parentNode.removeChild(hydraCube3);
-    
-            skyConstellation.parentNode.removeChild(skyConstellation);
-
-
-            }, 5500)
-
-            setTimeout(()=>{
-
-            
-              camera.setAttribute('look-controls', "enabled:true");
-              camera.setAttribute('wasd-controls', "enabled:true");
-    
-    
-              }, 6000)
-
-
-
-            
-            setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 36");
-      
-            }, 500);
         
-            setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 40");
+          
+          
+              setTimeout(()=>{
+                console.log("Boom Teleport Jump 2")
+                look = jumpR2;
+                cameraTeleport.lookAt(look);
+                cameraPosition = jumpP2;
+        
+                console.log("cameraTeleport", cameraTeleport)
+                console.log("cameraPosition", cameraPosition)
+                console.log("cameraRotation", cameraRotation)
+          
+                
+          
+              }, 1000)
+          
               
-            }, 1000);
+              setTimeout(()=>{
+                console.log("Boom Teleport Jump 3")
+                look = jumpR3;
+                cameraTeleport.lookAt(look);
+                cameraPosition = jumpP3;
         
-            setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 44");
+                console.log("cameraTeleport", cameraTeleport)
+                console.log("cameraPosition", cameraPosition)
+                console.log("cameraRotation", cameraRotation)
+          
+                
+          
+              }, 2000)
+        
+            
               
-            }, 1500);
+              setTimeout(()=>{
+                console.log("Boom Teleport Jump 4")
+                look = jumpR4;
+                cameraTeleport.lookAt(look);
+                cameraPosition = originP;
         
-            setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 48");
-              
-            }, 2000);
+                console.log("cameraTeleport", cameraTeleport)
+                console.log("cameraPosition", cameraPosition)
+                console.log("cameraRotation", cameraRotation)
+          
+                
+          
+              }, 3000)
         
-            setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 52");
-              
-            }, 2500);
         
+              setTimeout(()=>{
+                console.log("Reset");
+        
+                cameraPosition.x = -2.3;
+                cameraPosition.y = 15;
+                cameraPosition.z = -3;
+        
+                cameraRotation.x = 0;
+                cameraRotation.y = 0;
+                cameraRotation.z = 0;
+        
+                camera.setAttribute('look-controls','enabled:true')
+        
+                
+          
+                
+        
+                console.log("cameraTeleport", cameraTeleport)
+                console.log("cameraPosition", cameraPosition)
+                console.log("cameraRotation", cameraRotation)
+          
+                
+          
+              }, 4000)
+    
+    
+            })  
+ 
          
-
-                
-                
-
-
-
                 /*
                 atomSceneBateria.volume = 0.7;
                 atomSceneBateria.play();
@@ -1356,23 +1558,104 @@ AFRAME.registerComponent('eventos', {
                 //em1.setAttribute('particle-system', "color: #000000");
                 //em2.setAttribute('particle-system', "color: #000000");
                 //em3.setAttribute('particle-system', "color: #000000");
+
     //5 Acto
                 atomScene.onended = function() {
-                  ps1.setAttribute('audioreactive-on-beat-int', "analyserEl: #zoomA");
-                  ps2.setAttribute('audioreactive-on-beat-int', "analyserEl: #zoomA");
-                  ps3.setAttribute('audioreactive-on-beat-int', "analyserEl: #zoomA");
-                  ps4.setAttribute('audioreactive-on-beat-int', "analyserEl: #zoomA");
-                  ps5.setAttribute('audioreactive-on-beat-int', "analyserEl: #zoomA");
 
-                  manoModel.setAttribute('audioreactive-on-beat-int', "analyserEl: #zoomA");
-                  columnaModel.setAttribute('audioreactive-on-beat-int', "analyserEl: #zoomA");
-                  puntaModel.setAttribute('audioreactive-on-beat-int', "analyserEl: #zoomA");
-                  monolitoModel.setAttribute('audioreactive-on-beat-int', "analyserEl: #zoomA");
-                  neandertalModel.setAttribute('audioreactive-on-beat-int', "analyserEl: #zoomA");
+                  //camera.setAttribute('look-controls','enabled:false');
+
+                  cameraPosition.x = 0;
+                  cameraPosition.y = 0;
+                  cameraPosition.z = -100;
+            
+                  cameraRotation.x = 0;
+                  cameraRotation.y = 0;
+                  cameraRotation.z = 0;
 
                   zoomScene.volume = 0.001;
                   zoomScene.play();
 
+                  rigP1Poly.parentNode.removeChild(rigP1Poly);
+                  rigP1Poly2.parentNode.removeChild(rigP1Poly2);
+                  rigP1Poly3.parentNode.removeChild(rigP1Poly3);
+            
+            
+                  rigP2Poly.parentNode.removeChild(rigP2Poly);
+                  rigP2Poly2.parentNode.removeChild(rigP2Poly2);
+            
+                  rigPiramide.parentNode.removeChild(rigPiramide);
+            
+                  atom.parentNode.removeChild(atom);
+            
+                  ascene.setAttribute("fog","color: #006bad")
+                  ascene.setAttribute("background","color: #0c1214")
+                  ascene.setAttribute("godrays","tint: #bfd9f3")
+
+                  ascene.setAttribute('fog', "far: 300;");
+            
+                  skydome.setAttribute("color","#00417d");
+                  ambientLight.setAttribute("light","color: #1b8ed5; intensity: 2");
+                  
+                  ascene.setAttribute('godrays', "intensity: 0.4");
+
+                  ascene.setAttribute('bloom', 'strength: 0.8');
+                  ascene.setAttribute('bloom', 'radius: 0.5');
+
+                  camera.setAttribute("animation","property: position; easing: easeInOutSine; from: 0 0 -120; to: 0 0 280; dur:5000");
+
+                  camera.addEventListener("animationcomplete", ()=>{
+      
+                    console.log("Animación 2")
+              
+                      camera.setAttribute("animation__2","property: position; easing: easeInOutSine; from: 0 0 0; to: 0 0 280; dur:10000;");
+                      hydraSphereModel.setAttribute('visible', "false"); 
+
+                      camera.addEventListener("animationcomplete", ()=>{
+
+                  
+                        corrienteModelZoom.setAttribute('visible', "false");
+                        corrienteModelZoom2.setAttribute('visible', "false");
+                        corrienteModelZoom3.setAttribute('visible', "false");
+                        corrienteModelZoom4.setAttribute('visible', "false");
+              
+                        constRocksModelA.setAttribute('visible', "false");
+                        constRocksModelB.setAttribute('visible', "false"); 
+                        constRocksModelC.setAttribute('visible', "false"); 
+                        constRocksModelD.setAttribute('visible', "false"); 
+              
+
+              
+                        piedraZoom.setAttribute('visible', 'true');
+                        piedraZoom.setAttribute("animation","property: scale;from: 1000 1000 1000; to: 11 11 11; dur: 4000; easing: linear");
+                        piedraZoom.setAttribute("animation__2","property: position; from: -0.1 13 283; to: -0.1 -0.1 270 ; dur: 4000; easing: linear");
+                        piedraZoom.setAttribute("animation__3","property: rotation; from: 0 0 0; to: 0 360 0; loop: true; dur: 4000; easing: linear");
+              
+              
+              
+                      });
+              
+                    });
+
+
+                  corrienteModelZoom.setAttribute('visible', "true");
+                  corrienteModelZoom2.setAttribute('visible', "true");
+                  corrienteModelZoom3.setAttribute('visible', "true");
+                  corrienteModelZoom4.setAttribute('visible', "true");
+
+                  constRocksModelA.setAttribute('visible', "true");
+                  constRocksModelB.setAttribute('visible', "true"); 
+                  constRocksModelC.setAttribute('visible', "true"); 
+                  constRocksModelD.setAttribute('visible', "true"); 
+
+                  hydraSphereModel.setAttribute('visible', "true"); 
+
+
+                  
+            
+                  
+
+                  
+                  
                   /*
 
                   zoomSceneBateria.volume = 0.7;
@@ -1897,7 +2180,7 @@ AFRAME.registerComponent('visibilidad-piedra', {
 
       var el =this.el;
 
-      var circuloCursor = document.getElementById("circuloCursor");
+      //var circuloCursor = document.getElementById("//circuloCursor");
      
 
       var trianguloCursorVisible = document.getElementById("trianguloCursor");
@@ -1945,7 +2228,7 @@ AFRAME.registerComponent('visibilidad-piedra', {
 
 
      trianguloCursorVisible.setAttribute('visible', "true");
-     circuloCursor.setAttribute('visible', "false");
+     //circuloCursor.setAttribute('visible', "false");
 
      var min = 0;
      var max = 255;
@@ -2106,7 +2389,7 @@ AFRAME.registerComponent('visibilidad-piedra', {
       backLight.setAttribute("light", "color: #aee0ff");
 
       trianguloCursorVisible.setAttribute('visible', "false");
-      circuloCursor.setAttribute('visible', "true");
+      //circuloCursor.setAttribute('visible', "true");
 
      
  
@@ -2121,7 +2404,7 @@ AFRAME.registerComponent('visibilidad-piedra', {
     
 
     el.addEventListener('click', (evt) => {
-    
+    /*
     var clickBlanco = document.getElementById("clickPiedra1");
     clickBlanco.style.visibility = 'visible';
 
@@ -2135,6 +2418,7 @@ AFRAME.registerComponent('visibilidad-piedra', {
     setTimeout(function(){ clickNegro.remove(); }, 1000);
     
     }, 1000);
+    */
     
 
 
@@ -2168,9 +2452,12 @@ AFRAME.registerComponent('visibilidad-piedra', {
 
     
     //Blink que destapa las piedras
+    
 
     setTimeout(function(){ 
       
+
+      /*
       var clickBlanco = document.getElementById("clickPiedra1");
       clickBlanco.style.visibility = 'visible';
   
@@ -2186,7 +2473,7 @@ AFRAME.registerComponent('visibilidad-piedra', {
       }, 1000);
       
   
-  
+  */
       var piedrasSeparadas = document.getElementById("piedras");
       var piedraModelo = document.getElementById("piedraModelo");
 
@@ -2971,7 +3258,7 @@ AFRAME.registerComponent('sustitucion', {
 
 
      trianguloCursor.setAttribute('visible', "true");
-     circuloCursor.setAttribute('visible', "false");
+     ////circuloCursor.setAttribute('visible', "false");
 
 
    
@@ -2982,7 +3269,7 @@ AFRAME.registerComponent('sustitucion', {
 
 
       trianguloCursor.setAttribute('visible', "false");
-      circuloCursor.setAttribute('visible', "true");
+      ////circuloCursor.setAttribute('visible', "true");
 
      
  
@@ -3304,7 +3591,7 @@ AFRAME.registerComponent('isolate-mode', {
 
       case "manoModel":
         manoIsolate.setAttribute('visible', "true");
-        circuloCursor.setAttribute('visible', "false");
+        //circuloCursor.setAttribute('visible', "false");
         corriente.setAttribute('visible', "false");
         corriente2.setAttribute('visible', "false");
         oceanplane.setAttribute('visible', "false");
@@ -3348,7 +3635,7 @@ AFRAME.registerComponent('isolate-mode', {
       case "columnaModel":
 
         columnaIsolate.setAttribute('visible', "true");
-        circuloCursor.setAttribute('visible', "false");
+        //circuloCursor.setAttribute('visible', "false");
         corriente.setAttribute('visible', "false");
         corriente2.setAttribute('visible', "false");
         oceanplane.setAttribute('visible', "false");
@@ -3393,7 +3680,7 @@ AFRAME.registerComponent('isolate-mode', {
 
         
       puntaIsolate.setAttribute('visible', "true");
-      circuloCursor.setAttribute('visible', "false");
+      //circuloCursor.setAttribute('visible', "false");
       corriente.setAttribute('visible', "false");
       corriente2.setAttribute('visible', "false");
       oceanplane.setAttribute('visible', "false");
@@ -3436,7 +3723,7 @@ AFRAME.registerComponent('isolate-mode', {
       case "monolitoModel":
 
         monolitoIsolate.setAttribute('visible', "true");
-        circuloCursor.setAttribute('visible', "false");
+        //circuloCursor.setAttribute('visible', "false");
         corriente.setAttribute('visible', "false");
         corriente2.setAttribute('visible', "false");
         oceanplane.setAttribute('visible', "false");
@@ -3479,7 +3766,7 @@ AFRAME.registerComponent('isolate-mode', {
       case "neandertalModel":
 
         neandertalIsolate.setAttribute('visible', "true");
-        circuloCursor.setAttribute('visible', "false");
+        //circuloCursor.setAttribute('visible', "false");
         corriente.setAttribute('visible', "false");
         corriente2.setAttribute('visible', "false");
         oceanplane.setAttribute('visible', "false");
@@ -3531,14 +3818,14 @@ AFRAME.registerComponent('isolate-mode', {
   el.addEventListener('mouseenter', () => {
 
     trianguloCursor2.setAttribute('visible', "true");
-    circuloCursor.setAttribute('visible', "false");
+    //circuloCursor.setAttribute('visible', "false");
 
   })
 
   el.addEventListener('mouseleave', () => {
 
     trianguloCursor2.setAttribute('visible', "false");
-    circuloCursor.setAttribute('visible', "true");
+    //circuloCursor.setAttribute('visible', "true");
 
 
   })
@@ -3562,7 +3849,7 @@ document.addEventListener('keyup', (e) => {
     monolitoIsolate.setAttribute('visible', "false");
     neandertalIsolate.setAttribute('visible', "false");
 
-    circuloCursor.setAttribute('visible', "true");
+    //circuloCursor.setAttribute('visible', "true");
     corriente.setAttribute('visible', "true");
     corriente2.setAttribute('visible', "true");
     oceanplane.setAttribute('visible', "true");
@@ -3952,5 +4239,70 @@ AFRAME.registerComponent('color-change-atom', {
 
     });   
   }
+});
+
+
+
+AFRAME.registerComponent('look-at-cam', {
+  schema: {
+    look: {type: 'selector'},
+  },
+
+  init: function (){
+    const el = this.el;
+    const look = this.data.look;
+    const lookAt = look.getAttribute('position');
+    const camera = el.sceneEl.camera;
+    const cameraPosition = el.sceneEl.camera.position;
+    const cameraRotation = el.sceneEl.camera.rotation;
+      
+    ascene.addEventListener('loaded', () => {
+
+      /*
+       setTimeout(()=>{
+        el.setAttribute('look-controls','enabled:false')
+        el.sceneEl.camera.lookAt(new THREE.Vector3(lookAt.x,lookAt.y,lookAt.z));
+        console.log("Look at", cameraRotation)
+
+      }, 8000)
+
+        setTimeout(()=>{
+          console.log("Boom Teleport")
+          el.setAttribute('look-controls','enabled:true')
+          cameraPosition.x = -2.3;
+          cameraPosition.y = 1;
+          cameraPosition.z = -3;
+
+          cameraRotation.x = 0;
+          cameraRotation.y = 0;
+          cameraRotation.z = 0;
+
+        }, 11000)
+
+        */
+
+
+    });
+  },
+
+  tick: function(){
+        /*
+        const cameraPosition = this.el.sceneEl.camera.el.getAttribute('position');
+        const cameraRotation = this.el.sceneEl.camera.el.getAttribute('rotation');
+
+        const rigPosition = rigCamera.getAttribute('position');
+        const rigRotation = rigCamera.getAttribute('rotation');
+
+        console.log("Cam position", cameraPosition);
+        console.log("Cam rotation", cameraRotation);
+
+        */
+
+      
+
+
+
+  }
+  
 });
 
