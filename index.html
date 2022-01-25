@@ -25,6 +25,14 @@
   }
 
   </script>
+
+  <script>
+let req = new XMLHttpRequest();
+req.open('GET', 'videos/LOOR_HOME_v4.webm', true);
+req.responseType = 'blob';
+
+
+  </script>
     
     <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
     <script src="scripts/aframe-extras.min.js"></script>
@@ -32,6 +40,7 @@
     <script src="dist/aframe-particle-system-component.js"></script>
     <script src="dist/aframe-audioanalyser-component.min.js"></script>
     <script type="text/javascript" src="dist/loading-bar.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
     <script src="scripts/effects.js"></script>
 
     
@@ -109,27 +118,38 @@
   
   
   </script>
+  
+<!--
+    
+<div id="loaderCircle" class="loader-circle">
+    <div class="circle">
+      <div class="dots"></div>
+
+    </div>
+    <div class="loader-circle-back">
+    </div>
+</div>
 
 
-<video playsinline preload muted style="display: none" id="riverClick">
-  <source src="videos/loorRiverclick.webm" type="video/webm">
-</video>
  
 
-<video playsinline preload autoplay muted loop id="bgvid">
-  <source src="videos/loorHome.webm" type="video/webm">
+<video playsinline autoplay muted loop id="bgvid">
+
 </video>
 
 <div id="containerLoading" class="container">
-  <div class="row">
+
+
+
+  <div id="lineasLoading" class="row">
     <div class="col" style="height:320px">
-      <div class="infinity-4"></div>
+      <div class="infinity-4" style="display: block"></div>
     </div>
   </div>
 
   <div class="row" style="align-content: center;">
       <div class="col" style="height:300px">
-        <div id="loading-screen">
+        <div class="loading-screen">
         
         
         <div id="loader" style="display: block">
@@ -156,11 +176,14 @@
       
     </div>
     </div>
+
+
+
     </div>
 
   <img id="bgvidHover" style="display: none" src="img/piedraHover.png">
 
-
+-->
 
    <!--Viñetas-->
   <div id="viñeta"><span></span></div>
@@ -169,9 +192,7 @@
   <div id="clickPiedra1"><span></span></div>
   <div id="clickPiedra2"><span></span></div>
 
-  <!--Loader-->
- 
-
+  <!--Poesía
 
   <div id="#poema1"  style="position:absolute; width:100%; height:100%; z-index: 102; visibility: hidden; pointer-events: none;"><img style="display: block; margin-left: auto; margin-right: auto; padding-top:60px; pointer-events: none;" src="img/poesia/CAP01_01_v3.png"></div>
   <div id="#poema2" style="position:relative; width:100%; height:100%; z-index: 102; visibility: hidden;pointer-events: none;"><img style="position: absolute; left:0; right: 0; bottom: 60px; margin-left: auto; margin-right: auto;pointer-events: none;" src="img/poesia/CAP01_02_v3.png"></div>
@@ -190,7 +211,7 @@
   
   <div id="#poema15" style="position:relative; width:100%; height:100%; z-index: 102; visibility: hidden;pointer-events: none;"><img style="position: absolute; left:0; right: 0; bottom: 60px; margin-left: auto; margin-right: auto;pointer-events: none;" src="img/poesia/CAP01_15_v3.png"></div>
 
-  
+  -->
   
 
   <a-scene id="ascene" physics="debug:false; gravity: 0;" fog="type: linear; color: #006bad; near: 0; far: 0;" vr-mode-ui="enabled: false"  loading-screen="dotsColor: #78a495; backgroundColor: black" effects="bloom, godrays, fxaa" background="color: #0c1214"
@@ -315,6 +336,8 @@
      
         <canvas id="hydraCanvas" width="1024" height="1024"></canvas>
 
+        <canvas id="hydraCanvas2" width="1024" height="1024"></canvas>
+
       </a-assets>
 
  
@@ -329,7 +352,7 @@
 
 
 <!--Rig Camera-->
-<a-entity  id="rigCamera" rotation="0 0 0" position="0 0 -5"
+<a-entity  id="rigCamera"  rotation="0 0 0" position="0 0 -5"
 >
   
 <!--<a-sphere material="side: double; fog: false" src="#constRocksTexture" scale="150 150 150" position="-2.3 0 -8" ></a-sphere>-->
@@ -350,38 +373,29 @@
   
   ></a-gltf-model>
 
-    <!--Cajas Hydra Universo-->
 
 
 
-
-
-    
-
-  <!--
-  <a-entity 
-  id="hover"
-  position="0 0 -1"
-  geometry="primitive: ring; radiusInner: 0.025; radiusOuter: 0.03"
-  material="color: red; shader: flat; visible: false;"></a-entity>
-  -->
 
 
   <!--Raycaster-->
     <a-entity id="raycasterMouse"
-    cursor="fuse: false; fuseTimeout: 2000"
-    
+    cursor="fuse: false; fuseTimeout: 2000"    
     position="0 0 -1"
     raycaster="objects: .clickeable">
 
+    <!--
+
     <a-entity id="circuloCursor" geometry="primitive: ring; radiusInner: 0.025; radiusOuter: 0.03"
     material="color: white; shader: flat; opacity: 0.5" visible="true"></a-entity>
-
+    -->
     <a-entity id= "trianguloCursor" geometry="primitive: triangle" material="side: double; color: blue; shader: flat;" 
     scale ="0.03 0.03 0.03" visible="false"></a-entity>
 
     <a-entity id= "trianguloCursor2" geometry="primitive: triangle" material="side: double; color: red; shader: flat;" 
     scale ="0.03 0.03 0.03" visible="false"></a-entity>
+
+
 
     </a-entity>
 
@@ -447,6 +461,13 @@
       <a-entity eventos></a-entity>
       <a-entity timer></a-entity>
 
+
+      <a-gltf-model id="piedraZoom" 
+      bothsides
+      visible="false" src="#piedra1" scale="1000 1000 1000" position="-0.1 13 283"
+      
+      ></a-gltf-model>
+      
     
     <!-- Audio Analyser -->
 
@@ -1134,7 +1155,71 @@
 
 </a-entity>
 
+<a-sphere
+id="hydraSphereModel"
+visible="false" scale="120 120 120" canvas-updater-primitives material="src:#hydraCanvas2; side: double;" position="0 0 -10"></a-sphere>
 
+
+<!--Zoom Scene-->
+
+
+
+ <!--Corriente-->  
+ <a-entity  id="corrienteModelZoom" 
+ gltf-model="#corriente" scale="200 200 200" position="-5 0.5 -80" 
+ animation="property: rotation; from: 0 0 0; to: 0 0 360; dur: 800; easing: linear; loop: true;"
+ wireframe-emax
+ visible="false"
+ ></a-entity>
+
+  <!--Corriente-->  
+  <a-entity  id="corrienteModelZoom2" 
+  gltf-model="#corriente" scale="200 200 200" position="-5 0.5 0" 
+  animation="property: rotation; from: 0 0 0; to: 0 0 360; dur: 800; easing: linear; loop: true;"
+  wireframe-emax
+  visible="false"
+  ></a-entity>
+
+  <!--Corriente-->  
+  <a-entity  id="corrienteModelZoom3" 
+  gltf-model="#corriente" scale="300 300 300" position="-5 0.5 120" 
+  animation="property: rotation; from: 0 0 0; to: 0 0 360; dur: 800; easing: linear; loop: true;"
+  wireframe-emax
+  visible="false"
+  ></a-entity>
+
+    <!--Corriente-->  
+    <a-entity  id="corrienteModelZoom4" 
+    gltf-model="#corriente" scale="300 300 300" position="-5 0.5 200" 
+    animation="property: rotation; from: 0 0 0; to: 0 0 360; dur: 800; easing: linear; loop: true;"
+    wireframe-emax
+    visible="false"
+    ></a-entity>
+ 
+
+ <a-entity  id="constRocksModelA" 
+ gltf-model="#cumuloPiedrasInicio" scale="20 20 20" position="-0.4 0 0"
+ animation="property: rotation; from: 0 0 0; to: 0 0 -360; dur: 800; easing: linear; loop: true;"
+ visible="false"
+ ></a-entity>
+
+ <a-entity  id="constRocksModelB" 
+ gltf-model="#constRocks" material="side: double" scale="10 10 10" position="-0.4 0.5 0.2" 
+ animation="property: rotation; from: 0 0 0; to: 0 0 360; dur: 800; easing: linear; loop: true;"
+ visible="false"
+ ></a-entity>
+
+ <a-entity  id="constRocksModelC" 
+ gltf-model="#constRocks" rotation="0 90 0" material="side: double" scale="60 60 60" position="-0.4 0.5 100" 
+ animation="property: rotation; from: 0 0 0; to: 0 0 -360; dur: 800; easing: linear; loop: true;"
+ visible="false"
+ ></a-entity>
+
+ <a-entity  id="constRocksModelD" 
+ gltf-model="#constRocks" rotation="0 90 0" material="side: double" scale="40 40 40" position="-0.4 0.5 200" 
+ animation="property: rotation; from: 0 0 0; to: 0 0 360; dur: 800; easing: linear; loop: true;"
+ visible="false"
+ ></a-entity>
 
 </a-scene>
 
