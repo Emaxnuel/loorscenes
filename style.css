@@ -1,0 +1,116 @@
+@font-face {
+    font-family: timeTickin;
+    src: url(fonts/TickingTimebombBB.ttf);
+  }
+
+#timer {
+    font-family: timeTickin;
+    position: fixed;
+    bottom: 20px;
+    left: 49%;
+    text-align: center;
+    font-size: 75px;
+    color: white;
+    
+
+}
+
+body {
+  
+  background-color: #000;
+  position: absolute;
+  z-index: 1;
+  
+  -webkit-animation: fadein 18s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein    18s; /* Firefox < 16 */
+   -ms-animation: fadein    18s; /* Internet Explorer */
+    -o-animation: fadein    18s; /* Opera < 12.1 */
+       animation: fadein    18s;
+  
+  
+ }
+
+#viñeta {
+  position: fixed;
+  z-index: 99;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.7;
+  background: linear-gradient( rgba(0,0,0,1), rgba(0,0,0,0),rgba(0,0,0,0),rgba(0,0,0,0),rgba(0,0,0,0), rgba(0,0,0,0), rgba(0,0,0,1));
+ 
+
+}
+#viñeta2 {
+  position: fixed;
+  z-index: 99;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 1;
+ 
+  background: radial-gradient( circle, transparent 50%, black 100%)
+
+}
+
+
+#clickPiedra1 {
+  position: fixed;
+  z-index: 104;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 1;
+ visibility: hidden;
+  background: white;
+
+}
+
+#clickPiedra2 {
+  position: fixed;
+  z-index: 104;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 1;
+ visibility: hidden;
+  background: white;
+
+}
+
+#canvas2D {
+  background-color: hsl(0, 0%, 10%);
+}
+
+
+
+
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
