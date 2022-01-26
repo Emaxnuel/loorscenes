@@ -323,6 +323,8 @@
      
         <canvas id="hydraCanvas" width="1024" height="1024"></canvas>
 
+        <canvas id="hydraCanvas2" width="1024" height="1024"></canvas>
+
       </a-assets>
 
  
@@ -345,19 +347,21 @@
 
 
   <!--Camera-->
-  <a-entity camera fov="80" class="listenonkey" teleport look-controls="enabled:true;" wasd-controls="acceleration:50; fly:true; enabled:true;" id="camera"  position="-2.3 0 -3" rotation="0 0 0"
+  <a-entity camera fov="80" class="listenonkey" teleport look-controls="enabled:true;" wasd-controls="acceleration:550; fly:true; enabled:true;" id="camera"  position="-2.3 0 -3" rotation="0 0 0"
   >
 
 
-  
+
 <!--Piedra Avatar
   animation="property: rotation; from: 0 0 0;to: 0 360 0; loop: true; dur: 40000; easing: linear"
 
 
 -->
-  <a-gltf-model id="piedraAvatar" body="type:static" visible="true" src="#piedraAvatarSRC" scale="11 11 11" position="-0.1 0.1 -3.8" rotation="0 180 0" animation-mixer="timeScale: 5"
+  <a-gltf-model id="piedraAvatar" body="type:static" visible="false" src="#piedraAvatarSRC" scale="11 11 11" position="-0.1 0.1 -3.8" rotation="0 180 0" animation-mixer="timeScale: 5"
   
   ></a-gltf-model>
+
+
 
 
 
@@ -454,6 +458,11 @@
 </a-entity>
 
 
+<a-gltf-model id="piedraZoom" 
+bothsides
+visible="false" src="#piedra1" scale="1000 1000 1000" position="-0.1 13 283"
+
+></a-gltf-model>
 
       <!--Programa-->
       <a-entity eventos></a-entity>
@@ -956,7 +965,7 @@
 
   <!--3-->
 
-  <a-entity id="rigP1Poly2" scale="91 91 91" position="20 -10 -" rotation="-60 0 0" visible="true">
+  <a-entity id="rigP1Poly3" scale="91 91 91" position="20 -10 -" rotation="-60 0 0" visible="true">
     <!--Polígono 1-->  
     <a-entity  id="p1Poly3" 
     gltf-model="#p1SRC" scale="22 22 22" position="0 0 0" visible="true"
@@ -976,7 +985,7 @@
 
   <!--Polígonos icosaedros-->
 
-  <a-entity id="rigP2Poly2" scale="91 91 91" position="17 0 0" rotation="15 150 10" visible="true">
+  <a-entity id="rigP2Poly" scale="91 91 91" position="17 0 0" rotation="15 150 10" visible="true">
     <!--Polígono 2-->  
     <a-entity  id="p2Poly" 
     gltf-model="#p2SRC" scale="22 22 22" position="0 0 0" visible="true"
@@ -1060,6 +1069,69 @@
 
 <a-sky position="0 0 5" scale="2 2 2" animation="property: rotation; from: 0 0 0; to: 0 360 0; loop: true; dur: 60000; easing: linear" src="#sky"></a-sky>
 -->
+
+
+
+<!--Zoom Scene-->
+
+<a-sphere
+id="hydraSphereModel"
+visible="true" scale="300 300 300" canvas-updater-primitives material="src:#hydraCanvas2; side: double;" position="0 0 0"></a-sphere>
+
+
+ <!--Corriente-->  
+ <a-entity  id="corrienteModelZoom" 
+ gltf-model="#corriente" scale="200 200 200" position="-5 0.5 -80" 
+ animation="property: rotation; from: 0 0 0; to: 0 0 360; dur: 800; easing: linear; loop: true;"
+ wireframe-emax
+ 
+ ></a-entity>
+
+  <!--Corriente-->  
+  <a-entity  id="corrienteModelZoom2" 
+  gltf-model="#corriente" scale="200 200 200" position="-5 0.5 0" 
+  animation="property: rotation; from: 0 0 0; to: 0 0 360; dur: 800; easing: linear; loop: true;"
+  wireframe-emax
+  
+  ></a-entity>
+
+  <!--Corriente-->  
+  <a-entity  id="corrienteModelZoom3" 
+  gltf-model="#corriente" scale="300 300 300" position="-5 0.5 120" 
+  animation="property: rotation; from: 0 0 0; to: 0 0 360; dur: 800; easing: linear; loop: true;"
+  wireframe-emax
+  
+  ></a-entity>
+
+    <!--Corriente-->  
+    <a-entity  id="corrienteModelZoom4" 
+    gltf-model="#corriente" scale="300 300 300" position="-5 0.5 200" 
+    animation="property: rotation; from: 0 0 0; to: 0 0 360; dur: 800; easing: linear; loop: true;"
+    wireframe-emax
+    
+    ></a-entity>
+ 
+
+ <a-entity  id="constRocksModelA" 
+ gltf-model="#cumuloPiedrasInicio" scale="20 20 20" position="-0.4 0 0"isible="true"
+ animation="property: rotation; from: 0 0 0; to: 0 0 -360; dur: 800; easing: linear; loop: true;"
+ ></a-entity>
+
+ <a-entity  id="constRocksModelB" 
+ gltf-model="#constRocks" material="side: double" scale="10 10 10" position="-0.4 0.5 0.2" visible="true"
+ animation="property: rotation; from: 0 0 0; to: 0 0 360; dur: 800; easing: linear; loop: true;"
+ ></a-entity>
+
+ <a-entity  id="constRocksModelC" 
+ gltf-model="#constRocks" rotation="0 90 0" material="side: double" scale="60 60 60" position="-0.4 0.5 100" visible="true"
+ animation="property: rotation; from: 0 0 0; to: 0 0 -360; dur: 800; easing: linear; loop: true;"
+ ></a-entity>
+
+ <a-entity  id="constRocksModelD" 
+ gltf-model="#constRocks" rotation="0 90 0" material="side: double" scale="40 40 40" position="-0.4 0.5 200" visible="true"
+ animation="property: rotation; from: 0 0 0; to: 0 0 360; dur: 800; easing: linear; loop: true;"
+ ></a-entity>
+
 
 
 </a-scene>
