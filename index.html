@@ -214,8 +214,8 @@ req.responseType = 'blob';
   -->
   
 
-  <a-scene id="ascene" physics="debug:false; gravity: 0;" fog="type: linear; color: #006bad; near: 0; far: 0;" vr-mode-ui="enabled: false"  loading-screen="dotsColor: #78a495; backgroundColor: black" effects="bloom, godrays, fxaa" background="color: #0c1214"
-  fxaa="true"  godrays="src: #sun; threshold: 0.1 ; intensity: 3; tint: #95cff4" godrays="src: #sun2; threshold: 0.1 ; intensity: 1; tint: #bfd9f3" bloom="filter: bloom!, bloom.filter, #customFilter(bloom_texture 0.3 0.6 0.5); strength: 0.35; radius:0.5" renderer="colorManagement: true">
+  <a-scene id="ascene" physics="debug:false; gravity: 0;" fog="type: linear; color: #0e1949; near: 0; far: 0;" vr-mode-ui="enabled: false"  loading-screen="dotsColor: #78a495; backgroundColor: black" effects="bloom, godrays, fxaa" background="color: #0e1949"
+  fxaa="true"  godrays="src: #sun; threshold: 0.1 ; intensity: 3; tint: #0e1949" godrays="src: #sun2; threshold: 0.1 ; intensity: 1; tint: #0e1949" bloom="filter: bloom!, bloom.filter, #customFilter(bloom_texture 0.3 0.6 0.5); strength: 0.35; radius:0.5" renderer="colorManagement: true">
 <!-- strength: 0.5; radius:0.5"
 -->
 
@@ -306,6 +306,10 @@ req.responseType = 'blob';
          <a-asset-item id="piramideSRC" src="modelos/Emmanuel/piramide2.glb"></a-asset-item>
          <a-asset-item id="piramideElectronesSRC" src="modelos/Emmanuel/electronesPiramide.glb"></a-asset-item>
 
+          <!--Videotextura Mesh-->
+          <video id="videotexturaCorriente" src="videos\texturaCorriente.mp4"></video>
+
+ 
          <!--Piedras Avatar-->
 
          <a-asset-item id="piedraAvatarSRC" src="modelos/bates/avatar/trozoPiedra.glb"></a-asset-item>
@@ -345,7 +349,7 @@ req.responseType = 'blob';
 
 -->
 
-<a-sky id="skydome" material="fog:false" color="#00417d"></a-sky>
+<a-sky id="skydome" material="fog:false" color="#0e1949"></a-sky>
 
 
     
@@ -573,7 +577,7 @@ req.responseType = 'blob';
   -->
 
   <a-entity  animation="property: rotation; from: 90 0 -10; to: 90 360 -10; dur: 11000; easing: linear; loop: true;" >
-    <a-entity  id="pAzules" position="-1 -70 -15"  visible="true" particle-system="maxAge: 40; color: #2ec1e8; size: 9; preset: default; particleCount: 0; blending: 2; type: 1; opacity: 1; texture:img/burbujaS1.png" rotation="130 0 10"></a-entity>
+    <a-entity  id="pAzules" position="-1 -70 -15"  visible="true" particle-system="maxAge: 40; color: #2ec1e8; size: 1; preset: default; particleCount: 0; blending: 2; type: 1; opacity: 1; texture:img/burbujaS1.png" rotation="130 0 10"></a-entity>
   </a-entity>
   
 
@@ -615,20 +619,20 @@ req.responseType = 'blob';
   <!--Luces Stage-->
 
   <!--Back #aee0ff | intensity: 35.5-->
-  <a-entity id="backLight" light="type: spot; angle: 35; intensity: 0.8; penumbra: 0.5; color: #aee0ff; distance: 20" position="-2.2 10 -15" rotation="-40 180 0"></a-entity>
+  <a-entity id="backLight" light="type: spot; angle: 35; intensity: 0.8; penumbra: 0.5; color: #00759e; distance: 20" position="-2.2 10 -15" rotation="-40 180 0"></a-entity>
   
   <!--Frontal #b0bab9-->
-  <a-entity id="frontLight" light="type: spot; angle: 60; intensity: 0-7; penumbra: 0.8; color: #a4d5f4; distance: 30" position="-2.2 0 -8.5" rotation="0 0 0"></a-entity>
+  <a-entity id="frontLight" light="type: spot; angle: 60; intensity: 0.7; penumbra: 0.8; color: #a4d5f4; distance: 30" position="-2.2 0 -8.5" rotation="0 0 0"></a-entity>
   
   <!--Izquierda #6abcea-->
   <a-entity id="leftLight" light="type: spot; angle: 60; intensity: 0.5; penumbra: 0.5; color: #6abcea; distance: 15" position="-5 0 -12" rotation="0 -90 0"></a-entity>
   
   <!--Derecha #b8ced1-->
-  <a-entity id="rightLight" light="type: spot; angle: 60; intensity: 0.5; penumbra: 0.5; color: #b8ced1; distance: 20" position="2 0 -12" rotation="0 90 0"></a-entity>
+  <a-entity id="rightLight" light="type: spot; angle: 60; intensity: 1; penumbra: 0.5; color: #00759e; distance: 20" position="2 0 -12" rotation="0 90 0"></a-entity>
 
 
 <!--Cambia mucho el ambiente 1b8ed5-->
-<a-entity id="ambientLight" light="type: ambient; color: #1b8ed5; intensity: 2"></a-entity>
+<a-entity id="ambientLight" light="type: ambient; color: #046f9f; intensity: 3"></a-entity>
 
 
 
@@ -772,27 +776,6 @@ req.responseType = 'blob';
    ></a-entity>
    </a-entity>
 
-   <!--animation="property: rotation; from: 0 0 0; to: 0 -360 0; dur: 3000; easing: linear; loop:true;"-->
-
-    <!--
-    Plano de agua-->
-
-<a-entity rotation="240 180 0">
-    <a-ocean-emax id="oceanplane"
-          visible="true"
-          position="0 -150 0"
-          rotation="200 0 0"
-          
-          depth="1000"
-          width="300"
-          
-   
-    ></a-ocean-emax>
-
-  </a-entity>
-
-  
-
     
     <!--Corriente Reactive
     <a-entity  id="corrienteModel" 
@@ -805,10 +788,11 @@ req.responseType = 'blob';
     
   
 
-    <!--Corriente-->  
+    <!--Corriente wireframe-emax-->  
     <a-entity  id="corrienteModel" 
     gltf-model="#corriente" scale="200 200 200" position="-5 0.5 -30" 
     animation="property: rotation; from: 0 0 0; to: 0 0 360; dur: 800; easing: linear; loop: true;"
+    video-texture="video: #videotexturaCorriente"
     wireframe-emax
     
     ></a-entity>
@@ -829,6 +813,7 @@ req.responseType = 'blob';
     <a-entity  id="corrienteModel2" 
     gltf-model="#corriente" scale="70 150 150" position="-0.4 0.5 0.2" 
     animation="property: rotation; from: 0 0 0; to: 0 0 -360; dur: 1200; easing: linear; loop: true;"
+
     audioreactive-on-beat="analyserEl: #currentA"
     ></a-entity> 
     
