@@ -1,3 +1,83 @@
+
+const bgvidLoader = document.getElementById('bgvid');
+const lineasLoading = document.getElementById('lineasLoading');
+
+
+
+
+/* Hydra Zoom out*/
+
+const hydraSphere = () => {
+const scaleSphere = window.devicePixelRatio;
+const sizeSphere= 1000;
+const cSphere = document.getElementById("hydraCanvas2");
+cSphere.width = Math.floor(sizeSphere * scaleSphere);
+cSphere.height = Math.floor(sizeSphere * scaleSphere);
+
+// create a new hydra-synth instance
+const hydrasphere = new Hydra({
+  canvas: document.getElementById("hydraCanvas2")
+});
+//UNFOLDED CRYSTAL SHADER (DARK) - @sammtza___
+gradient(2)
+	.diff(gradient(1).r([0, 10].smooth()))
+	.diff(gradient(-1).g([0, 10].smooth().fast(1 / 2)))
+	.diff(gradient(1).b([0, 10].smooth().fast(1 / 4)))
+	.diff(gradient(-1).a([0, 10].smooth().fast(1 / 8)))
+	.diff(
+		gradient(1).luma(
+			[0, 1 / 2]
+				.reverse()
+				.smooth()
+				.fast(1 / 3)
+		)
+	)
+	.diff(
+		gradient(1).thresh(
+			[0, 1 / 2]
+				.reverse()
+				.smooth()
+				.fast(1 / 5)
+		)
+	)
+	.diff(
+		gradient(1).hue(
+			() => Math.sin(time),
+			() => Math.cos(time),
+			() => Math.tan(time)
+		)
+	)
+	.scale(1 / 10)
+	.blend(src(o0).rotate(-0.1, -0.1)
+           , [1 / 2, 9 / 10].smooth())
+	.add(
+		src(o0).rotate(0.1, 0.1).scale(-0.996)
+  ,
+		[1 / 2, 9 / 10].reverse().smooth()
+	,-1)
+	.invert()
+	.out()
+
+//MATRIZ IRIDISCENCIA
+src(o1)
+	.scale(1.005)
+	.scrollX(
+		[0.002, 0.002, 0.002, 0.002, -0.002, -0.002, -0.002, -0.002].ease("linear")
+	)
+	.saturate(1.2)
+.hue(()=>Math.sin(time))
+	.luma([0, 0, 0.1, 0.1].ease("linear"))
+	.layer(src(o0).contrast(1.4).luma(0.2, 0.1))
+	.out(o1)
+
+render(o0)
+
+
+}
+
+hydraSphere();
+  
+
 const vidLoading = document.getElementById("bgvid");
 const rigCamera = document.getElementById("rigCamera");
 
@@ -6,8 +86,8 @@ const rigP1Poly2 = document.getElementById("rigP1Poly2");
 const rigP1Poly3 = document.getElementById("rigP1Poly3");
 
 
-const rigP2Poly = document.getElementById("rigP2Poly2");
-const rigP2Poly2 = document.getElementById("rigP2Poly");
+const rigP2Poly = document.getElementById("rigP2Poly");
+const rigP2Poly2 = document.getElementById("rigP2Poly2");
 
 
 const rigPiramide = document.getElementById("rigPiramide");
@@ -17,36 +97,24 @@ const ambientLight = document.getElementById("ambientLight");
 
 const animacionPiramide = document.getElementById("animacionPiramide");
 
-const riverClick = document.getElementById("riverClick");
-
-vidLoading.addEventListener("progress", (e)=>{
-
-  //console.log("Esto lleva caergando", e.type)
 
 
+const corrienteModelZoom = document.getElementById("corrienteModelZoom");
+const corrienteModelZoom2 = document.getElementById("corrienteModelZoom2");
+const corrienteModelZoom3 = document.getElementById("corrienteModelZoom3");
+const corrienteModelZoom4 = document.getElementById("corrienteModelZoom4");
 
-});
+const constRocksModelA = document.getElementById("constRocksModelA");
+const constRocksModelB = document.getElementById("constRocksModelB");
+const constRocksModelC = document.getElementById("constRocksModelC");
+const constRocksModelD = document.getElementById("constRocksModelD");
 
-vidLoading.addEventListener("canplay", ()=>{ });
-
-const vidHover = document.getElementById("bgvidHover");
-const containerLoading = document.getElementById("containerLoading");
-const loader = document.getElementById("loader");
-const start = document.getElementById("loading");
-
-
-  
+const hydraSphereModel = document.getElementById("hydraSphereModel"); 
 
 
 
-//sceneBackground.addEventListener('loaded', ()=>{ vidLoading.remove(); containerLoading.remove()})
 
 
-/*
-Number.prototype.map = function (in_min, in_max, out_min, out_max) {
-  return (this - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-}
-*/
 
 const numberMap = (in_min, in_max, out_min, out_max )=>{
 
@@ -54,47 +122,6 @@ const numberMap = (in_min, in_max, out_min, out_max )=>{
 
 }
 
-const assetSystem = document.getElementById('aAssets');
-let arrayAssets = [];
-let arrayLoader = [];
-const barra = new ldBar(document.getElementById("barra"));
-
-
-  
-assetSystem.addEventListener('progress', (evt) =>{
-
-  //console.log('Asset', evt.target);  
-  arrayAssets.push(evt.target);
- // console.log('Este es el lenght del array', arrayAssets.length);
-
-  let num = arrayAssets.length;
-
-  barra.set(num);
-
- 
-
-
-});
-
-assetSystem.addEventListener('loaded', () =>{
-
-  vidHover.setAttribute("style","display: block");
-  loader.remove();
-  start.setAttribute("style","display: none");
-
-    
-
-
-});
-
-
-assetSystem.addEventListener('error', (err) =>{
-
-  console.log("Hay un error en ", err);
-    
-
-
-});
 
 
 
@@ -113,11 +140,12 @@ const monolitoIsolate = document.getElementById("monolitoIsolate");
 const neandertalIsolate = document.getElementById("neandertalIsolate");
 const corriente = document.getElementById("corrienteModel");
 const corriente2 = document.getElementById("corrienteModel2");
-const oceanplane = document.getElementById('oceanplane');
 const pAzules= document.getElementById('pAzules');
 const pRojas= document.getElementById('pRojas');
 const pBlancas= document.getElementById('pBlancas');
 const pAmarillas= document.getElementById('pAmarillas');
+
+/*
 
 const poem1 = document.getElementById("#poema1");
 const poem2 = document.getElementById("#poema2");
@@ -135,9 +163,15 @@ const poem13 = document.getElementById("#poema13");
 const poem14 = document.getElementById("#poema14");
 const poem15 = document.getElementById("#poema15");
 
-const camera = document.getElementById("camera");
+*/
 
-const circuloCursor = document.getElementById("circuloCursor");
+const camera = document.getElementById("camera");
+let cameraTeleport; 
+let cameraPosition; 
+let cameraRotation;
+let look = new THREE.Vector3(0,0,0);
+
+////const circuloCursor = document.getElementById("//circuloCursor");
 const trianguloCursor = document.getElementById("trianguloCursor");
 const trianguloCursor2 = document.getElementById("trianguloCursor2");
 
@@ -336,6 +370,7 @@ AFRAME.registerComponent("hydra-texture", {
 
 
 
+
 var perlin = new ImprovedNoise();
 
 var RINGCOUNT = 160;
@@ -380,75 +415,6 @@ AFRAME.registerComponent('eventos', {
     const zoomSceneVocalGroup = document.getElementById('zoomAudioVocalGroup');
     console.log(zoomScene.id + " its ready");
 
-    document.querySelector('a-scene').addEventListener('loaded', function () {
-      
-
-
-      vidHover.addEventListener('click', () =>{ 
-
-
-      vidLoading.remove(); containerLoading.remove(); vidHover.remove();
-
-      riverClick.setAttribute("style","display: block");
-      riverClick.play();
-
-
-      riverClick.onended = () => {
-
-        riverClick.remove();
-
-        currentsScene.volume = 0.001;
-        currentsScene.play();
-        erosionsMaster.play();
-
-
-        
-      setTimeout(function(){poem1.style.visibility='visible'; setTimeout(function(){ poem1.remove(); }, 4000);}, 1000);
-
-      setTimeout(function(){ poem2.style.visibility='visible'; setTimeout(function(){ poem2.remove(); }, 4000);}, 8000);
-    
-      setTimeout(function(){ poem3.style.visibility='visible'; poem4.style.visibility='visible'; setTimeout(function(){ poem3.remove(); poem4.remove(); }, 3000);}, 12000);
-    
-      setTimeout(function(){ poem5.style.visibility='visible'; setTimeout(function(){ poem5.remove(); }, 5990);}, 18000);
-    
-      setTimeout(function(){ poem6.style.visibility='visible'; setTimeout(function(){ poem6.remove(); }, 4000);}, 20000);
-    
-      setTimeout(function(){ poem7.style.visibility='visible'; setTimeout(function(){ poem7.remove(); }, 6000);}, 22000);
-    
-      setTimeout(function(){ poem8.style.visibility='visible'; setTimeout(function(){ poem8.remove(); }, 4000);}, 28000);
-    
-      setTimeout(function(){ poem9.style.visibility='visible'; setTimeout(function(){ poem9.remove(); }, 5000);}, 45000);
-    
-      setTimeout(function(){ poem12.style.visibility='visible'; setTimeout(function(){ poem12.remove(); }, 5000);}, 60000);
-    
-      setTimeout(function(){ poem13.style.visibility='visible'; setTimeout(function(){ poem13.remove(); }, 4000);}, 65000);
-    
-      setTimeout(function(){ poem14.style.visibility='visible'; setTimeout(function(){ poem14.remove(); }, 4000);}, 69000);
-    
-      setTimeout(function(){ poem15.style.visibility='visible'; setTimeout(function(){ poem15.remove(); }, 5000);}, 90000);
-      
-
-
-
-
-
-
-      }
-
-
-
-      //currentsSceneBateria.volume = 0.7;
-      //currentsSceneBateria.play();
-
-      //currentsSceneFXGroup.play();
-      //currentsSceneVocalGroup.play();
-
-
-    })
-
-
-    });
-  
     
     
     const modelPiedra = document.getElementById("piedraModelo");
@@ -488,7 +454,6 @@ AFRAME.registerComponent('eventos', {
 
   
 
-    var oceanplane = document.getElementById('oceanplane');
 
 
 
@@ -504,7 +469,7 @@ AFRAME.registerComponent('eventos', {
 
     var pAvatar = document.getElementById('piedraAvatar');
 
-    var circuloCursor = document.getElementById("circuloCursor");
+    //var circuloCursor = document.getElementById("//circuloCursor");
 
     var pChoque1 = document.getElementById('piedraChoque1');
     var pChoque2 = document.getElementById('piedraChoque2');
@@ -616,7 +581,7 @@ AFRAME.registerComponent('eventos', {
     
   }, 8000);
 
-  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 66"); oceanplane.setAttribute('material', 'fog: true');
+  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 66");
   
   }, 8500);
 
@@ -678,38 +643,164 @@ AFRAME.registerComponent('eventos', {
   document.querySelector('a-scene').addEventListener('loaded', function () {
 
 
-  /*Partículas iniciales
-  Azules: 1500
-  Rojas: 10000
-  Amarillas: 21000
-  */
-
-  setTimeout(function(){
-
-    pAzules.setAttribute('particle-system', "particleCount: 500");
-    pRojas.setAttribute('particle-system', "particleCount: 2000");
-    pAmarillas.setAttribute('particle-system', "particleCount: 4000");
 
 
+    setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 60");
+      
+  }, 1500);
+
+  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 56");
+    
+  }, 2000);
+
+  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 52");
+    
+  }, 3000);
+
+  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 48");
+    
+  }, 3500);
+
+  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 44");
+    
+  }, 4000);
+
+  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 40");
+    
+  }, 4500);
+
+  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 36");
+    
   }, 5000);
 
-  setTimeout(function(){
+  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 32");
+    
+  }, 5500);
 
-    pAzules.setAttribute('particle-system', "particleCount: 1000");
-    pRojas.setAttribute('particle-system', "particleCount: 5000");
-    pAmarillas.setAttribute('particle-system', "particleCount: 12000");
+  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 28");
+  sceneBackground.setAttribute('fog', "near: 1")                           
+  
+    
+  }, 6000);
+
+  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 24");
+    
+  }, 6500);
+
+  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 20");
+    
+  }, 7000);
+
+  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 18");
+    
+  }, 7500);
+
+  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 14");
+  
+}, 8000);
+
+setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 12");
+
+}, 8500);
+
+setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 8");
+  
+}, 9000);
+
+setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 4");
+  
+}, 9500);
 
 
-  }, 20000);
-
-  setTimeout(function(){
-
-    pAzules.setAttribute('particle-system', "particleCount: 1500");
-    pRojas.setAttribute('particle-system', "particleCount: 10000");
-    pAmarillas.setAttribute('particle-system', "particleCount: 12000");
 
 
-  }, 30000);
+    ascene.setAttribute('bloom', 'strength: 0');
+    ascene.setAttribute('bloom', 'radius: 0');
+
+    skyDome.setAttribute('color', '#001427');
+
+    backLight.setAttribute('light', 'intensity: 0');
+
+
+
+    piedraMesh.setAttribute('visible', "true");
+    piedraMesh2.setAttribute('visible', "true");
+
+    pAzules.setAttribute('particle-system', "enabled: false");
+    pRojas.setAttribute('particle-system', "enabled: false");
+    //pBlancas.setAttribute('particle-system', "enabled: false");
+    pAmarillas.setAttribute('particle-system', "enabled: false");
+    
+   
+
+    ps1.setAttribute('material', "fog:false");
+    ps2.setAttribute('material', "fog:false");
+    ps3.setAttribute('material', "fog:false");
+    ps4.setAttribute('material', "fog:false");
+    ps5.setAttribute('material', "fog:false");
+
+
+
+    influenceScene.volume = 0.8;
+    influenceScene.play();
+
+    /*
+    influenceSceneBateria.volume = 0.7;
+    influenceSceneBateria.play();
+    
+    influenceSceneFXGroup.play();
+    influenceSceneVocalGroup.play();
+    */
+    console.log("Influence scene started");
+
+    //visibilidad Piedras
+
+    setTimeout(function(){ pChoque1.setAttribute('body', 'type: dynamic'); pChoque1.setAttribute('visible', 'true'); }, 64000);
+    setTimeout(function(){ pChoque2.setAttribute('body', 'type: dynamic'); pChoque2.setAttribute('visible', 'true'); }, 64200);
+    setTimeout(function(){ pChoque3.setAttribute('body', 'type: dynamic'); pChoque3.setAttribute('visible', 'true'); }, 64400);
+    setTimeout(function(){ pChoque4.setAttribute('body', 'type: dynamic'); pChoque4.setAttribute('visible', 'true'); }, 64600);
+    setTimeout(function(){ pChoque5.setAttribute('body', 'type: dynamic'); pChoque5.setAttribute('visible', 'true'); }, 64800);
+
+    setTimeout(function(){ pChoque6.setAttribute('body', 'type: dynamic'); pChoque6.setAttribute('visible', 'true'); }, 65000);
+    setTimeout(function(){ pChoque7.setAttribute('body', 'type: dynamic'); pChoque7.setAttribute('visible', 'true'); }, 65200);
+    setTimeout(function(){ pChoque8.setAttribute('body', 'type: dynamic'); pChoque8.setAttribute('visible', 'true'); }, 65400);
+    setTimeout(function(){ pChoque9.setAttribute('body', 'type: dynamic'); pChoque9.setAttribute('visible', 'true'); }, 65600);
+    setTimeout(function(){ pChoque10.setAttribute('body', 'type: dynamic'); pChoque10.setAttribute('visible', 'true'); }, 65800);
+
+    setTimeout(function(){ pChoque11.setAttribute('body', 'type: dynamic'); pChoque11.setAttribute('visible', 'true'); }, 66000);
+    setTimeout(function(){ pChoque12.setAttribute('body', 'type: dynamic'); pChoque12.setAttribute('visible', 'true'); }, 66200);
+    setTimeout(function(){ pChoque13.setAttribute('body', 'type: dynamic'); pChoque13.setAttribute('visible', 'true'); }, 66400);
+    setTimeout(function(){ pChoque14.setAttribute('body', 'type: dynamic'); pChoque14.setAttribute('visible', 'true'); }, 66600);
+    setTimeout(function(){ pChoque15.setAttribute('body', 'type: dynamic'); pChoque15.setAttribute('visible', 'true'); }, 66800);
+
+    setTimeout(function(){ pChoque16.setAttribute('body', 'type: dynamic'); pChoque16.setAttribute('visible', 'true'); }, 67000);
+    setTimeout(function(){ pChoque17.setAttribute('body', 'type: dynamic'); pChoque17.setAttribute('visible', 'true'); }, 67200);
+    setTimeout(function(){ pChoque18.setAttribute('body', 'type: dynamic'); pChoque18.setAttribute('visible', 'true'); }, 67400);
+    setTimeout(function(){ pChoque19.setAttribute('body', 'type: dynamic'); pChoque19.setAttribute('visible', 'true'); }, 67600);
+    setTimeout(function(){ pChoque20.setAttribute('body', 'type: dynamic'); pChoque20.setAttribute('visible', 'true'); }, 67800);
+
+    setTimeout(function(){ pChoque20.setAttribute('body', 'type: dynamic'); pChoque20.setAttribute('visible', 'true'); }, 68000);
+    setTimeout(function(){ pChoque21.setAttribute('body', 'type: dynamic'); pChoque21.setAttribute('visible', 'true'); }, 68200);
+    setTimeout(function(){ pChoque22.setAttribute('body', 'type: dynamic'); pChoque22.setAttribute('visible', 'true'); }, 68400);
+    setTimeout(function(){ pChoque23.setAttribute('body', 'type: dynamic'); pChoque23.setAttribute('visible', 'true'); }, 68600);
+    setTimeout(function(){ pChoque24.setAttribute('body', 'type: dynamic'); pChoque24.setAttribute('visible', 'true'); }, 68800);
+
+    setTimeout(function(){ pChoque25.setAttribute('body', 'type: dynamic'); pChoque25.setAttribute('visible', 'true'); }, 69000);
+    setTimeout(function(){ pChoque26.setAttribute('body', 'type: dynamic'); pChoque26.setAttribute('visible', 'true'); }, 69200);
+    setTimeout(function(){ pChoque27.setAttribute('body', 'type: dynamic'); pChoque27.setAttribute('visible', 'true'); }, 69400);
+    setTimeout(function(){ pChoque28.setAttribute('body', 'type: dynamic'); pChoque28.setAttribute('visible', 'true'); }, 69600);
+    setTimeout(function(){ pChoque29.setAttribute('body', 'type: dynamic'); pChoque29.setAttribute('visible', 'true'); }, 69800);
+
+    setTimeout(function(){ pChoque30.setAttribute('body', 'type: dynamic'); pChoque30.setAttribute('visible', 'true'); }, 70000);
+    setTimeout(function(){ pChoque31.setAttribute('body', 'type: dynamic'); pChoque31.setAttribute('visible', 'true'); }, 70200);
+    setTimeout(function(){ pChoque32.setAttribute('body', 'type: dynamic'); pChoque32.setAttribute('visible', 'true'); }, 70400);
+    setTimeout(function(){ pChoque33.setAttribute('body', 'type: dynamic'); pChoque33.setAttribute('visible', 'true'); }, 70600);
+    setTimeout(function(){ pChoque34.setAttribute('body', 'type: dynamic'); pChoque34.setAttribute('visible', 'true'); }, 70800);
+
+    setTimeout(function(){ pChoque35.setAttribute('body', 'type: dynamic'); pChoque35.setAttribute('visible', 'true'); }, 71000);
+    setTimeout(function(){ pChoque36.setAttribute('body', 'type: dynamic'); pChoque36.setAttribute('visible', 'true'); }, 71200);
+    setTimeout(function(){ pChoque37.setAttribute('body', 'type: dynamic'); pChoque37.setAttribute('visible', 'true'); }, 71400);
+   
 
  
  
@@ -717,61 +808,7 @@ AFRAME.registerComponent('eventos', {
 
 });
       
- 
-    //var modeloMaterial = modelo.children[0].material;
 
-    
-
-    //modeloMaterial.color.setRGB(0, 7, 13);
-    //modeloMaterial.wireframe = true;
-
-    //var ps1Mesh = ps1.getObject3D('mesh');
-    //var ps2Mesh = ps2.getObject3D('mesh');
-    //var ps3Mesh = ps3.getObject3D('mesh');
-    //var ps4Mesh = ps4.getObject3D('mesh');
-    //var ps5Mesh = ps5.getObject3D('mesh');
-//
-    //console.log("ps1Mesh", ps1Mesh)
-
-    //var ps1Material = ps1Mesh.children[0].material;
-    //var ps2Material = ps2Mesh.children[0].material;
-    //var ps3Material = ps3Mesh.children[0].material;
-    //var ps4Material = ps4Mesh.children[0].material;
-    //var ps5Material = ps5Mesh.children[0].material; 
-
-    //console.log("ps1Material", ps1Material)
-//
-    //ps1Material.wireframe = true;
-    //ps2Material.wireframe = true;
-    //ps3Material.wireframe = true;
-    //ps4Material.wireframe = true;
-    //ps5Material.wireframe = true;
-    
-    
-   //console.log("Partículas Azules:", pAzules.components['particle-system'].data.size);
-   //console.log("Partículas Rojas:", pRojas.components);
-   //console.log("Partículas Amarillas:", pAmarillas.components);
-
-   var pAzulesData = pAzules.components['particle-system'].data;
-   var pRojasData = pRojas.components['particle-system'].data;
-   var pAmarillasData = pAmarillas.components['particle-system'].data;
-
-   console.log("Azules Data: ", pAzulesData);
-   console.log("Rojas Data: ", pRojasData);
-   console.log("Amarillas Data: ", pAmarillasData);
-
-   /*
-
-   setTimeout(function(){
-    var number = 100;
-   
-    pAzules.setAttribute('particle-system', 'size:' + number.toString());
-    console.log(pAzulesData.size);
-
-
-  }, 15000);
-
-  */
     
  
 
@@ -782,616 +819,24 @@ AFRAME.registerComponent('eventos', {
     //2 Acto
     currentsScene.onended = function() {
 
-      oceanplane.parentNode.removeChild(oceanplane);
 
-      setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 60");
-      
-    }, 1500);
-
-    setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 56");
-      
-    }, 2000);
-
-    setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 52");
-      
-    }, 3000);
-
-    setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 48");
-      
-    }, 3500);
-
-    setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 44");
-      
-    }, 4000);
-
-    setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 40");
-      
-    }, 4500);
-
-    setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 36");
-      
-    }, 5000);
-
-    setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 32");
-      
-    }, 5500);
-
-    setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 28");
-    sceneBackground.setAttribute('fog', "near: 1")                           
-    
-      
-    }, 6000);
-
-    setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 24");
-      
-    }, 6500);
-
-    setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 20");
-      
-    }, 7000);
-
-    setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 18");
-      
-    }, 7500);
-
-    setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 14");
-    
-  }, 8000);
-
-  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 12");
-  
-  }, 8500);
-
-  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 8");
-    
-  }, 9000);
-
-  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 4");
-    
-  }, 9500);
-
-  
-  
-
-      ascene.setAttribute('bloom', 'strength: 0');
-      ascene.setAttribute('bloom', 'radius: 0');
-
-      skyDome.setAttribute('color', '#001427');
-
-      backLight.setAttribute('light', 'intensity: 0');
-
-
-
-      piedraMesh.setAttribute('visible', "true");
-      piedraMesh2.setAttribute('visible', "true");
-
-      pAzules.setAttribute('particle-system', "enabled: false");
-      pRojas.setAttribute('particle-system', "enabled: false");
-      //pBlancas.setAttribute('particle-system', "enabled: false");
-      pAmarillas.setAttribute('particle-system', "enabled: false");
-      
      
+    //3 Acto 129000 ms
 
-      ps1.setAttribute('material', "fog:false");
-      ps2.setAttribute('material', "fog:false");
-      ps3.setAttribute('material', "fog:false");
-      ps4.setAttribute('material', "fog:false");
-      ps5.setAttribute('material', "fog:false");
-
-
-  
-      influenceScene.volume = 0.001;
-      influenceScene.play();
-
-      /*
-      influenceSceneBateria.volume = 0.7;
-      influenceSceneBateria.play();
-      
-      influenceSceneFXGroup.play();
-      influenceSceneVocalGroup.play();
-      */
-      console.log("Influence scene started");
-
-      //visibilidad Piedras
-
-      setTimeout(function(){ pChoque1.setAttribute('body', 'type: dynamic'); pChoque1.setAttribute('visible', 'true'); }, 64000);
-      setTimeout(function(){ pChoque2.setAttribute('body', 'type: dynamic'); pChoque2.setAttribute('visible', 'true'); }, 64200);
-      setTimeout(function(){ pChoque3.setAttribute('body', 'type: dynamic'); pChoque3.setAttribute('visible', 'true'); }, 64400);
-      setTimeout(function(){ pChoque4.setAttribute('body', 'type: dynamic'); pChoque4.setAttribute('visible', 'true'); }, 64600);
-      setTimeout(function(){ pChoque5.setAttribute('body', 'type: dynamic'); pChoque5.setAttribute('visible', 'true'); }, 64800);
-
-      setTimeout(function(){ pChoque6.setAttribute('body', 'type: dynamic'); pChoque6.setAttribute('visible', 'true'); }, 65000);
-      setTimeout(function(){ pChoque7.setAttribute('body', 'type: dynamic'); pChoque7.setAttribute('visible', 'true'); }, 65200);
-      setTimeout(function(){ pChoque8.setAttribute('body', 'type: dynamic'); pChoque8.setAttribute('visible', 'true'); }, 65400);
-      setTimeout(function(){ pChoque9.setAttribute('body', 'type: dynamic'); pChoque9.setAttribute('visible', 'true'); }, 65600);
-      setTimeout(function(){ pChoque10.setAttribute('body', 'type: dynamic'); pChoque10.setAttribute('visible', 'true'); }, 65800);
-
-      setTimeout(function(){ pChoque11.setAttribute('body', 'type: dynamic'); pChoque11.setAttribute('visible', 'true'); }, 66000);
-      setTimeout(function(){ pChoque12.setAttribute('body', 'type: dynamic'); pChoque12.setAttribute('visible', 'true'); }, 66200);
-      setTimeout(function(){ pChoque13.setAttribute('body', 'type: dynamic'); pChoque13.setAttribute('visible', 'true'); }, 66400);
-      setTimeout(function(){ pChoque14.setAttribute('body', 'type: dynamic'); pChoque14.setAttribute('visible', 'true'); }, 66600);
-      setTimeout(function(){ pChoque15.setAttribute('body', 'type: dynamic'); pChoque15.setAttribute('visible', 'true'); }, 66800);
-
-      setTimeout(function(){ pChoque16.setAttribute('body', 'type: dynamic'); pChoque16.setAttribute('visible', 'true'); }, 67000);
-      setTimeout(function(){ pChoque17.setAttribute('body', 'type: dynamic'); pChoque17.setAttribute('visible', 'true'); }, 67200);
-      setTimeout(function(){ pChoque18.setAttribute('body', 'type: dynamic'); pChoque18.setAttribute('visible', 'true'); }, 67400);
-      setTimeout(function(){ pChoque19.setAttribute('body', 'type: dynamic'); pChoque19.setAttribute('visible', 'true'); }, 67600);
-      setTimeout(function(){ pChoque20.setAttribute('body', 'type: dynamic'); pChoque20.setAttribute('visible', 'true'); }, 67800);
-
-      setTimeout(function(){ pChoque20.setAttribute('body', 'type: dynamic'); pChoque20.setAttribute('visible', 'true'); }, 68000);
-      setTimeout(function(){ pChoque21.setAttribute('body', 'type: dynamic'); pChoque21.setAttribute('visible', 'true'); }, 68200);
-      setTimeout(function(){ pChoque22.setAttribute('body', 'type: dynamic'); pChoque22.setAttribute('visible', 'true'); }, 68400);
-      setTimeout(function(){ pChoque23.setAttribute('body', 'type: dynamic'); pChoque23.setAttribute('visible', 'true'); }, 68600);
-      setTimeout(function(){ pChoque24.setAttribute('body', 'type: dynamic'); pChoque24.setAttribute('visible', 'true'); }, 68800);
-
-      setTimeout(function(){ pChoque25.setAttribute('body', 'type: dynamic'); pChoque25.setAttribute('visible', 'true'); }, 69000);
-      setTimeout(function(){ pChoque26.setAttribute('body', 'type: dynamic'); pChoque26.setAttribute('visible', 'true'); }, 69200);
-      setTimeout(function(){ pChoque27.setAttribute('body', 'type: dynamic'); pChoque27.setAttribute('visible', 'true'); }, 69400);
-      setTimeout(function(){ pChoque28.setAttribute('body', 'type: dynamic'); pChoque28.setAttribute('visible', 'true'); }, 69600);
-      setTimeout(function(){ pChoque29.setAttribute('body', 'type: dynamic'); pChoque29.setAttribute('visible', 'true'); }, 69800);
-
-      setTimeout(function(){ pChoque30.setAttribute('body', 'type: dynamic'); pChoque30.setAttribute('visible', 'true'); }, 70000);
-      setTimeout(function(){ pChoque31.setAttribute('body', 'type: dynamic'); pChoque31.setAttribute('visible', 'true'); }, 70200);
-      setTimeout(function(){ pChoque32.setAttribute('body', 'type: dynamic'); pChoque32.setAttribute('visible', 'true'); }, 70400);
-      setTimeout(function(){ pChoque33.setAttribute('body', 'type: dynamic'); pChoque33.setAttribute('visible', 'true'); }, 70600);
-      setTimeout(function(){ pChoque34.setAttribute('body', 'type: dynamic'); pChoque34.setAttribute('visible', 'true'); }, 70800);
-
-      setTimeout(function(){ pChoque35.setAttribute('body', 'type: dynamic'); pChoque35.setAttribute('visible', 'true'); }, 71000);
-      setTimeout(function(){ pChoque36.setAttribute('body', 'type: dynamic'); pChoque36.setAttribute('visible', 'true'); }, 71200);
-      setTimeout(function(){ pChoque37.setAttribute('body', 'type: dynamic'); pChoque37.setAttribute('visible', 'true'); }, 71400);
-     
-/*
-      
-      pChoque2.setAttribute('body', 'type: dynamic');
-      pChoque3.setAttribute('body', 'type: dynamic');
-      pChoque4.setAttribute('body', 'type: dynamic');
-      pChoque5.setAttribute('body', 'type: dynamic');
-
-      pChoque6.setAttribute('body', 'type: dynamic');
-      pChoque7.setAttribute('body', 'type: dynamic');
-      pChoque8.setAttribute('body', 'type: dynamic');
-      pChoque9.setAttribute('body', 'type: dynamic');
-      pChoque10.setAttribute('body', 'type: dynamic');
-
-      pChoque11.setAttribute('body', 'type: dynamic');
-      pChoque12.setAttribute('body', 'type: dynamic');
-      pChoque13.setAttribute('body', 'type: dynamic');
-      pChoque14.setAttribute('body', 'type: dynamic');
-      pChoque15.setAttribute('body', 'type: dynamic');
-
-      pChoque16.setAttribute('body', 'type: dynamic');
-      pChoque17.setAttribute('body', 'type: dynamic');
-      pChoque18.setAttribute('body', 'type: dynamic');
-      pChoque18.setAttribute('body', 'type: dynamic');
-      pChoque19.setAttribute('body', 'type: dynamic');
-
-      pChoque20.setAttribute('body', 'type: dynamic');
-      pChoque21.setAttribute('body', 'type: dynamic');
-      pChoque22.setAttribute('body', 'type: dynamic');
-      pChoque23.setAttribute('body', 'type: dynamic');
-      pChoque24.setAttribute('body', 'type: dynamic');
-
-      pChoque25.setAttribute('body', 'type: dynamic');
-      pChoque26.setAttribute('body', 'type: dynamic');
-      pChoque27.setAttribute('body', 'type: dynamic');
-      pChoque28.setAttribute('body', 'type: dynamic');
-      pChoque29.setAttribute('body', 'type: dynamic');
-      pChoque30.setAttribute('body', 'type: dynamic');
-      pChoque31.setAttribute('body', 'type: dynamic');
-      pChoque32.setAttribute('body', 'type: dynamic');
-      pChoque33.setAttribute('body', 'type: dynamic');
-      pChoque34.setAttribute('body', 'type: dynamic');
-      pChoque35.setAttribute('body', 'type: dynamic');
-      pChoque36.setAttribute('body', 'type: dynamic');
-      pChoque37.setAttribute('body', 'type: dynamic');
-
-
-      
-      pChoque2.setAttribute('visible', 'true');
-      pChoque3.setAttribute('visible', 'true');
-      pChoque4.setAttribute('visible', 'true');
-      pChoque5.setAttribute('visible', 'true');
-
-      pChoque6.setAttribute('visible', 'true');
-      pChoque7.setAttribute('visible', 'true');
-      pChoque8.setAttribute('visible', 'true');
-      pChoque9.setAttribute('visible', 'true');
-      pChoque10.setAttribute('visible', 'true');
-
-      pChoque11.setAttribute('visible', 'true');
-      pChoque12.setAttribute('visible', 'true');
-      pChoque13.setAttribute('visible', 'true');
-      pChoque14.setAttribute('visible', 'true');
-      pChoque15.setAttribute('visible', 'true');
-
-      pChoque16.setAttribute('visible', 'true');
-      pChoque17.setAttribute('visible', 'true');
-      pChoque18.setAttribute('visible', 'true');
-      pChoque18.setAttribute('visible', 'true');
-      pChoque19.setAttribute('visible', 'true');
-
-      pChoque20.setAttribute('visible', 'true');
-      pChoque21.setAttribute('visible', 'true');
-      pChoque22.setAttribute('visible', 'true');
-      pChoque23.setAttribute('visible', 'true');
-      pChoque24.setAttribute('visible', 'true');
-
-      pChoque25.setAttribute('visible', 'true');
-      pChoque26.setAttribute('visible', 'true');
-      pChoque27.setAttribute('visible', 'true');
-      pChoque28.setAttribute('visible', 'true');
-      pChoque29.setAttribute('visible', 'true');
-      pChoque30.setAttribute('visible', 'true');
-      pChoque31.setAttribute('visible', 'true');
-      pChoque32.setAttribute('visible', 'true');
-      pChoque33.setAttribute('visible', 'true');
-      pChoque34.setAttribute('visible', 'true');
-      pChoque35.setAttribute('visible', 'true');
-      pChoque36.setAttribute('visible', 'true');
-      pChoque37.setAttribute('visible', 'true');
-
-      */
-     
-    //3 Acto
       influenceScene.onended = function() {
 
-        console.log("Collision scene started");
-
-        ambientLight.setAttribute("light","color: #0d100f; intensity: 6");
-        ascene.setAttribute('godrays', "intensity: 0.45");
-
-        ascene.setAttribute('bloom', 'strength: 0.5');
-        ascene.setAttribute('bloom', 'radius: 0.5');
-
-
-        backLight.setAttribute('light', 'intensity: 1.5');
-
-        pAzules.setAttribute('particle-system', "enabled: true");
-        pRojas.setAttribute('particle-system', "enabled: true");
-        pAmarillas.setAttribute('particle-system', "enabled: true");
-
-
-
-        pAzules.setAttribute('particle-system', "color: #c2f1f2");
-        pRojas.setAttribute('particle-system', "color: #c2f1f2");
-        pAmarillas.setAttribute('particle-system', "color: #c2f1f2");
-
-      
-
-        pAzules.setAttribute('particle-system', "size: 0.9");
-        pRojas.setAttribute('particle-system', "size: 0.9");
-        pAmarillas.setAttribute('particle-system', "size: 0.9");
-
-
-
-
-        manoModel.parentNode.removeChild(manoModel);
-        columnaModel.parentNode.removeChild(columnaModel);
-        puntaModel.parentNode.removeChild(puntaModel);
-        monolitoModel.parentNode.removeChild(monolitoModel);
-        neandertalModel.parentNode.removeChild(neandertalModel);
-
-        skyConstellation.setAttribute('visible', 'true');
-        hydraCube1.setAttribute('visible', 'true');
-        hydraCube2.setAttribute('visible', 'true');
-        hydraCube3.setAttribute('visible', 'true');
-
-       
-        
-        constRocks.parentNode.removeChild(constRocks);
-        constRocks2.setAttribute('visible', 'true');
-
-        circuloCursor.setAttribute('visible', "false");
-
-        
-
-        setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 4");
-      
-      }, 1500);
-  
-      setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 8");
-        
-      }, 2000);
-  
-      setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 12");
-        
-      }, 3000);
-  
-      setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 16");
-        
-      }, 3500);
-  
-      setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 20");
-        
-      }, 4000);
-  
-      setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 24");
-        
-      }, 4500);
-  
-      setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 28");
-        
-      }, 5000);
-  
-      setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 200");
-        
-      }, 5500);
-
-
-      setTimeout(function(){ 
-
-        var corriente2 = document.getElementById("corrienteModel2");
-            corriente2.parentNode.removeChild(corriente2);
-
-            var corriente = document.getElementById("corrienteModel");
-            corriente.parentNode.removeChild(corriente);
-
+          
             
-            piedraMesh.parentNode.removeChild(piedraMesh);
-            piedraMesh2.parentNode.removeChild(piedraMesh2);
-            piedraMeshAsset.remove();
-
-        
-    }, 3000);
-
-    
-    
-            
-
-
-            constRocks.setAttribute('visible', "true");
-            pAvatar.setAttribute('visible', "true");
-
-           
-           collisionScene.volume = 0.001;
-           collisionScene.play();
-
-
-            
-            
-            
-    //4 Acto
+    //4 Acto 129000 ms
             collisionScene.onended = function() {
-            
-            console.log("Atom scene started");
-
-            atomScene.volume = 0.001;
-            atomScene.play();
-
-            rigP1Poly.setAttribute('visible', 'true');
-            rigP1Poly2.setAttribute('visible', 'true');
-            rigP1Poly3.setAttribute('visible', 'true');
 
 
-            rigP2Poly.setAttribute('visible', 'true');
-            rigP2Poly2.setAttribute('visible', 'true');
-
-            rigPiramide.setAttribute('visible', 'true');
-
-            ascene.setAttribute("fog","color: #000000")
-            ascene.setAttribute("background","color: #000000")
-            ascene.setAttribute("godrays","tint: #bfd9f3")
-
-            skydome.setAttribute("color","#000000");
-            ambientLight.setAttribute("light","color: #0d100f; intensity: 6");
-
-            ascene.setAttribute('godrays', "intensity: 0.05");
-
-            ascene.setAttribute('bloom', 'strength: 0.8');
-            ascene.setAttribute('bloom', 'radius: 0.5');
-
-            pAzules.setAttribute('particle-system', "size: 0.9");
-            pRojas.setAttribute('particle-system', "size: 0.7");
-            pAmarillas.setAttribute('particle-system', "size: 0.8");
-            pBlancas.setAttribute('particle-system', "size: 0.7");
-                    
-                    
-            pAzules.setAttribute('particle-system', "particleCount: 5000");
-            pRojas.setAttribute('particle-system', "particleCount: 5000");
-            pAmarillas.setAttribute('particle-system', "particleCount: 5000");
-            pBlancas.setAttribute('particle-system', "particleCount: 6000")
-            
-    
-    
-            const scaleRock = (i)=>{
-    
-              setTimeout(()=>{
-            
-                pAvatar.setAttribute('scale', `${(11 + (i * 0.04))} ${(11 + (i * 0.04))} ${(11 + (i * 0.04))}`);
-                  
-                }, 4 * (i + 1))
-            
-            };
-      
-    
-      
-            
-            for(let i = 0; i <= 1700; i++){
-      
-              scaleRock(i);
-            
-            
-            }
-      
-            pAvatar.setAttribute("animation","property: rotation; easing: easeInOutSine; to: 180 360 30; dur: 3500");
-    
-      
-    
-            //camera.setAttribute('look-controls', "enabled:false");
-            camera.setAttribute('wasd-controls', "enabled:false");
-    
-            camera.setAttribute("animation","property: position; dir: alternate; easing: easeInOutSine; from: 0 0 0; to: 0 0 -100; dur:4000");
-    
-            camera.addEventListener("animationcomplete", (animation)=>{
-              
-              animacionPiramide.setAttribute("visible","true")
-              animacionPiramide.setAttribute("animation","property: position; from: 0 -20 40;to: 0 -20 0; loop: true; dur: 40000; easing: linear");
-              //animacionPiramide.setAttribute("animation__","property: rotation; from: 0 0 0;to: 0 0 360; loop: true; dur: 80000; easing: linear");
-    
-    
-            })
-      
-            pAvatar.removeAttribute("animation-mixer")
-    
-            setTimeout(()=>{
-    
-                
-              camera.setAttribute('look-controls', "enabled:false");
-              camera.setAttribute('wasd-controls', "enabled:false");
-    
-              }, 4500)
-    
-
-            setTimeout(()=>{
-            atom.setAttribute('visible', "true");
-            circuloCursor.setAttribute('visible', 'true');
-            
-            constRocks2.parentNode.removeChild(constRocks2);
-
-            pAvatar.parentNode.removeChild(pAvatar);
-
-            pChoque1.parentNode.removeChild(pChoque1);
-            pChoque2.parentNode.removeChild(pChoque2);
-            pChoque3.parentNode.removeChild(pChoque3);
-            pChoque4.parentNode.removeChild(pChoque4);
-            pChoque5.parentNode.removeChild(pChoque5);
-
-            pChoque6.parentNode.removeChild(pChoque6);
-            pChoque7.parentNode.removeChild(pChoque7);
-            pChoque8.parentNode.removeChild(pChoque8);
-            pChoque9.parentNode.removeChild(pChoque9);
-            pChoque10.parentNode.removeChild(pChoque10);
-
-            pChoque11.parentNode.removeChild(pChoque11);
-            pChoque12.parentNode.removeChild(pChoque12);
-            pChoque13.parentNode.removeChild(pChoque13);
-            pChoque14.parentNode.removeChild(pChoque14);
-            pChoque15.parentNode.removeChild(pChoque15);
-
-            pChoque16.parentNode.removeChild(pChoque16);
-            pChoque17.parentNode.removeChild(pChoque17);
-            pChoque18.parentNode.removeChild(pChoque18);
-            pChoque19.parentNode.removeChild(pChoque19);
-            pChoque20.parentNode.removeChild(pChoque20);
-            
-            pChoque21.parentNode.removeChild(pChoque21);
-            pChoque22.parentNode.removeChild(pChoque22);
-            pChoque23.parentNode.removeChild(pChoque23);
-            pChoque24.parentNode.removeChild(pChoque24);
-            pChoque25.parentNode.removeChild(pChoque25);
-
-            pChoque26.parentNode.removeChild(pChoque26);
-            pChoque27.parentNode.removeChild(pChoque27);
-            pChoque28.parentNode.removeChild(pChoque28);
-            pChoque29.parentNode.removeChild(pChoque29);
-            pChoque30.parentNode.removeChild(pChoque30);
-
-            pChoque31.parentNode.removeChild(pChoque31);
-            pChoque32.parentNode.removeChild(pChoque32);
-            pChoque33.parentNode.removeChild(pChoque33);
-            pChoque34.parentNode.removeChild(pChoque34);
-            pChoque35.parentNode.removeChild(pChoque35);
-
-            pChoque36.parentNode.removeChild(pChoque36);
-            pChoque37.parentNode.removeChild(pChoque37);
-            
-            hydraCube1.parentNode.removeChild(hydraCube1);
-            hydraCube2.parentNode.removeChild(hydraCube2);
-            hydraCube3.parentNode.removeChild(hydraCube3);
-    
-            skyConstellation.parentNode.removeChild(skyConstellation);
-
-
-            }, 5500)
-
-            setTimeout(()=>{
-
-            
-              camera.setAttribute('look-controls', "enabled:true");
-              camera.setAttribute('wasd-controls', "enabled:true");
-    
-    
-              }, 6000)
-
-
-
-            
-            setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 36");
-      
-            }, 500);
-        
-            setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 40");
-              
-            }, 1000);
-        
-            setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 44");
-              
-            }, 1500);
-        
-            setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 48");
-              
-            }, 2000);
-        
-            setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 52");
-              
-            }, 2500);
-        
-         
-
-                
-                
-
-
-
-                /*
-                atomSceneBateria.volume = 0.7;
-                atomSceneBateria.play();
-
-                atomSceneFXGroup.play();
-                atomSceneVocalGroup.play();
-                */
-                
-                
-                //sceneBackground.setAttribute('background', "color: #537167");
-                //em1.setAttribute('particle-system', "color: #000000");
-                //em2.setAttribute('particle-system', "color: #000000");
-                //em3.setAttribute('particle-system', "color: #000000");
     //5 Acto
                 atomScene.onended = function() {
-                  ps1.setAttribute('audioreactive-on-beat-int', "analyserEl: #zoomA");
-                  ps2.setAttribute('audioreactive-on-beat-int', "analyserEl: #zoomA");
-                  ps3.setAttribute('audioreactive-on-beat-int', "analyserEl: #zoomA");
-                  ps4.setAttribute('audioreactive-on-beat-int', "analyserEl: #zoomA");
-                  ps5.setAttribute('audioreactive-on-beat-int', "analyserEl: #zoomA");
 
-                  manoModel.setAttribute('audioreactive-on-beat-int', "analyserEl: #zoomA");
-                  columnaModel.setAttribute('audioreactive-on-beat-int', "analyserEl: #zoomA");
-                  puntaModel.setAttribute('audioreactive-on-beat-int', "analyserEl: #zoomA");
-                  monolitoModel.setAttribute('audioreactive-on-beat-int', "analyserEl: #zoomA");
-                  neandertalModel.setAttribute('audioreactive-on-beat-int', "analyserEl: #zoomA");
 
-                  zoomScene.volume = 0.001;
-                  zoomScene.play();
-
-                  /*
-
-                  zoomSceneBateria.volume = 0.7;
-                  zoomSceneBateria.play();
-
-                  zoomSceneFXGroup.play();
-                  zoomSceneVocalGroup.play();
-                  */
-                  console.log("Zoom scene started");
-                  
-                  //sceneBackground.setAttribute('background', "color: #758e85");
-                  //em1.setAttribute('particle-system', "color: #000000");
-                  //em2.setAttribute('particle-system', "color: #000000");
-                  //em3.setAttribute('particle-system', "color: #000000");
-                  
     //6 Acto
                   zoomScene.onended = function() {
-      
-                    console.log("Erosions has ended");
                     
               
               
@@ -1897,7 +1342,7 @@ AFRAME.registerComponent('visibilidad-piedra', {
 
       var el =this.el;
 
-      var circuloCursor = document.getElementById("circuloCursor");
+      //var circuloCursor = document.getElementById("//circuloCursor");
      
 
       var trianguloCursorVisible = document.getElementById("trianguloCursor");
@@ -1945,7 +1390,7 @@ AFRAME.registerComponent('visibilidad-piedra', {
 
 
      trianguloCursorVisible.setAttribute('visible', "true");
-     circuloCursor.setAttribute('visible', "false");
+     //circuloCursor.setAttribute('visible', "false");
 
      var min = 0;
      var max = 255;
@@ -2106,7 +1551,7 @@ AFRAME.registerComponent('visibilidad-piedra', {
       backLight.setAttribute("light", "color: #aee0ff");
 
       trianguloCursorVisible.setAttribute('visible', "false");
-      circuloCursor.setAttribute('visible', "true");
+      //circuloCursor.setAttribute('visible', "true");
 
      
  
@@ -2121,7 +1566,7 @@ AFRAME.registerComponent('visibilidad-piedra', {
     
 
     el.addEventListener('click', (evt) => {
-    
+    /*
     var clickBlanco = document.getElementById("clickPiedra1");
     clickBlanco.style.visibility = 'visible';
 
@@ -2135,6 +1580,7 @@ AFRAME.registerComponent('visibilidad-piedra', {
     setTimeout(function(){ clickNegro.remove(); }, 1000);
     
     }, 1000);
+    */
     
 
 
@@ -2168,9 +1614,12 @@ AFRAME.registerComponent('visibilidad-piedra', {
 
     
     //Blink que destapa las piedras
+    
 
     setTimeout(function(){ 
       
+
+      /*
       var clickBlanco = document.getElementById("clickPiedra1");
       clickBlanco.style.visibility = 'visible';
   
@@ -2186,7 +1635,7 @@ AFRAME.registerComponent('visibilidad-piedra', {
       }, 1000);
       
   
-  
+  */
       var piedrasSeparadas = document.getElementById("piedras");
       var piedraModelo = document.getElementById("piedraModelo");
 
@@ -2971,7 +2420,7 @@ AFRAME.registerComponent('sustitucion', {
 
 
      trianguloCursor.setAttribute('visible', "true");
-     circuloCursor.setAttribute('visible', "false");
+     ////circuloCursor.setAttribute('visible', "false");
 
 
    
@@ -2982,7 +2431,7 @@ AFRAME.registerComponent('sustitucion', {
 
 
       trianguloCursor.setAttribute('visible', "false");
-      circuloCursor.setAttribute('visible', "true");
+      ////circuloCursor.setAttribute('visible', "true");
 
      
  
@@ -3304,10 +2753,10 @@ AFRAME.registerComponent('isolate-mode', {
 
       case "manoModel":
         manoIsolate.setAttribute('visible', "true");
-        circuloCursor.setAttribute('visible', "false");
+        //circuloCursor.setAttribute('visible', "false");
         corriente.setAttribute('visible', "false");
         corriente2.setAttribute('visible', "false");
-        oceanplane.setAttribute('visible', "false");
+
         pAzules.setAttribute('visible', "false");
         pRojas.setAttribute('visible', "false");
         pBlancas.setAttribute('visible', "false");
@@ -3348,10 +2797,9 @@ AFRAME.registerComponent('isolate-mode', {
       case "columnaModel":
 
         columnaIsolate.setAttribute('visible', "true");
-        circuloCursor.setAttribute('visible', "false");
+        //circuloCursor.setAttribute('visible', "false");
         corriente.setAttribute('visible', "false");
         corriente2.setAttribute('visible', "false");
-        oceanplane.setAttribute('visible', "false");
         pAzules.setAttribute('visible', "false");
         pRojas.setAttribute('visible', "false");
         pBlancas.setAttribute('visible', "false");
@@ -3393,10 +2841,9 @@ AFRAME.registerComponent('isolate-mode', {
 
         
       puntaIsolate.setAttribute('visible', "true");
-      circuloCursor.setAttribute('visible', "false");
+      //circuloCursor.setAttribute('visible', "false");
       corriente.setAttribute('visible', "false");
       corriente2.setAttribute('visible', "false");
-      oceanplane.setAttribute('visible', "false");
       pAzules.setAttribute('visible', "false");
       pRojas.setAttribute('visible', "false");
       pBlancas.setAttribute('visible', "false");
@@ -3436,10 +2883,9 @@ AFRAME.registerComponent('isolate-mode', {
       case "monolitoModel":
 
         monolitoIsolate.setAttribute('visible', "true");
-        circuloCursor.setAttribute('visible', "false");
+        //circuloCursor.setAttribute('visible', "false");
         corriente.setAttribute('visible', "false");
         corriente2.setAttribute('visible', "false");
-        oceanplane.setAttribute('visible', "false");
         pAzules.setAttribute('visible', "false");
         pRojas.setAttribute('visible', "false");
         pBlancas.setAttribute('visible', "false");
@@ -3479,10 +2925,9 @@ AFRAME.registerComponent('isolate-mode', {
       case "neandertalModel":
 
         neandertalIsolate.setAttribute('visible', "true");
-        circuloCursor.setAttribute('visible', "false");
+        //circuloCursor.setAttribute('visible', "false");
         corriente.setAttribute('visible', "false");
         corriente2.setAttribute('visible', "false");
-        oceanplane.setAttribute('visible', "false");
         pAzules.setAttribute('visible', "false");
         pRojas.setAttribute('visible', "false");
         pBlancas.setAttribute('visible', "false");
@@ -3531,14 +2976,14 @@ AFRAME.registerComponent('isolate-mode', {
   el.addEventListener('mouseenter', () => {
 
     trianguloCursor2.setAttribute('visible', "true");
-    circuloCursor.setAttribute('visible', "false");
+    //circuloCursor.setAttribute('visible', "false");
 
   })
 
   el.addEventListener('mouseleave', () => {
 
     trianguloCursor2.setAttribute('visible', "false");
-    circuloCursor.setAttribute('visible', "true");
+    //circuloCursor.setAttribute('visible', "true");
 
 
   })
@@ -3562,10 +3007,9 @@ document.addEventListener('keyup', (e) => {
     monolitoIsolate.setAttribute('visible', "false");
     neandertalIsolate.setAttribute('visible', "false");
 
-    circuloCursor.setAttribute('visible', "true");
+    //circuloCursor.setAttribute('visible', "true");
     corriente.setAttribute('visible', "true");
     corriente2.setAttribute('visible', "true");
-    oceanplane.setAttribute('visible', "true");
 
     pAzules.setAttribute('visible', "true");
     pRojas.setAttribute('visible', "true");
@@ -3952,5 +3396,70 @@ AFRAME.registerComponent('color-change-atom', {
 
     });   
   }
+});
+
+
+
+AFRAME.registerComponent('look-at-cam', {
+  schema: {
+    look: {type: 'selector'},
+  },
+
+  init: function (){
+    const el = this.el;
+    const look = this.data.look;
+    const lookAt = look.getAttribute('position');
+    const camera = el.sceneEl.camera;
+    const cameraPosition = el.sceneEl.camera.position;
+    const cameraRotation = el.sceneEl.camera.rotation;
+      
+    ascene.addEventListener('loaded', () => {
+
+      /*
+       setTimeout(()=>{
+        el.setAttribute('look-controls','enabled:false')
+        el.sceneEl.camera.lookAt(new THREE.Vector3(lookAt.x,lookAt.y,lookAt.z));
+        console.log("Look at", cameraRotation)
+
+      }, 8000)
+
+        setTimeout(()=>{
+          console.log("Boom Teleport")
+          el.setAttribute('look-controls','enabled:true')
+          cameraPosition.x = -2.3;
+          cameraPosition.y = 1;
+          cameraPosition.z = -3;
+
+          cameraRotation.x = 0;
+          cameraRotation.y = 0;
+          cameraRotation.z = 0;
+
+        }, 11000)
+
+        */
+
+
+    });
+  },
+
+  tick: function(){
+        /*
+        const cameraPosition = this.el.sceneEl.camera.el.getAttribute('position');
+        const cameraRotation = this.el.sceneEl.camera.el.getAttribute('rotation');
+
+        const rigPosition = rigCamera.getAttribute('position');
+        const rigRotation = rigCamera.getAttribute('rotation');
+
+        console.log("Cam position", cameraPosition);
+        console.log("Cam rotation", cameraRotation);
+
+        */
+
+      
+
+
+
+  }
+  
 });
 
