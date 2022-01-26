@@ -1,3 +1,68 @@
+var scale = window.devicePixelRatio;
+var size = 1000;
+var c = document.getElementById("hydraCanvas2");
+c.width = Math.floor(size * scale);
+c.height = Math.floor(size * scale);
+
+// create a new hydra-synth instance
+var hydraSam = new Hydra({
+  canvas: document.getElementById("hydraCanvas2")
+});
+
+//UNFOLDED CRYSTAL SHADER - @sammtza___
+gradient(2)
+	.diff(gradient(1).r([0, 10].smooth()))
+	.diff(gradient(-1).g([0, 10].smooth().fast(1 / 2)))
+	.diff(gradient(1).b([0, 10].smooth().fast(1 / 4)))
+	.diff(gradient(-1).a([0, 10].smooth().fast(1 / 8)))
+	.diff(
+		gradient(1).luma(
+			[0, 1 / 2]
+				.reverse()
+				.smooth()
+				.fast(1 / 3)
+		)
+	)
+	.diff(
+		gradient(1).thresh(
+			[0, 1 / 2]
+				.reverse()
+				.smooth()
+				.fast(1 / 5)
+		)
+	)
+	.diff(
+		gradient(1).hue(
+			() => Math.sin(time),
+			() => Math.cos(time),
+			() => Math.tan(time)
+		)
+	)
+	.scale(1 / 10)
+	.blend(src(o0).rotate(-0.1, -0.1).brightness(-1), [1 / 2, 9 / 10].smooth())
+	.add(
+		src(o0).rotate(0.1, 0.1).scale(-0.996).brightness(-1),
+		[1 / 2, 9 / 10].reverse().smooth()
+	)
+	.invert()
+	.out()
+
+//MATRIZ IRIDISCENCIA
+src(o1)
+	.scale(1.005)
+	.scrollX(
+		[0.002, 0.002, 0.002, 0.002, -0.002, -0.002, -0.002, -0.002].ease("linear")
+	)
+	.saturate(1.2)
+.hue(()=>Math.sin(time))
+	.luma([0, 0, 0.1, 0.1].ease("linear"))
+	.layer(src(o0).contrast(1.4).luma(0.2, 0.1))
+	.out(o1)
+
+render(o1)
+//speed=0.7
+
+
 const vidLoading = document.getElementById("bgvid");
 const rigCamera = document.getElementById("rigCamera");
 
@@ -172,6 +237,11 @@ const zoomSceneVocalGroup = document.getElementById('zoomAudioVocalGroup');
 const hydraCube1 = document.getElementById('hydraCube1');
 const hydraCube2 = document.getElementById('hydraCube2');
 const hydraCube3 = document.getElementById('hydraCube3');
+
+let cameraTeleport; 
+let cameraPosition; 
+let cameraRotation;
+let look = new THREE.Vector3(0,0,0);
 
 
 let delta = 0;
@@ -376,6 +446,20 @@ AFRAME.registerComponent('eventos', {
 
   init: function () {
 
+    const originP = new THREE.Vector3(-2.3,1,-3);
+    const originR = new THREE.Vector3(0,0,0);
+    
+    const jumpP1 = new THREE.Vector3(27.40919256330151,23.568556576929797,20.31871407639155);
+    const jumpP2 = new THREE.Vector3(22.456679369313,15.577884009660837,8.847246364359284);
+    const jumpP3 = new THREE.Vector3(-3.83813303484466, 13.685611085202602,-31.083502370407555);
+
+    const jumpR1 = new THREE.Vector3(-10.65701498943331,27.387382607253386,0);
+    const jumpR2 = new THREE.Vector3(47.55549699585835,-14.78231111437524,0);
+    const jumpR3 = new THREE.Vector3(36.32552421129419,281.78064364533884,0);
+    const jumpR4 = new THREE.Vector3(45.378257374361205, 5.614986392282063,0);
+
+  
+
 
 
     document.querySelector('a-scene').addEventListener('loaded', function () {
@@ -397,7 +481,204 @@ AFRAME.registerComponent('eventos', {
 
       circuloCursor.setAttribute('visible', "false");
 
+     // console.log("Camera", camera.sceneEl.camera);
 
+      cameraTeleport = camera.sceneEl.camera;
+      cameraPosition = cameraTeleport.position;
+      cameraRotation = cameraTeleport.rotation;
+
+
+      console.log("Teleport origin")
+      console.log("cameraTeleport", cameraTeleport)
+      console.log("cameraPosition", cameraPosition)
+      console.log("cameraRotation", cameraRotation)
+
+      cameraPosition.x = -2.3;
+      cameraPosition.y = 1;
+      cameraPosition.z = -3;
+
+      cameraRotation.x = 0;
+      cameraRotation.y = 0;
+      cameraRotation.z = 0;
+
+
+      camera.setAttribute('look-controls','enabled:false')
+
+      setTimeout(()=>{
+        console.log("Boom Teleport Jump 1")
+        //el.setAttribute('look-controls','enabled:true')
+        look = jumpR1;
+        cameraTeleport.lookAt(look);
+
+        cameraPosition = jumpP1;
+
+        console.log("cameraTeleport", cameraTeleport)
+        console.log("cameraPosition", cameraPosition)
+        console.log("cameraRotation", cameraRotation)
+
+ /*
+
+        console.log("Cam position", cameraPositionRead);
+        console.log("Jump 1", jumpP1)
+        console.log("Cam rotation", cameraRotationRead);
+        console.log("Rotation 1", jumpR1)
+
+        */
+
+        /*
+        cameraPosition.x = -2.3;
+        cameraPosition.y = 1;
+        cameraPosition.z = -3;
+        */
+  
+        
+  
+      }, 5000)
+
+  
+  
+      setTimeout(()=>{
+        console.log("Boom Teleport Jump 2")
+        //el.setAttribute('look-controls','enabled:true')
+        look = jumpR2;
+        cameraTeleport.lookAt(look);
+        cameraPosition = jumpP2;
+
+        console.log("cameraTeleport", cameraTeleport)
+        console.log("cameraPosition", cameraPosition)
+        console.log("cameraRotation", cameraRotation)
+  
+        
+  
+      }, 10000)
+  
+      
+      setTimeout(()=>{
+        console.log("Boom Teleport Jump 3")
+        //el.setAttribute('look-controls','enabled:true')
+        look = jumpR3;
+        cameraTeleport.lookAt(look);
+        cameraPosition = jumpP3;
+
+        console.log("cameraTeleport", cameraTeleport)
+        console.log("cameraPosition", cameraPosition)
+        console.log("cameraRotation", cameraRotation)
+  
+        
+  
+      }, 15000)
+
+    
+      
+      setTimeout(()=>{
+        console.log("Boom Teleport Jump 4")
+        //el.setAttribute('look-controls','enabled:true')
+        look = jumpR4;
+        cameraTeleport.lookAt(look);
+        cameraPosition = originP;
+
+        console.log("cameraTeleport", cameraTeleport)
+        console.log("cameraPosition", cameraPosition)
+        console.log("cameraRotation", cameraRotation)
+  
+        
+  
+      }, 20000)
+
+
+      setTimeout(()=>{
+        console.log("Reset ");
+
+        cameraPosition.x = -2.3;
+        cameraPosition.y = 15;
+        cameraPosition.z = -3;
+
+        cameraRotation.x = 0;
+        cameraRotation.y = 0;
+        cameraRotation.z = 0;
+
+        camera.setAttribute('look-controls','enabled:true')
+
+        
+  
+        
+
+        console.log("cameraTeleport", cameraTeleport)
+        console.log("cameraPosition", cameraPosition)
+        console.log("cameraRotation", cameraRotation)
+  
+        
+  
+      }, 25000)
+
+
+
+
+
+     
+
+/*
+
+      camera.setAttribute('look-controls','enabled:false')
+
+      setTimeout(()=>{
+        console.log("Boom Teleport")
+        //el.setAttribute('look-controls','enabled:true')
+        cameraTeleport.lookAt(look);
+        cameraPosition.x = -2.3;
+        cameraPosition.y = 1;
+        cameraPosition.z = -3;
+  
+        
+  
+      }, 3000)
+
+  
+  
+      setTimeout(()=>{
+        console.log("Boom Teleport")
+        //el.setAttribute('look-controls','enabled:true')
+        cameraTeleport.lookAt(look);
+        cameraPosition.x = -20;
+        cameraPosition.y = 10;
+        cameraPosition.z = -3;
+  
+        
+  
+      }, 4000)
+  
+      
+      setTimeout(()=>{
+        console.log("Boom Teleport")
+        //el.setAttribute('look-controls','enabled:true')
+        cameraTeleport.lookAt(look);
+        cameraPosition.x = 20;
+        cameraPosition.y = 5;
+        cameraPosition.z = 3;
+  
+        
+  
+      }, 6000)
+
+
+      setTimeout(()=>{
+        console.log("Reset ")
+        camera.setAttribute('look-controls','enabled:true')
+
+        cameraPosition.x = -2.3;
+        cameraPosition.y = 1;
+        cameraPosition.z = -3;
+
+        cameraRotation.x = 0;
+        cameraRotation.y = 0;
+        cameraRotation.z = 0;
+  
+        
+  
+      }, 8000)
+
+
+*/
     })
 
 
@@ -408,6 +689,19 @@ AFRAME.registerComponent('eventos', {
 
     // Setup
     //const sceneBackground = document.querySelector('a-scene');
+
+  /*
+
+
+
+ 
+
+    */
+
+
+
+    
+
     
 
 
@@ -3095,4 +3389,61 @@ AFRAME.registerComponent('color-change-atom', {
 
     });   
   }
+});
+
+
+
+AFRAME.registerComponent('look-at-cam', {
+  schema: {
+    look: {type: 'selector'},
+  },
+
+  init: function (){
+    const el = this.el;
+    //const look = this.data.look;
+    //const lookAt = look.getAttribute('position');
+    const camera = el.sceneEl.camera;
+    const cameraPosition = el.sceneEl.camera.position;
+    const cameraRotation = el.sceneEl.camera.rotation;
+      
+    ascene.addEventListener('loaded', () => {
+
+      /*
+       setTimeout(()=>{
+        el.setAttribute('look-controls','enabled:false')
+        el.sceneEl.camera.lookAt(new THREE.Vector3(lookAt.x,lookAt.y,lookAt.z));
+        console.log("Look at", cameraRotation)
+
+      }, 8000)
+
+        setTimeout(()=>{
+          console.log("Boom Teleport")
+          el.setAttribute('look-controls','enabled:true')
+          cameraPosition.x = -2.3;
+          cameraPosition.y = 1;
+          cameraPosition.z = -3;
+
+          cameraRotation.x = 0;
+          cameraRotation.y = 0;
+          cameraRotation.z = 0;
+
+        }, 11000)
+
+        */
+
+
+    });
+  },
+
+  tick: function(){
+  
+        const cameraPosition = this.el.sceneEl.camera.el.getAttribute('position');
+        const cameraRotation = this.el.sceneEl.camera.el.getAttribute('rotation');
+
+        console.log("Cam position", cameraPosition);
+        console.log("Cam rotation", cameraRotation);
+
+
+  }
+  
 });
