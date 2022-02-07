@@ -185,9 +185,12 @@ req.responseType = 'blob';
 
 -->
 
-   <!--Viñetas-->
+   <!--Viñetas
   <div id="viñeta"><span></span></div>
   <div id="viñeta2"><span></span></div>
+  
+  -->
+
   <div id="intro"><span></span></div>
   <div id="clickPiedra1"><span></span></div>
   <div id="clickPiedra2"><span></span></div>
@@ -650,7 +653,7 @@ req.responseType = 'blob';
 
           
         <!--Piedra-->
-        <a-entity class="clickeable" id="piedraModelo" visible="false" visibilidad-piedra gltf-model="#piedra" scale="1 1 1" position="1.99 2.95 -3.7"
+        <a-entity  id="piedraModelo" visible="false" visibilidad-piedra gltf-model="#piedra" scale="1 1 1" position="1.99 2.95 -3.7"
         
         
         >
@@ -659,7 +662,7 @@ req.responseType = 'blob';
 
        <!--Ps1-->
 
-         <a-entity  id="pS1" class="clickeable" visible="false" material="fog:true" gltf-model="#ps1"  scale="1 1 1" 
+         <a-entity  id="pS1"  visible="false" material="fog:true" gltf-model="#ps1"  scale="1 1 1" 
          animation="property: rotation; to: 360 360 360; dur: 3000; easing: linear; loop: true;"
          animation__mousedown="property: position; to: -1 0.2 0.5; startEvents: mouseenter; dur: 3000;"
          audioreactive-on-beat-int="analyserEl: #currentA"
@@ -669,17 +672,17 @@ req.responseType = 'blob';
          
          > </a-entity>
 
-        <!--manoModel-->
+        <!--manoModel  audioreactive-on-beat-int="analyserEl: #currentA"-->
 
-        <a-entity id="manoModel"  isolate-mode visible="false" material="fog:true" gltf-model="#mano"  scale="0.5 0.5 0.5" 
+        <a-entity id="manoModel" visible="true" material="fog:true" gltf-model="#mano"  scale="0.5 0.5 0.5" 
         animation="property: rotation; to: 360 360 360; dur: 3000; easing: linear; loop: true;"
-        audioreactive-on-beat-int="analyserEl: #currentA"
+
         ></a-entity>
 
         
          <!--Ps2-->
 
-         <a-entity  id="pS2" class="clickeable" visible="false" material="fog:true" gltf-model="#ps2"  scale="1 1 1" 
+         <a-entity  id="pS2" visible="false" material="fog:true" gltf-model="#ps2"  scale="1 1 1" 
          animation="property: rotation; to: -360 -360 -360; dur: 3000; easing: linear; loop: true;"
          animation__mousedown="property: position; to: -0.4 0.1 -1; startEvents: mouseenter; dur: 3000;"
          
@@ -689,15 +692,15 @@ req.responseType = 'blob';
         
         </a-entity>
 
-        <!--columnaModel-->
+        <!--columnaModel         audioreactive-on-beat-int="analyserEl: #currentA"-->
 
-        <a-entity id="columnaModel"  isolate-mode visible="false" material="fog:true" gltf-model="#columna"  scale="0.5 0.5 0.5" position="0.2 0 -1.7"
+        <a-entity id="columnaModel" visible="true" material="fog:true" gltf-model="#columna"  scale="0.5 0.5 0.5" position="0.2 0 -1.7"
         animation="property: rotation; to: -360 -360 -360; dur: 3000; easing: linear; loop: true;"
-        audioreactive-on-beat-int="analyserEl: #currentA"
+
         ></a-entity>
 
         <!--Ps3-->
-        <a-entity  id="pS3" class="clickeable" visible="false" material="fog:true" gltf-model="#ps3"  scale="1 1 1" 
+        <a-entity  id="pS3" visible="false" material="fog:true" gltf-model="#ps3"  scale="1 1 1" 
         animation="property: rotation; to: 360 360 360; dur: 3000; easing: linear; loop: true;"
         animation__mousedown="property: position; to: -0.4 -1 2; startEvents: mouseenter; dur: 3000;" 
          
@@ -708,17 +711,17 @@ req.responseType = 'blob';
          
         </a-entity>
 
-        <!--puntaModel-->
-        <a-entity id="puntaModel"  isolate-mode visible="false" material="fog:true" gltf-model="#punta"  scale="1 1 1" position="0 -1.5 2"
+        <!--puntaModel         audioreactive-on-beat-int="analyserEl: #currentA"-->
+        <a-entity id="puntaModel"  visible="true" material="fog:true" gltf-model="#punta"  scale="1 1 1" position="0 -1.5 2"
         animation="property: rotation; to: 360 360 360; dur: 3000; easing: linear; loop: true;"
-        audioreactive-on-beat-int="analyserEl: #currentA"
+
         
         ></a-entity>
 
         
         <!--Ps4-->
 
-         <a-entity  id="pS4" class="clickeable" visible="false" material="fog:true" gltf-model="#ps4"  scale="1 1 1" 
+         <a-entity  id="pS4"  visible="false" material="fog:true" gltf-model="#ps4"  scale="1 1 1" 
          animation="property: rotation; to: -360 -360 -360; dur: 3000; easing: linear; loop: true;"
          animation__mousedown="property: position; to: -0.4 1 2; startEvents: mouseenter; dur: 3000;"
          audioreactive-on-beat-int="analyserEl: #currentA"
@@ -727,15 +730,15 @@ req.responseType = 'blob';
          
         </a-entity>
 
-        <!--monolitoModel-->
-        <a-entity id="monolitoModel" isolate-mode visible="false" material="fog:true" gltf-model="#monolito"  scale="0.5 0.5 0.5" position="0.2 0.6 1.9"
+        <!--monolitoModel         audioreactive-on-beat-int="analyserEl: #currentA"-->
+        <a-entity id="monolitoModel" visible="true material="fog:true" gltf-model="#monolito"  scale="0.5 0.5 0.5" position="0.2 0.6 1.9"
         animation="property: rotation; to: -360 -360 -360; dur: 3000; easing: linear; loop: true;"
-        audioreactive-on-beat-int="analyserEl: #currentA"
+
         
         ></a-entity>
 
         <!--Ps5-->
-        <a-entity  id="pS5" class="clickeable" visible="false" material="fog:true" gltf-model="#ps5"  scale="1 1 1" 
+        <a-entity  id="pS5"  visible="false" material="fog:true" gltf-model="#ps5"  scale="1 1 1" 
         animation="property: rotation; to: 360 360 360; dur: 3000; easing: linear; loop: true;"
         animation__mousedown="property: position; to: 0.5 1 2; startEvents: mouseenter; dur: 3000;"
         audioreactive-on-beat-int="analyserEl: #currentA"
@@ -745,14 +748,17 @@ req.responseType = 'blob';
         
       </a-entity>
 
-      <!--neandertalModel-->
+      <!--neandertalModel       audioreactive-on-beat-int="analyserEl: #currentA"-->
 
-      <a-entity id="neandertalModel"  isolate-mode visible="false" material="fog:true" gltf-model="#neandertal"  scale="1 1 1" position="1.5 1 0.5"
+      <a-entity id="neandertalModel" visible="true" material="fog:true" gltf-model="#neandertal"  scale="1 1 1" position="1.5 1 0.5"
       animation="property: rotation; to: 360 360 360; dur: 3000; easing: linear; loop: true;"
-      audioreactive-on-beat-int="analyserEl: #currentA"
+
       ></a-entity>
 
     </a-entity>
+
+
+    
 
     <!--Piedras Mesh Audioreactivas-->
 

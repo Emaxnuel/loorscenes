@@ -581,7 +581,7 @@ AFRAME.registerComponent('eventos', {
     
   }, 8000);
 
-  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 66");
+  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 60");
   
   }, 8500);
 
@@ -644,76 +644,6 @@ AFRAME.registerComponent('eventos', {
 
 
 
-
-    setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 60");
-      
-  }, 1500);
-
-  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 56");
-    
-  }, 2000);
-
-  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 52");
-    
-  }, 3000);
-
-  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 48");
-    
-  }, 3500);
-
-  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 44");
-    
-  }, 4000);
-
-  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 40");
-    
-  }, 4500);
-
-  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 36");
-    
-  }, 5000);
-
-  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 32");
-    
-  }, 5500);
-
-  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 28");
-  sceneBackground.setAttribute('fog', "near: 1")                           
-  
-    
-  }, 6000);
-
-  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 24");
-    
-  }, 6500);
-
-  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 20");
-    
-  }, 7000);
-
-  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 18");
-    
-  }, 7500);
-
-  setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 14");
-  
-}, 8000);
-
-setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 12");
-
-}, 8500);
-
-setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 8");
-  
-}, 9000);
-
-setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 4");
-  
-}, 9500);
-
-
-
-
     ascene.setAttribute('bloom', 'strength: 0');
     ascene.setAttribute('bloom', 'radius: 0');
 
@@ -753,7 +683,7 @@ setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 4");
     */
     console.log("Influence scene started");
 
-    //visibilidad Piedras
+    /*visibilidad Piedras
 
     setTimeout(function(){ pChoque1.setAttribute('body', 'type: dynamic'); pChoque1.setAttribute('visible', 'true'); }, 64000);
     setTimeout(function(){ pChoque2.setAttribute('body', 'type: dynamic'); pChoque2.setAttribute('visible', 'true'); }, 64200);
@@ -802,7 +732,7 @@ setTimeout(function(){ sceneBackground.setAttribute('fog', "far: 4");
     setTimeout(function(){ pChoque37.setAttribute('body', 'type: dynamic'); pChoque37.setAttribute('visible', 'true'); }, 71400);
    
 
- 
+ */
  
 
 
@@ -1639,26 +1569,6 @@ AFRAME.registerComponent('visibilidad-piedra', {
       var piedrasSeparadas = document.getElementById("piedras");
       var piedraModelo = document.getElementById("piedraModelo");
 
-  
-  
-      
-      // Visibilidad
-  
-        el.object3D.visible = false;
-        //piedrasSeparadas.object3D.visible = true;
-        ps1.setAttribute('visible', "true");
-        ps2.setAttribute('visible', "true");
-        ps3.setAttribute('visible', "true");
-        ps4.setAttribute('visible', "true");
-        ps5.setAttribute('visible', "true");
-  
-      // piedrasSeparadas.classList.add("clickeable"); 
-       piedraModelo.classList.remove("clickeable");
-       ps1.classList.add("clickeable");
-       ps2.classList.add("clickeable");
-       ps3.classList.add("clickeable");
-       ps4.classList.add("clickeable");
-       ps5.classList.add("clickeable");
 
 
       
@@ -1711,6 +1621,25 @@ AFRAME.registerComponent('visibilidad-separados', {
   }
 });
 
+
+function convertBlock(incomingData) { // inputdata es un UInt8Array
+  var i, l = incomingData.length;
+  var outputData = new Float32Array(incomingData.length);
+  for (i = 0; i < l; i++) {
+      outputData[i] = ((incomingData[i] - 128) / 128.0) * 100;
+  }
+  return outputData;
+}
+
+function concatTypedArrays(a, b) { // a, b TypedArray del mismo tipo
+var c = new (a.constructor)(a.length + b.length);
+c.set(a, 0);
+c.set(b, a.length);
+return c;
+}
+
+
+
 AFRAME.registerComponent('audioreactive-on-mesh-waveform', {
   schema: {
     analyserEl: {type: 'selector'}
@@ -1731,7 +1660,7 @@ AFRAME.registerComponent('audioreactive-on-mesh-waveform', {
     
     
    
-    modeloMaterial.color = new THREE.Color("rgb(6, 64, 89)");
+    modeloMaterial.color = new THREE.Color(0x064059);
     
     modeloMaterial.wireframe = true;
     modeloMaterial.fog = false;
@@ -1780,21 +1709,7 @@ AFRAME.registerComponent('audioreactive-on-mesh-waveform', {
 
   } else{
 
-    function convertBlock(incomingData) { // inputdata es un UInt8Array
-      var i, l = incomingData.length;
-      var outputData = new Float32Array(incomingData.length);
-      for (i = 0; i < l; i++) {
-          outputData[i] = ((incomingData[i] - 128) / 128.0) * 100;
-      }
-      return outputData;
-  }
 
-  function concatTypedArrays(a, b) { // a, b TypedArray del mismo tipo
-    var c = new (a.constructor)(a.length + b.length);
-    c.set(a, 0);
-    c.set(b, a.length);
-    return c;
-}
 
   var arrayWaveform1 = concatTypedArrays(waveformReactive, waveformReactive);
   var arrayWaveform2 = concatTypedArrays(arrayWaveform1, arrayWaveform1);
@@ -1806,7 +1721,7 @@ AFRAME.registerComponent('audioreactive-on-mesh-waveform', {
   var arrayLevels3 = concatTypedArrays(arrayLevels2, arrayLevels1);
   var arrayLevels4 = concatTypedArrays(arrayLevels3, levelsReactive);
    
-  var arrayWaveformConvertido = convertBlock(arrayWaveform4);
+  var arrayWaveformConvertido = convertBlock(arrayWaveform2);
   var arrayLevelsConvertido = convertBlock(arrayLevels4);
   
 
@@ -1870,7 +1785,7 @@ AFRAME.registerComponent('audioreactive-on-mesh-levels', {
     var modeloMaterial = modelo.children[0].material;
     
    
-    modeloMaterial.color = new THREE.Color("rgb(10, 144, 196)");
+    modeloMaterial.color = new THREE.Color(0x064059);
     modeloMaterial.wireframe = true;
     modeloMaterial.fog = false;
 
@@ -1916,22 +1831,6 @@ AFRAME.registerComponent('audioreactive-on-mesh-levels', {
 
   } else{
 
-    function convertBlock(incomingData) { // inputdata es un UInt8Array
-      var i, l = incomingData.length;
-      var outputData = new Float32Array(incomingData.length);
-      for (i = 0; i < l; i++) {
-          outputData[i] = ((incomingData[i] - 128) / 128.0) * 100;
-      }
-      return outputData;
-  }
-
-  function concatTypedArrays(a, b) { // a, b TypedArray del mismo tipo
-    var c = new (a.constructor)(a.length + b.length);
-    c.set(a, 0);
-    c.set(b, a.length);
-    return c;
-}
-
   var arrayWaveform1 = concatTypedArrays(waveformReactive, waveformReactive);
   var arrayWaveform2 = concatTypedArrays(arrayWaveform1, arrayWaveform1);
   var arrayWaveform3 = concatTypedArrays(arrayWaveform2, arrayWaveform1);
@@ -1943,7 +1842,7 @@ AFRAME.registerComponent('audioreactive-on-mesh-levels', {
   var arrayLevels4 = concatTypedArrays(arrayLevels3, levelsReactive);
    
   var arrayWaveformConvertido = convertBlock(arrayWaveform4);
-  var arrayLevelsConvertido = convertBlock(arrayLevels4);
+  var arrayLevelsConvertido = convertBlock(arrayLevels1);
   
 
 
