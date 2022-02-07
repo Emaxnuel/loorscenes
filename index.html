@@ -185,9 +185,12 @@ req.responseType = 'blob';
 
 -->
 
-   <!--Viñetas-->
+   <!--Viñetas
   <div id="viñeta"><span></span></div>
   <div id="viñeta2"><span></span></div>
+  
+  -->
+
   <div id="intro"><span></span></div>
   <div id="clickPiedra1"><span></span></div>
   <div id="clickPiedra2"><span></span></div>
@@ -351,6 +354,28 @@ req.responseType = 'blob';
 
 <a-sky id="skydome" material="fog:false" color="#0e1949"></a-sky>
 
+    <!--Isolate Mode-->
+
+    <!--Mano-->
+    <a-entity id="manoIsolate"  visible="false" gltf-model="#mano" scale="0.6 0.6 0.6" position="-2.2 -0.1 -11.4"  
+    animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"></a-entity>
+
+    <!--Columna-->
+    <a-entity id="columnaIsolate"  visible="false" gltf-model="#columna" scale="0.5 0.5 0.5" position="-2.2 -0.2 -11.4"  
+    animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"></a-entity>
+
+    <!--Punta-->
+    <a-entity id="puntaIsolate"  visible="false" gltf-model="#punta" scale="1 1 1" position="-2.2 0.1 -11.4"  
+    animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"></a-entity>
+
+    <!--Monolito-->
+    <a-entity id="monolitoIsolate"  visible="false" gltf-model="#monolito" scale="0.6 0.6 0.6" position="-2.2 -0.1 -11.4"  
+    animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"></a-entity>
+
+    <!--Neandertal-->
+    <a-entity id="neandertalIsolate"  visible="false" gltf-model="#neandertal" scale="0.8 0.8 0.8" position="-2.2 -0.1 -11.4"  
+    animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"></a-entity>
+
 
     
 
@@ -410,33 +435,10 @@ req.responseType = 'blob';
     
     -->
       
-    <!--Isolate Mode-->
-
-    <!--Mano-->
-    <a-entity id="manoIsolate"  visible="false" gltf-model="#mano" scale="0.6 0.6 0.6" position="0 -0.1 -2"  
-    animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"></a-entity>
-
-    <!--Columna-->
-    <a-entity id="columnaIsolate"  visible="false" gltf-model="#columna" scale="0.5 0.5 0.5" position="0 -0.2 -2"  
-    animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"></a-entity>
-
-    <!--Punta-->
-    <a-entity id="puntaIsolate"  visible="false" gltf-model="#punta" scale="1 1 1" position="0 0.1 -2"  
-    animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"></a-entity>
-
-    <!--Monolito-->
-    <a-entity id="monolitoIsolate"  visible="false" gltf-model="#monolito" scale="0.6 0.6 0.6" position="0 -0.1 -2"  
-    animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"></a-entity>
-
-    <!--Neandertal-->
-    <a-entity id="neandertalIsolate"  visible="false" gltf-model="#neandertal" scale="0.8 0.8 0.8" position="0 -0.1 -2"  
-    animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"></a-entity>
     
 
       
-      
-      
-      
+         
       
 
     
@@ -478,43 +480,17 @@ req.responseType = 'blob';
      <a-entity id="currentA"
      audioanalyser="src: #erosionsMaster; cache: true;"
      > </a-entity>
-    <a-entity id="currentABateria"
-     audioanalyser="src: #currentAudioBateria; cache: true;"
-     > </a-entity>
-     <a-entity id="currentAFXGroup"
-     audioanalyser="src: #currentAudioFXGroup; cache: true;"
-     > </a-entity>
-     <a-entity id="currentAVocalGroup"
-     audioanalyser="src: #currentAudioVocalGroup; cache: true;"
-     > </a-entity>
+ 
 
 
 
      <a-entity id="influenceA"
      audioanalyser="src: #erosionsMaster; cache: true;"
      > </a-entity>
-     <a-entity id="influenceABateria"
-     audioanalyser="src: #influenceAudioBateria; cache: true;"
-     > </a-entity>
-     <a-entity id="influenceAFXGroup"
-     audioanalyser="src: #influenceAudioFXGroup; cache: true;"
-     > </a-entity>
-     <a-entity id="influenceAVocalGroup"
-     audioanalyser="src: #influenceAudioVocalGroup; cache: true;"
-     > </a-entity>
 
     
      <a-entity id="collisionA"
      audioanalyser="src: #erosionsMaster; cache: true;"
-     > </a-entity>
-     <a-entity id="collisionABateria"
-     audioanalyser="src: #collisionAudioBateria; cache: true;"
-     > </a-entity>
-     <a-entity id="collisionAFXGroup"
-     audioanalyser="src: #collisionAudioFXGroup; cache: true;"
-     > </a-entity>
-     <a-entity id="collisionAVocalGroup"
-     audioanalyser="src: #collisionAudioVocalGroup; cache: true;"
      > </a-entity>
 
 
@@ -522,30 +498,14 @@ req.responseType = 'blob';
      <a-entity id="atomA"
      audioanalyser="src: #erosionsMaster; cache: true;"
      > </a-entity>
-     <a-entity id="atomABateria"
-     audioanalyser="src: #atomAudioBateria; cache: true;"
-     > </a-entity>
-     <a-entity id="atomAFXGroup"
-     audioanalyser="src: #atomAudioFXGroup; cache: true;"
-     > </a-entity>
-     <a-entity id="atomAVocalGroup"
-     audioanalyser="src: #atomAudioVocalGroup; cache: true;"
-     > </a-entity>
+
 
 
 
      <a-entity id="zoomA"
      audioanalyser="src: #erosionsMaster; cache: true;"
      > </a-entity>
-     <a-entity id="zoomABateria"
-     audioanalyser="src: #zoomAudioBateria; cache: true;"
-     > </a-entity>
-     <a-entity id="zoomAFXGroup"
-     audioanalyser="src: #zoomAudioFXGroup; cache: true;"
-     > </a-entity>
-     <a-entity id="zoomAVocalGroup"
-     audioanalyser="src: #zoomAudioVocalGroup; cache: true;"
-     > </a-entity>
+
 
  
   <!--Erosión-->
@@ -563,7 +523,7 @@ req.responseType = 'blob';
   
   -->
 
-  <a-entity  position="-2.3 0 -12"  particle-system="rotationAngleSpread: 360;color: white; size: 0.3; preset: rain; particleCount: 9000; blending: 1; type: 2; opacity: 1; texture: img/polvMote.png" rotation="0 0 0"  animation="property: rotation; to: 0 360 0; dur: 3000; easing: linear; loop: true;" ></a-entity>
+  <a-entity  id="particulasCentro" position="-2.3 0 -12"  particle-system="rotationAngleSpread: 360;color: white; size: 0.3; preset: rain; particleCount: 9000; blending: 1; type: 2; opacity: 1; texture: img/polvMote.png" rotation="0 0 0"  animation="property: rotation; to: 0 360 0; dur: 3000; easing: linear; loop: true;" ></a-entity>
 
  
   
@@ -607,8 +567,9 @@ req.responseType = 'blob';
     <a-entity  id="pAmarillas" position="-1 -54 -15" visible="true" particle-system="maxAge: 70; color: #ffedb3; size: 2; preset: default; particleCount: 0; blending: 1; type: 1; opacity: 1; texture: img/burbujaS3.png" rotation="130 0 10"></a-entity>
   </a-entity>
   
-<!--Humo-->
-  <a-entity position="0 2.25 -15" particle-system="preset: dust; texture: img/star2.png; color: #0000FF,#00FF00,#FF0000"></a-entity>
+
+  <!--Humo-->
+  <a-entity id="particulasEstrellas" position="0 2.25 -15" particle-system="preset: dust; texture: img/star2.png; color: #0000FF,#00FF00,#FF0000"></a-entity>
   
 
 
@@ -654,107 +615,108 @@ req.responseType = 'blob';
 
           
         <!--Piedra-->
-        <a-entity class="clickeable" id="piedraModelo" visible="true" visibilidad-piedra gltf-model="#piedra" scale="1 1 1" position="1.99 2.95 -3.7"
+        <a-entity class="clickeable" id="piedraModelo" bothsides visible="true" visibilidad-piedra gltf-model="#piedra" scale="1 1 1" position="1.99 2.95 -3.7"
         
         
         >
         
         </a-entity>
 
-       <!--Ps1-->
+       <!--Ps1 audioreactive-on-beat-int="analyserEl: #currentA"-->
 
          <a-entity  id="pS1" class="clickeable" visible="false" material="fog:true" gltf-model="#ps1"  scale="1 1 1" 
          animation="property: rotation; to: 360 360 360; dur: 3000; easing: linear; loop: true;"
          animation__mousedown="property: position; to: -1 0.2 0.5; startEvents: mouseenter; dur: 3000;"
-         audioreactive-on-beat-int="analyserEl: #currentA"
+         
          sustitucion="idModel: #manoModel"
         
          
          
          > </a-entity>
 
-        <!--manoModel-->
+        <!--manoModel audioreactive-on-beat-int="analyserEl: #currentA"-->
 
-        <a-entity id="manoModel"  isolate-mode visible="false" material="fog:true" gltf-model="#mano"  scale="0.5 0.5 0.5" 
+        <a-entity id="manoModel" class="" isolate-mode visible="false" material="fog:true" gltf-model="#mano"  scale="0.5 0.5 0.5" 
         animation="property: rotation; to: 360 360 360; dur: 3000; easing: linear; loop: true;"
-        audioreactive-on-beat-int="analyserEl: #currentA"
+        
         ></a-entity>
 
         
-         <!--Ps2-->
+         <!--Ps2 audioreactive-on-beat-int="analyserEl: #currentA"-->
 
          <a-entity  id="pS2" class="clickeable" visible="false" material="fog:true" gltf-model="#ps2"  scale="1 1 1" 
          animation="property: rotation; to: -360 -360 -360; dur: 3000; easing: linear; loop: true;"
          animation__mousedown="property: position; to: -0.4 0.1 -1; startEvents: mouseenter; dur: 3000;"
          
          sustitucion="idModel: #columnaModel"
-         audioreactive-on-beat-int="analyserEl: #currentA"
+         
          >
         
         </a-entity>
 
-        <!--columnaModel-->
+        <!--columnaModel audioreactive-on-beat-int="analyserEl: #currentA"-->
 
-        <a-entity id="columnaModel"  isolate-mode visible="false" material="fog:true" gltf-model="#columna"  scale="0.5 0.5 0.5" position="0.2 0 -1.7"
+        <a-entity id="columnaModel"  class="" isolate-mode visible="false" material="fog:true" gltf-model="#columna"  scale="0.5 0.5 0.5" position="0.2 0 -1.7"
         animation="property: rotation; to: -360 -360 -360; dur: 3000; easing: linear; loop: true;"
-        audioreactive-on-beat-int="analyserEl: #currentA"
+        
         ></a-entity>
 
-        <!--Ps3-->
+        <!--Ps3 audioreactive-on-beat-int="analyserEl: #currentA"-->
         <a-entity  id="pS3" class="clickeable" visible="false" material="fog:true" gltf-model="#ps3"  scale="1 1 1" 
         animation="property: rotation; to: 360 360 360; dur: 3000; easing: linear; loop: true;"
         animation__mousedown="property: position; to: -0.4 -1 2; startEvents: mouseenter; dur: 3000;" 
          
          sustitucion="idModel: #puntaModel"
-         audioreactive-on-beat-int="analyserEl: #currentA"
+         
     
          >
          
         </a-entity>
 
-        <!--puntaModel-->
-        <a-entity id="puntaModel"  isolate-mode visible="false" material="fog:true" gltf-model="#punta"  scale="1 1 1" position="0 -1.5 2"
+        <!--puntaModel audioreactive-on-beat-int="analyserEl: #currentA"-->
+        <a-entity id="puntaModel" class=""  isolate-mode visible="false" material="fog:true" gltf-model="#punta"  scale="1 1 1" position="0 -1.5 2"
         animation="property: rotation; to: 360 360 360; dur: 3000; easing: linear; loop: true;"
-        audioreactive-on-beat-int="analyserEl: #currentA"
+        
         
         ></a-entity>
 
         
-        <!--Ps4-->
+        <!--Ps4 audioreactive-on-beat-int="analyserEl: #currentA" -->
 
          <a-entity  id="pS4" class="clickeable" visible="false" material="fog:true" gltf-model="#ps4"  scale="1 1 1" 
          animation="property: rotation; to: -360 -360 -360; dur: 3000; easing: linear; loop: true;"
          animation__mousedown="property: position; to: -0.4 1 2; startEvents: mouseenter; dur: 3000;"
-         audioreactive-on-beat-int="analyserEl: #currentA"
+         
          sustitucion="idModel: #monolitoModel"
+         
          >
          
         </a-entity>
 
-        <!--monolitoModel-->
-        <a-entity id="monolitoModel" isolate-mode visible="false" material="fog:true" gltf-model="#monolito"  scale="0.5 0.5 0.5" position="0.2 0.6 1.9"
+        <!--monolitoModel audioreactive-on-beat-int="analyserEl: #currentA"-->
+        <a-entity id="monolitoModel" class=""  isolate-mode visible="false" material="fog:true" gltf-model="#monolito" scale="0.5 0.5 0.5" position="0.2 0.6 1.9"
         animation="property: rotation; to: -360 -360 -360; dur: 3000; easing: linear; loop: true;"
-        audioreactive-on-beat-int="analyserEl: #currentA"
+        
         
         ></a-entity>
 
-        <!--Ps5-->
+        <!--Ps5  audioreactive-on-beat-int="analyserEl: #currentA"-->
         <a-entity  id="pS5" class="clickeable" visible="false" material="fog:true" gltf-model="#ps5"  scale="1 1 1" 
         animation="property: rotation; to: 360 360 360; dur: 3000; easing: linear; loop: true;"
         animation__mousedown="property: position; to: 0.5 1 2; startEvents: mouseenter; dur: 3000;"
-        audioreactive-on-beat-int="analyserEl: #currentA"
+       
         sustitucion="idModel: #neandertalModel"
         
         >
         
       </a-entity>
 
-      <!--neandertalModel-->
+      <!--neandertalModel  audioreactive-on-beat-int="analyserEl: #currentA"-->
 
-      <a-entity id="neandertalModel"  isolate-mode visible="false" material="fog:true" gltf-model="#neandertal"  scale="1 1 1" position="1.5 1 0.5"
+      <a-entity id="neandertalModel" class="" isolate-mode visible="false" material="fog:true" gltf-model="#neandertal"  scale="1 1 1" position="1.5 1 0.5"
       animation="property: rotation; to: 360 360 360; dur: 3000; easing: linear; loop: true;"
-      audioreactive-on-beat-int="analyserEl: #currentA"
-      ></a-entity>
+     >
+    </a-entity>
 
     </a-entity>
 

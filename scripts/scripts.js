@@ -2,8 +2,11 @@
 const bgvidLoader = document.getElementById('bgvid');
 const lineasLoading = document.getElementById('lineasLoading');
 
+const viñeta1 = document.getElementById('viñeta');
+const viñeta2 = document.getElementById('viñeta2');
 
-
+const particulasCentro = document.getElementById('particulasCentro');
+const particulasEstrellas = document.getElementById('particulasEstrellas');
 
 /* Hydra Zoom out*/
 
@@ -92,7 +95,7 @@ const rigP2Poly2 = document.getElementById("rigP2Poly2");
 
 const rigPiramide = document.getElementById("rigPiramide");
 
-const skyDome = document.getElementById('skydome');
+const skydome = document.getElementById('skydome');
 const ambientLight = document.getElementById("ambientLight");
 
 const animacionPiramide = document.getElementById("animacionPiramide");
@@ -2401,7 +2404,7 @@ AFRAME.registerComponent('sustitucion', {
         box.classList.add("clickeable");
         ps.setAttribute('visible', "false");
         ps.classList.remove("clickeable");
-        ps.parentNode.removeChild(ps);
+        //ps.parentNode.removeChild(ps);
         
         
         
@@ -2422,7 +2425,7 @@ AFRAME.registerComponent('sustitucion', {
         let ps = document.getElementById("pS2");
         ps.setAttribute('visible', "false");
         ps.classList.remove("clickeable");
-        ps.parentNode.removeChild(ps);
+        //ps.parentNode.removeChild(ps);
 
         //console.log("columnaModel")
    
@@ -2437,7 +2440,7 @@ AFRAME.registerComponent('sustitucion', {
         let ps = document.getElementById("pS3");
         ps.setAttribute('visible', "false");
         ps.classList.remove("clickeable");
-        ps.parentNode.removeChild(ps);
+        //ps.parentNode.removeChild(ps);
 
         //console.log("manoModel")
      
@@ -2454,7 +2457,7 @@ AFRAME.registerComponent('sustitucion', {
         let ps = document.getElementById("pS4");
         ps.setAttribute('visible', "false");
         ps.classList.remove("clickeable");
-        ps.parentNode.removeChild(ps);
+        //ps.parentNode.removeChild(ps);
 
         //console.log("monolitoModel")
      
@@ -2470,13 +2473,17 @@ AFRAME.registerComponent('sustitucion', {
         let ps = document.getElementById("pS5");
         ps.setAttribute('visible', "false");
         ps.classList.remove("clickeable");
-        ps.parentNode.removeChild(ps);
+        //ps.parentNode.removeChild(ps);
         
         //console.log("neadertalModel")
      
        }
     
     });
+
+
+
+
 
 
 
@@ -2690,109 +2697,19 @@ AFRAME.registerComponent('isolate-mode', {
     const mesh = el.getObject3D('mesh');
     console.log("Modelo por aislar ", idMod);
   
-  
   //Modo aislamiento
   el.addEventListener('mouseup', () => {
 
-    switch (idMod){
 
-      case "manoModel":
-        manoIsolate.setAttribute('visible', "true");
-        //circuloCursor.setAttribute('visible', "false");
-        corriente.setAttribute('visible', "false");
-        corriente2.setAttribute('visible', "false");
+    if (idMod == "manoModel"){
 
-        pAzules.setAttribute('visible', "false");
-        pRojas.setAttribute('visible', "false");
-        pBlancas.setAttribute('visible', "false");
-        pAmarillas.setAttribute('visible', "false");
-        manoModel.setAttribute('visible', "false");
-        columnaModel.setAttribute('visible', "false");
-        puntaModel.setAttribute('visible', "false");
-        monolitoModel.setAttribute('visible', "false");
-        neandertalModel.setAttribute('visible', "false");
-        camera.setAttribute('look-controls', "enabled:false");
-        camera.setAttribute('wasd-controls', "enabled:false");
-
-        constRocks.setAttribute('visible','false');
-  
-        ps1.setAttribute('visible', "false");
-        ps2.setAttribute('visible', "false");
-        ps3.setAttribute('visible', "false");
-        ps4.setAttribute('visible', "false");
-        ps5.setAttribute('visible', "false");
-  
-  
-        ps1.classList.remove("clickeable");
-        ps2.classList.remove("clickeable");
-        ps3.classList.remove("clickeable");
-        ps4.classList.remove("clickeable");
-        ps5.classList.remove("clickeable");
-  
-        if(!ps1){ console.log("ps1 removed")}
-  
-        if(!ps2){console.log("ps2 removed")}
-        
-        if(!ps3){console.log("ps3 removed")}
-        
-        if(!ps4){console.log("ps4 removed")}
-        
-        if(!ps5){console.log("ps5 removed")}
-
-      break;
-
-      case "columnaModel":
-
-        columnaIsolate.setAttribute('visible', "true");
-        //circuloCursor.setAttribute('visible', "false");
-        corriente.setAttribute('visible', "false");
-        corriente2.setAttribute('visible', "false");
-        pAzules.setAttribute('visible', "false");
-        pRojas.setAttribute('visible', "false");
-        pBlancas.setAttribute('visible', "false");
-        pAmarillas.setAttribute('visible', "false");
-        manoModel.setAttribute('visible', "false");
-        columnaModel.setAttribute('visible', "false");
-        puntaModel.setAttribute('visible', "false");
-        monolitoModel.setAttribute('visible', "false");
-        neandertalModel.setAttribute('visible', "false");
-        camera.setAttribute('look-controls', "enabled:false");
-        camera.setAttribute('wasd-controls', "enabled:false");
-
-        constRocks.setAttribute('visible','false');
-  
-        ps1.setAttribute('visible', "false");
-        ps2.setAttribute('visible', "false");
-        ps3.setAttribute('visible', "false");
-        ps4.setAttribute('visible', "false");
-        ps5.setAttribute('visible', "false");
-  
-  
-        ps1.classList.remove("clickeable");
-        ps2.classList.remove("clickeable");
-        ps3.classList.remove("clickeable");
-        ps4.classList.remove("clickeable");
-        ps5.classList.remove("clickeable");
-  
-        if(!ps1){ console.log("ps1 removed")}
-  
-        if(!ps2){console.log("ps2 removed")}
-        
-        if(!ps3){console.log("ps3 removed")}
-        
-        if(!ps4){console.log("ps4 removed")}
-        
-        if(!ps5){console.log("ps5 removed")}
-
-        break;
-
-        case "puntaModel":
-
-        
-      puntaIsolate.setAttribute('visible', "true");
+      manoIsolate.setAttribute('visible', "true");
       //circuloCursor.setAttribute('visible', "false");
       corriente.setAttribute('visible', "false");
       corriente2.setAttribute('visible', "false");
+
+      particulasCentro.setAttribute('visible', "false");
+      particulasEstrellas.setAttribute('visible', "false");
       pAzules.setAttribute('visible', "false");
       pRojas.setAttribute('visible', "false");
       pBlancas.setAttribute('visible', "false");
@@ -2802,8 +2719,9 @@ AFRAME.registerComponent('isolate-mode', {
       puntaModel.setAttribute('visible', "false");
       monolitoModel.setAttribute('visible', "false");
       neandertalModel.setAttribute('visible', "false");
-      camera.setAttribute('look-controls', "enabled:false");
-      camera.setAttribute('wasd-controls', "enabled:false");
+      //camera.setAttribute('look-controls', "enabled:false");
+      //camera.setAttribute('wasd-controls', "enabled:false");
+
 
       constRocks.setAttribute('visible','false');
 
@@ -2813,113 +2731,206 @@ AFRAME.registerComponent('isolate-mode', {
       ps4.setAttribute('visible', "false");
       ps5.setAttribute('visible', "false");
 
+      manoModel.classList.remove("clickeable");
+      columnaModel.classList.remove("clickeable");
+      puntaModel.classList.remove("clickeable");
+      monolitoModel.classList.remove("clickeable");
+      neandertalModel.classList.remove("clickeable");
+      
+      ps1.classList.remove("clickeable");
+      ps2.classList.remove("clickeable");
+      ps3.classList.remove("clickeable");
+      ps4.classList.remove("clickeable");
+      ps5.classList.remove("clickeable");
+
+      ascene.setAttribute('godrays', "intensity: 0");
+      skydome.setAttribute('color', '#15ec00');
+
+
+    }
+
+    else if(idMod == "columnaModel") {
+
+      columnaIsolate.setAttribute('visible', "true");
+      //circuloCursor.setAttribute('visible', "false");
+      corriente.setAttribute('visible', "false");
+      corriente2.setAttribute('visible', "false");
+
+      particulasCentro.setAttribute('visible', "false");
+      particulasEstrellas.setAttribute('visible', "false");
+      pAzules.setAttribute('visible', "false");
+      pRojas.setAttribute('visible', "false");
+      pBlancas.setAttribute('visible', "false");
+      pAmarillas.setAttribute('visible', "false");
+      manoModel.setAttribute('visible', "false");
+      columnaModel.setAttribute('visible', "false");
+      puntaModel.setAttribute('visible', "false");
+      monolitoModel.setAttribute('visible', "false");
+      neandertalModel.setAttribute('visible', "false");
+      //camera.setAttribute('look-controls', "enabled:false");
+      //camera.setAttribute('wasd-controls', "enabled:false");
+
+      constRocks.setAttribute('visible','false');
+
+      ps1.setAttribute('visible', "false");
+      ps2.setAttribute('visible', "false");
+      ps3.setAttribute('visible', "false");
+      ps4.setAttribute('visible', "false");
+      ps5.setAttribute('visible', "false");
+
+      manoModel.classList.remove("clickeable");
+      columnaModel.classList.remove("clickeable");
+      puntaModel.classList.remove("clickeable");
+      monolitoModel.classList.remove("clickeable");
+      neandertalModel.classList.remove("clickeable");
 
       ps1.classList.remove("clickeable");
       ps2.classList.remove("clickeable");
       ps3.classList.remove("clickeable");
       ps4.classList.remove("clickeable");
       ps5.classList.remove("clickeable");
-      if(!ps1){ console.log("ps1 removed")}
 
-      if(!ps2){console.log("ps2 removed")}
+      ascene.setAttribute('godrays', "intensity: 0");
+      skydome.setAttribute('color', '#15ec00');
+    }
+
+    else if(idMod == "puntaModel"){
+
+      puntaIsolate.setAttribute('visible', "true");
+      //circuloCursor.setAttribute('visible', "false");
+      corriente.setAttribute('visible', "false");
+      corriente2.setAttribute('visible', "false");
+
+      particulasCentro.setAttribute('visible', "false");
+      particulasEstrellas.setAttribute('visible', "false");
+      pAzules.setAttribute('visible', "false");
+      pRojas.setAttribute('visible', "false");
+      pBlancas.setAttribute('visible', "false");
+      pAmarillas.setAttribute('visible', "false");
+      manoModel.setAttribute('visible', "false");
+      columnaModel.setAttribute('visible', "false");
+      puntaModel.setAttribute('visible', "false");
+      monolitoModel.setAttribute('visible', "false");
+      neandertalModel.setAttribute('visible', "false");
+      //camera.setAttribute('look-controls', "enabled:false");
+      //camera.setAttribute('wasd-controls', "enabled:false");
+
+      constRocks.setAttribute('visible','false');
+
+      ps1.setAttribute('visible', "false");
+      ps2.setAttribute('visible', "false");
+      ps3.setAttribute('visible', "false");
+      ps4.setAttribute('visible', "false");
+      ps5.setAttribute('visible', "false");
+
+      manoModel.classList.remove("clickeable");
+      columnaModel.classList.remove("clickeable");
+      puntaModel.classList.remove("clickeable");
+      monolitoModel.classList.remove("clickeable");
+      neandertalModel.classList.remove("clickeable");
+
+      ps1.classList.remove("clickeable");
+      ps2.classList.remove("clickeable");
+      ps3.classList.remove("clickeable");
+      ps4.classList.remove("clickeable");
+      ps5.classList.remove("clickeable");
+
+
+      ascene.setAttribute('godrays', "intensity: 0");
+      skydome.setAttribute('color', '#15ec00');
+    }
+    
+    else if(idMod == "monolitoModel"){
+
+      monolitoIsolate.setAttribute('visible', "true");
+      //circuloCursor.setAttribute('visible', "false");
+      corriente.setAttribute('visible', "false");
+      corriente2.setAttribute('visible', "false");
+
+      particulasCentro.setAttribute('visible', "false");
+      particulasEstrellas.setAttribute('visible', "false");
+      pAzules.setAttribute('visible', "false");
+      pRojas.setAttribute('visible', "false");
+      pBlancas.setAttribute('visible', "false");
+      pAmarillas.setAttribute('visible', "false");
+      manoModel.setAttribute('visible', "false");
+      columnaModel.setAttribute('visible', "false");
+      puntaModel.setAttribute('visible', "false");
+      monolitoModel.setAttribute('visible', "false");
+      neandertalModel.setAttribute('visible', "false");
+      //camera.setAttribute('look-controls', "enabled:false");
+      //camera.setAttribute('wasd-controls', "enabled:false");
+
+      constRocks.setAttribute('visible','false');
+
+      ps1.setAttribute('visible', "false");
+      ps2.setAttribute('visible', "false");
+      ps3.setAttribute('visible', "false");
+      ps4.setAttribute('visible', "false");
+      ps5.setAttribute('visible', "false");
+
+      manoModel.classList.remove("clickeable");
+      columnaModel.classList.remove("clickeable");
+      puntaModel.classList.remove("clickeable");
+      monolitoModel.classList.remove("clickeable");
+      neandertalModel.classList.remove("clickeable");
+
+      ps1.classList.remove("clickeable");
+      ps2.classList.remove("clickeable");
+      ps3.classList.remove("clickeable");
+      ps4.classList.remove("clickeable");
+      ps5.classList.remove("clickeable");
+
+      ascene.setAttribute('godrays', "intensity: 0");
+      skydome.setAttribute('color', '#15ec00');
+    }
+
+    else if(idMod == "neandertalModel"){
+
+      neandertalIsolate.setAttribute('visible', "true");
+      //circuloCursor.setAttribute('visible', "false");
+      corriente.setAttribute('visible', "false");
+      corriente2.setAttribute('visible', "false");
+
+      particulasCentro.setAttribute('visible', "false");
+      particulasEstrellas.setAttribute('visible', "false");
+      pAzules.setAttribute('visible', "false");
+      pRojas.setAttribute('visible', "false");
+      pBlancas.setAttribute('visible', "false");
+      pAmarillas.setAttribute('visible', "false");
+      manoModel.setAttribute('visible', "false");
+      columnaModel.setAttribute('visible', "false");
+      puntaModel.setAttribute('visible', "false");
+      monolitoModel.setAttribute('visible', "false");
+      neandertalModel.setAttribute('visible', "false");
+      //camera.setAttribute('look-controls', "enabled:false");
+      //camera.setAttribute('wasd-controls', "enabled:false");
+
+      constRocks.setAttribute('visible','false');
+
       
-      if(!ps3){console.log("ps3 removed")}
-      
-      if(!ps4){console.log("ps4 removed")}
-      
-      if(!ps5){console.log("ps5 removed")}
-        
-      break;
+      ps1.setAttribute('visible', "false");
+      ps2.setAttribute('visible', "false");
+      ps3.setAttribute('visible', "false");
+      ps4.setAttribute('visible', "false");
+      ps5.setAttribute('visible', "false");
 
-      case "monolitoModel":
+      manoModel.classList.remove("clickeable");
+      columnaModel.classList.remove("clickeable");
+      puntaModel.classList.remove("clickeable");
+      monolitoModel.classList.remove("clickeable");
+      neandertalModel.classList.remove("clickeable");
 
-        monolitoIsolate.setAttribute('visible', "true");
-        //circuloCursor.setAttribute('visible', "false");
-        corriente.setAttribute('visible', "false");
-        corriente2.setAttribute('visible', "false");
-        pAzules.setAttribute('visible', "false");
-        pRojas.setAttribute('visible', "false");
-        pBlancas.setAttribute('visible', "false");
-        pAmarillas.setAttribute('visible', "false");
-        manoModel.setAttribute('visible', "false");
-        columnaModel.setAttribute('visible', "false");
-        puntaModel.setAttribute('visible', "false");
-        monolitoModel.setAttribute('visible', "false");
-        neandertalModel.setAttribute('visible', "false");
-        camera.setAttribute('look-controls', "enabled:false");
-        camera.setAttribute('wasd-controls', "enabled:false");
+      ps1.classList.remove("clickeable");
+      ps2.classList.remove("clickeable");
+      ps3.classList.remove("clickeable");
+      ps4.classList.remove("clickeable");
+      ps5.classList.remove("clickeable");
 
-        constRocks.setAttribute('visible','false');
-  
-        ps1.setAttribute('visible', "false");
-        ps2.setAttribute('visible', "false");
-        ps3.setAttribute('visible', "false");
-        ps4.setAttribute('visible', "false");
-        ps5.setAttribute('visible', "false");
-  
-  
-        ps1.classList.remove("clickeable");
-        ps2.classList.remove("clickeable");
-        ps3.classList.remove("clickeable");
-        ps4.classList.remove("clickeable");
-        ps5.classList.remove("clickeable");
-  
-         if(!ps1){ console.log("ps1 removed")}
-  
-        if(!ps2){console.log("ps2 removed")}
-        
-        if(!ps3){console.log("ps3 removed")}
-        
-        if(!ps4){console.log("ps4 removed")}
-        
-        if(!ps5){console.log("ps5 removed")}
-      break;
+      ascene.setAttribute('godrays', "intensity: 0");
+      skydome.setAttribute('color', '#15ec00');
+    }
 
-      case "neandertalModel":
-
-        neandertalIsolate.setAttribute('visible', "true");
-        //circuloCursor.setAttribute('visible', "false");
-        corriente.setAttribute('visible', "false");
-        corriente2.setAttribute('visible', "false");
-        pAzules.setAttribute('visible', "false");
-        pRojas.setAttribute('visible', "false");
-        pBlancas.setAttribute('visible', "false");
-        pAmarillas.setAttribute('visible', "false");
-        manoModel.setAttribute('visible', "false");
-        columnaModel.setAttribute('visible', "false");
-        puntaModel.setAttribute('visible', "false");
-        monolitoModel.setAttribute('visible', "false");
-        neandertalModel.setAttribute('visible', "false");
-        camera.setAttribute('look-controls', "enabled:false");
-        camera.setAttribute('wasd-controls', "enabled:false");
-
-        constRocks.setAttribute('visible','false');
-  
-        
-        ps1.setAttribute('visible', "false");
-        ps2.setAttribute('visible', "false");
-        ps3.setAttribute('visible', "false");
-        ps4.setAttribute('visible', "false");
-        ps5.setAttribute('visible', "false");
-  
-  
-        ps1.classList.remove("clickeable");
-        ps2.classList.remove("clickeable");
-        ps3.classList.remove("clickeable");
-        ps4.classList.remove("clickeable");
-        ps5.classList.remove("clickeable");
-        
-        if(!ps1){ console.log("ps1 removed")}
-  
-        if(!ps2){console.log("ps2 removed")}
-        
-        if(!ps3){console.log("ps3 removed")}
-        
-        if(!ps4){console.log("ps4 removed")}
-        
-        if(!ps5){console.log("ps5 removed")}
-        break;
-}
 });
 
 });
@@ -2970,6 +2981,8 @@ document.addEventListener('keyup', (e) => {
     pRojas.setAttribute('visible', "true");
     pBlancas.setAttribute('visible', "true");
     pAmarillas.setAttribute('visible', "true");
+    particulasCentro.setAttribute('visible', "true");
+    particulasEstrellas.setAttribute('visible', "true");
 
     manoModel.setAttribute('visible', "true");
     columnaModel.setAttribute('visible', "true");
@@ -2977,10 +2990,26 @@ document.addEventListener('keyup', (e) => {
     monolitoModel.setAttribute('visible', "true");
     neandertalModel.setAttribute('visible', "true");
 
+    ps1.classList.remove("clickeable");
+    ps2.classList.remove("clickeable");
+    ps3.classList.remove("clickeable");
+    ps4.classList.remove("clickeable");
+    ps5.classList.remove("clickeable");
+
+    manoModel.classList.add("clickeable");
+    columnaModel.classList.add("clickeable");
+    puntaModel.classList.add("clickeable");
+    monolitoModel.classList.add("clickeable");
+    neandertalModel.classList.add("clickeable");
+
     camera.setAttribute('look-controls', "enabled:true");
     camera.setAttribute('wasd-controls', "enabled:true");
 
     constRocks.setAttribute('visible','true');
+
+    ascene.setAttribute('godrays', "intensity: 3");
+
+    skydome.setAttribute('color', '#0e1949');
 
     
     
