@@ -2744,7 +2744,7 @@ AFRAME.registerComponent('isolate-mode', {
       ps5.classList.remove("clickeable");
 
       ascene.setAttribute('godrays', "intensity: 0");
-      skydome.setAttribute('color', '#15ec00');
+      skydome.setAttribute('color', '#078a37');
 
 
     }
@@ -2791,7 +2791,7 @@ AFRAME.registerComponent('isolate-mode', {
       ps5.classList.remove("clickeable");
 
       ascene.setAttribute('godrays', "intensity: 0");
-      skydome.setAttribute('color', '#15ec00');
+      skydome.setAttribute('color', '#078a37');
     }
 
     else if(idMod == "puntaModel"){
@@ -2837,7 +2837,7 @@ AFRAME.registerComponent('isolate-mode', {
 
 
       ascene.setAttribute('godrays', "intensity: 0");
-      skydome.setAttribute('color', '#15ec00');
+      skydome.setAttribute('color', '#078a37');
     }
     
     else if(idMod == "monolitoModel"){
@@ -2882,7 +2882,7 @@ AFRAME.registerComponent('isolate-mode', {
       ps5.classList.remove("clickeable");
 
       ascene.setAttribute('godrays', "intensity: 0");
-      skydome.setAttribute('color', '#15ec00');
+      skydome.setAttribute('color', '#078a37');
     }
 
     else if(idMod == "neandertalModel"){
@@ -2928,7 +2928,7 @@ AFRAME.registerComponent('isolate-mode', {
       ps5.classList.remove("clickeable");
 
       ascene.setAttribute('godrays', "intensity: 0");
-      skydome.setAttribute('color', '#15ec00');
+      skydome.setAttribute('color', '#078a37');
     }
 
 });
